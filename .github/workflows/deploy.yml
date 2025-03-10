@@ -3,7 +3,7 @@ name: Deploy to GCP Storage
 on:
   push:
     branches:
-      - main  # Change this to the branch you want to deploy from
+      - main  # Adjust this branch if necessary
 
 jobs:
   deploy:
@@ -13,17 +13,50 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Google Cloud SDK
+      - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
-      - name: Install Google Cloud SDK
-        run: |
-          curl -sSL https://sdk.cloud.google.com | bash
-          source "$HOME/google-cloud-sdk/path.bash.inc"
-          gcloud version
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: name: Deploy to GCP Storage
+
+on:
+  push:
+    branches:
+      - main  # Adjust this branch if necessary
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: handy-boulevard-453219-s1
+
+      - name: Verify authentication
+        run: gcloud auth list
 
       - name: Upload files to GCS
         run: |
-          gsutil -m rsync -r . gs://portfolio-website-1
+          gsutil -m rsync -r . gs://YOUR_BUCKET_NAME
+
+
+      - name: Verify authentication
+        run: gcloud auth list
+
+      - name: Upload files to GCS
+        run: |
+          gsutil -m rsync -r . gs://YOUR_BUCKET_NAME
