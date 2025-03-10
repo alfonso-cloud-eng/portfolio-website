@@ -28,5 +28,5 @@ jobs:
 
       - name: Upload files to GCS
         run: |
-          gsutil -m rsync -r . gs://portfolio-website-1
+          gsutil -m rsync -r -x '^(\.git|\.github)/' . gs://portfolio-website-1
 
