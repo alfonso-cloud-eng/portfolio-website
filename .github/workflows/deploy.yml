@@ -22,6 +22,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: handy-boulevard-453219-s1
+          install_components: 'gsutil'
 
       - name: Verify authentication
         run: gcloud auth list
