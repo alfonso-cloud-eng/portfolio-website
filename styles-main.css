@@ -535,4 +535,28 @@
      .slide-in-left.visible { animation: slideInLeft 1s forwards; } 
      .slide-in-right.visible { animation: slideInRight 1s forwards; }
   */
+
+
+/* Make skill logos appear as smaller, icon-like images */
+.skill-logo {
+  width: auto;        /* Allow width to adjust dynamically */
+  height: 2.9em;      /* Ensure all images have the same height */
+  margin-right: 0.5rem;
+  object-fit: contain; /* Ensures the image is fully visible within the given dimensions */
+  vertical-align: middle;
+}
+
+/* Responsive Design Adjustments */
+@media screen and (max-width: 768px) {
+  .skill-logo {
+    width: auto;  /* Maintain aspect ratio */
+    height: 2em;  /* Smaller height for mobile screens */
+    margin-right: 0.3rem;
+  }
+}
+
+.skill-card h3 {
+  text-align: left; /* Ensures h3 aligns to the left */
+}
+
   
