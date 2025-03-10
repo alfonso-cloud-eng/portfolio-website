@@ -27,7 +27,7 @@ jobs:
         run: gcloud auth list
 
       - name: Remove temporary credentials file
-        run: rm -f gha-creds-*.json
+        run: rm -f gha*
 
       - name: Upload files to GCS
         run: |
