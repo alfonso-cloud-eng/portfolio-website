@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kubernetes Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="https://pbs.twimg.com/profile_images/511909265720614913/21_d3cvM_400x400.png">
+  <h1>Kubernetes Cheatsheet</h1>
+</div>
+
+<!-- Kubernetes Architecture Image -->
+<div class="image-container">
+  <img src="https://images.ctfassets.net/ud9dfq0vudar/5rV47EZ8RfpEHJIEGfnyR9/15f84bb909cec9151f68108aba39fd47/Architecture_3.png" alt="GCP Logo">
+</div>
+
+<!-- Tables -->
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Description / Commands</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kubernetes Cluster</td>
+      <td>A collection of machines (nodes) that run containerized apps. Includes a Control Plane (manages cluster) and Worker Nodes (run workloads).</td>
+    </tr>
+    <tr>
+      <td>Control Plane</td>
+      <td>Comprises API Server, etcd, Scheduler, and Controller Manager. Oversees and coordinates the cluster.</td>
+    </tr>
+    <tr>
+      <td>etcd</td>
+      <td>Consistent and highly available key-value store used for cluster state data (e.g., what Pods exist).</td>
+    </tr>
+    <tr>
+      <td>API Server</td>
+      <td>Front-end to the Kubernetes control plane. All operations must go through it (kubectl, Kube UI, etc.).</td>
+    </tr>
+    <tr>
+      <td>Scheduler</td>
+      <td>Assigns new Pods to nodes based on resource requirements and constraints.</td>
+    </tr>
+    <tr>
+      <td>Controller Manager</td>
+      <td>Runs controllers that handle routine tasks (e.g. node controller, replication controller).</td>
+    </tr>
+    <tr>
+      <td>Worker Node</td>
+      <td>Executes your containers via Pods. Runs essential components like kubelet, kube-proxy, and the container runtime.</td>
+    </tr>
+    <tr>
+      <td>Kubelet</td>
+      <td>Primary node agent. Watches for work from the API Server and manages containers (e.g., start/stop Pods).</td>
+    </tr>
+    <tr>
+      <td>Kube-Proxy</td>
+      <td>Network proxy that runs on each node, maintains network rules for Pod-to-Pod communication across nodes.</td>
+    </tr>
+    <tr>
+      <td>Container Runtime</td>
+      <td>Software responsible for running containers (e.g., Docker, containerd, CRI-O).</td>
+    </tr>
+    <tr>
+      <td>Namespace</td>
+      <td>Logical cluster partition for separating resources. Default namespaces include 'default', 'kube-system', etc.</td>
+    </tr>
+    <tr>
+      <td>Pod</td>
+      <td>Smallest deployable unit in Kubernetes. Encapsulates container(s), storage resources, IP, and options.</td>
+    </tr>
+    <tr>
+      <td>ReplicaSet</td>
+      <td>Ensures a specified number of identical Pods are running. Often managed by a Deployment.</td>
+    </tr>
+    <tr>
+      <td><b>Deployment</b></td>
+      <td>Higher-level abstraction that manages ReplicaSets and Pod templates, enabling rolling updates and rollbacks.</td>
+    </tr>
+    <tr>
+      <td>DaemonSet</td>
+      <td>Ensures a copy of a Pod is running on all (or some) nodes. Good for logging or monitoring agents.</td>
+    </tr>
+    <tr>
+      <td>StatefulSet</td>
+      <td>Manages stateful applications, ensuring stable identities and storage for each Pod (e.g., databases).</td>
+    </tr>
+    <tr>
+      <td><b>Service</b></td>
+      <td>Stable network endpoint that exposes a set of Pods (e.g., ClusterIP, NodePort, LoadBalancer). Balances traffic across Pods.</td>
+    </tr>
+    <tr>
+      <td><b>Ingress</b></td>
+      <td>Manages external access to services. Typically requires an Ingress Controller (like NGINX) to route traffic.</td>
+    </tr>
+    <tr>
+      <td>PersistentVolume (PV)</td>
+      <td>A piece of storage in the cluster that has been provisioned by an admin or dynamically.</td>
+    </tr>
+    <tr>
+      <td>PersistentVolumeClaim (PVC)</td>
+      <td>A request for storage by a user. Binds to an available PersistentVolume.</td>
+    </tr>
+    <tr>
+      <td><b>ConfigMap</b></td>
+      <td>Stores non-confidential config data as key-value pairs. Mounted as files or environment variables in Pods.</td>
+    </tr>
+    <tr>
+      <td>Secret</td>
+      <td>Stores sensitive data (e.g., passwords, tokens). Similar to ConfigMap but is base64-encoded and more secure.</td>
+    </tr>
+    <tr>
+      <td>Job</td>
+      <td>Creates one or more Pods to perform a task until successful completion (batch-like tasks).</td>
+    </tr>
+    <tr>
+      <td>CronJob</td>
+      <td>Schedules Jobs at specific times or intervals. Uses standard UNIX cron format.</td>
+    </tr>
+    <tr>
+      <td>Volume</td>
+      <td>Abstracts storage for a Pod. Multiple types (emptyDir, hostPath, NFS, etc.). Lifecycle tied to the Pod (unless external like NFS).</td>
+    </tr>
+    <tr>
+      <td>Basic Commands</td>
+      <td>
+        - kubectl get pods/nodes/services/etc.<br>
+        - kubectl describe pod/&lt;podname&gt;<br>
+        - kubectl logs &lt;podname&gt;<br>
+        - kubectl exec -it &lt;podname&gt; -- /bin/bash<br>
+        - kubectl apply -f &lt;filename.yaml&gt;<br>
+        - kubectl delete -f &lt;filename.yaml&gt;
+      </td>
+    </tr>
+    <tr>
+      <td>Common YAML Fields</td>
+      <td>apiVersion, kind, metadata, spec. Refer to official docs for each resource’s schema.</td>
+    </tr>
+    <tr>
+      <td>Rolling Update / Rollback</td>
+      <td>
+        Achieved via Deployments. Example:<br>
+        kubectl rollout status deployment/&lt;dep-name&gt;<br>
+        kubectl rollout undo deployment/&lt;dep-name&gt;
+      </td>
+    </tr>
+    <tr>
+      <td>Tips</td>
+      <td>
+        - Use labels and selectors effectively.<br>
+        - Resource requests/limits help with scheduling.<br>
+        - Namespaces isolate resources.<br>
+        - Monitor logs and metrics for cluster health.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Deploying a cluster -->
+<head>
+  <meta charset="UTF-8">
+  <!-- Load Prism.js CSS theme -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="code-styles.css">
+</head>
+<body>
+  <div style="margin-top: 50px;">
+    <p>Below is a simple, plug‐and‐play set of YAML files you can use to deploy a basic application on Kubernetes. Think of these files as recipes that tell Kubernetes how to cook up your app. </p>
+    <h2>1. Deployment File (deployment.yaml) </h2>
+    <p style="margin-left: 30px;">This file tells Kubernetes to create and manage a set of “pods” (small boxes running your app).</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      apiVersion: apps/v1           # API version of the Deployment object
+      kind: Deployment              # We are creating a Deployment
+      metadata:
+        name: my-app-deployment     # The name of this deployment
+        labels:
+          app: my-app             # Labels help group and identify your app's resources
+      spec:
+        replicas: 3                 # Number of copies (pods) to run
+        selector:
+          matchLabels:
+            app: my-app           # This tells the deployment which pods to manage (by matching labels)
+        template:
+          metadata:
+            labels:
+              app: my-app         # Pods get this label so they can be found by the Service later
+          spec:
+            containers:
+            - name: my-app-container   # Name for the container (like a nickname)
+              image: nginx:latest      # The container image to use (replace with your own if needed)
+              ports:
+              - containerPort: 80      # The port the container listens on
+              envFrom:
+              - configMapRef:          # Load environment variables from a ConfigMap
+                  name: my-app-config  # This ConfigMap is defined in another file (see below)
+      
+    </code></pre>
+    <h2>2. Service File (service.yaml)</h2>
+    <p style="margin-left: 30px;">This file creates a Service, which is like a phone line that connects users to your app. It routes traffic to the pods created by the Deployment.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      apiVersion: v1                # API version for the Service object
+      kind: Service               # We are creating a Service
+      metadata:
+        name: my-app-service      # Name of the service
+      spec:
+        selector:
+          app: my-app           # This Service finds pods with the label "app: my-app"
+        ports:
+          - protocol: TCP
+            port: 80            # Port that the service exposes
+            targetPort: 80      # Port on the pods where traffic should go
+        type: ClusterIP         # Service type (ClusterIP means it's only available inside the cluster)      
+    </code></pre>
+    <h2>3. ConfigMap File (configmap.yaml)</h2>
+    <p style="margin-left: 30px;">This file creates a ConfigMap to store configuration data (like environment variables) for your app. It helps keep configuration separate from your code.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+        apiVersion: v1                # API version for ConfigMap
+        kind: ConfigMap             # We are creating a ConfigMap
+        metadata:
+          name: my-app-config     # Name of the ConfigMap
+        data:
+        EXAMPLE_ENV: "Hello, Kubernetes!"  # An example environment variable
+    </code></pre>
+    <h2>4. Ingress File (ingress.yaml)</h2>
+    <p style="margin-left: 30px;">This file sets up an Ingress, which acts like a door for your app from the outside world. It routes incoming web traffic (from a domain name) to your Service.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      apiVersion: networking.k8s.io/v1  # API version for Ingress
+      kind: Ingress                  # We are creating an Ingress
+      metadata:
+        name: my-app-ingress         # Name of the Ingress
+      spec:
+        rules:
+        - host: myapp.example.com    # Replace with your own domain name
+          http:
+            paths:
+            - path: /                # URL path to match
+              pathType: Prefix       # How the path matching is done
+              backend:
+                service:
+                  name: my-app-service  # The Service that will receive the traffic
+                  port:
+                    number: 80          # The port on the Service to use
+      
+    </code></pre>
+    <h3>Apply the Files to Your Cluster:</h3>
+    <p style="margin-left: 30px;">Open your terminal and run the following commands (assuming you have access to a Kubernetes cluster):</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      kubectl apply -f configmap.yaml
+      kubectl apply -f deployment.yaml
+      kubectl apply -f service.yaml
+      kubectl apply -f ingress.yaml      
+    </code></pre>
+  </div>
+  <!-- Load Prism.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <!-- Optionally load the bash component for better Dockerfile comment highlighting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+</body>
+
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+
+</html>

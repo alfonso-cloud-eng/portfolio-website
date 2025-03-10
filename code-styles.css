@@ -1,0 +1,34 @@
+/* Custom style: change comment color to a greenish hue */
+.token.comment {
+    color: #ffffff !important;
+}
+
+/* Optional: Adjust the code block styling */
+body div pre {
+    margin: 1.25rem 0;           /* 20px converted to 1.25rem */
+    display: block;
+    color: #ffffff;             /* Light gray text */
+    padding: 0.2em 1em;         /* Padding remains in em for scalable spacing */
+    background-color: #0638cc;   /* Dark background */  
+    border-radius: 0.3125rem;    /* 5px converted to 0.3125rem */
+}
+
+body div pre code {
+    border-radius: 0.3125rem;    /* 5px converted to 0.3125rem */ 
+    font-family: Consolas, "Courier New", monospace; /* Monospaced font */
+    font-size: 0.875rem;         /* 14px converted to 0.875rem */
+    line-height: 1.5;
+    overflow-x: auto;           /* Horizontal scrolling if needed */
+}
+
+/* Mobile adjustments */
+@media (max-width: 1000px) {
+    body div pre {
+        margin: 1rem 0;         /* Slightly smaller vertical margin */
+        padding: 0.2em 0.8em;
+        font-size: 19px;       /* Adjusted padding for smaller screens */
+    }
+    body div pre code {
+        font-size: 19px;         /* Increase to 16px for improved readability */
+    }
+}

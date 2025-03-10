@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio - Main Page</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" type="text/css" href="styles-main.css">
+</head>
+<body>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+  
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1 class="intro">Your Name Here</h1>
+    <p class="tagline">A short, impactful tagline that defines your brand or career goals.</p>
+    <button class="cta-btn" onclick="scrollToSection('about')">Learn More</button>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="section" id="about">
+    <h2>About Me</h2>
+    <div class="about-container">
+      <img 
+        src="images/profile.jpg" 
+        alt="Profile Photo" 
+        class="reveal-left"
+      />
+      <div class="about-text reveal-right">
+        <p>Hello! I’m [Your Name], a passionate developer and cloud enthusiast. 
+          <!-- Write more about your background, your passion, your career goals, etc. -->
+        </p>
+        <p>
+          I love building scalable solutions, experimenting with new technologies, 
+          and tackling complex problems in creative ways. 
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section class="section" id="skills">
+    <h2>Skills & Expertise</h2>
+    <div class="skills-grid">
+      <!-- Example skill cards -->
+      <div class="skill-card reveal">
+        <h3>GCP</h3>
+        <p>Proficient with Google Cloud Platform, setting up compute, storage, and networking.</p>
+      </div>
+      <div class="skill-card reveal">
+        <h3>JavaScript</h3>
+        <p>Skilled in building interactive UIs with modern frameworks (React, Vue, etc.).</p>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Python</h3>
+        <p>Experienced in automation, scripting, and data analysis with Python.</p>
+      </div>
+      <!-- Add more skill-card blocks if needed -->
+    </div>
+  </section>
+
+  <!-- EXPERIENCE & CERTIFICATION SECTION -->
+  <section class="section" id="experience">
+    <h2>Experience & Certifications</h2>
+    <ul class="timeline">
+      <li class="reveal">
+        <h3>Job Title / Role</h3>
+        <p>Company or project info. List achievements, responsibilities, or time frames.</p>
+      </li>
+      <li class="reveal">
+        <h3>Associate Cloud Engineer</h3>
+        <p>Certification details (date, scope, relevant GCP projects, etc.).</p>
+      </li>
+      <!-- Add more timeline items if you have additional roles or certifications -->
+    </ul>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section class="section" id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <h3>Project One</h3>
+        <p>Description of your project, the stack used, and interesting challenges you solved.</p>
+        <a href="https://github.com/YourUsername/ProjectOne" target="_blank">View on GitHub</a>
+      </div>
+      <div class="project-card reveal">
+        <h3>Project Two</h3>
+        <p>A brief summary of the project’s purpose, achievements, or results.</p>
+        <a href="https://example.com" target="_blank">Live Demo</a>
+      </div>
+      <!-- Add more project-card blocks if needed -->
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="section" id="contact">
+    <h2>Get In Touch</h2>
+    <div class="reveal">
+      <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+      <p>Or reach me on <a href="https://www.linkedin.com/in/your-profile" target="_blank">LinkedIn</a>.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Smooth scrolling to sections
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+
+    // IntersectionObserver for .reveal, .reveal-left, .reveal-right
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observerOptions = { threshold: 0.1 };
+    
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealElements.forEach(el => revealOnScroll.observe(el));
+  </script>
+<script>
+    let lastScrollTop = 0;
+    const hideThreshold = 50; // Scroll down at least 100px to trigger hiding
+  
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      const currentScroll = window.pageYOffset;
+  
+      // If the user scrolled down AND it’s at least 100px more than before...
+      if (currentScroll > lastScrollTop && currentScroll - lastScrollTop > hideThreshold) {
+        header.classList.add('hide');  
+      }
+      // If the user is scrolling up at all, show the header
+      else if (currentScroll < lastScrollTop) {
+        header.classList.remove('hide');
+      }
+  
+      // Update lastScrollTop (never let it go below 0)
+      lastScrollTop = Math.max(currentScroll, 0);
+    });
+  </script>
+  
+</body>
+</html>

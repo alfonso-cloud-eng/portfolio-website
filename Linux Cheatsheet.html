@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux - Bash Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/800px-Tux.svg.png">
+  <h1>Linux Cheatsheet</h1>
+</div>
+
+<!-- Tables -->
+<table>
+      <thead>
+        <tr>
+          <th>Command/Topic</th>
+          <th>Description / Purpose</th>
+          <th>Example(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>pwd</td>
+          <td>Prints the current working directory.</td>
+          <td>pwd</td>
+        </tr>
+        <tr>
+          <td>cd &lt;directory&gt;</td>
+          <td>Changes the current directory to &lt;directory&gt;.</td>
+          <td>cd /var/log  (go to /var/log directory)</td>
+        </tr>
+        <tr>
+          <td>ls [-l] [-a] [-h]</td>
+          <td>
+            Lists directory contents. -l for detailed list, -a for hidden files, -h for human-readable file sizes.
+          </td>
+          <td>ls -lah</td>
+        </tr>
+        <tr>
+          <td>mkdir &lt;dir&gt;</td>
+          <td>Creates a new directory named &lt;dir&gt;.</td>
+          <td>mkdir my_folder</td>
+        </tr>
+        <tr>
+          <td>rmdir &lt;dir&gt;</td>
+          <td>Removes an empty directory named &lt;dir&gt;.</td>
+          <td>rmdir my_folder</td>
+        </tr>
+        <tr>
+          <td>rm &lt;file/dir&gt;</td>
+          <td>Removes files or directories. Use caution; directories require -r (recursive).</td>
+          <td>rm -r old_folder</td>
+        </tr>
+        <tr>
+          <td>cp &lt;src&gt; &lt;dest&gt;</td>
+          <td>Copies files or directories from &lt;src&gt; to &lt;dest&gt;. Use -r for directories.</td>
+          <td>cp file.txt /tmp</td>
+        </tr>
+        <tr>
+          <td>mv &lt;src&gt; &lt;dest&gt;</td>
+          <td>Moves or renames files/directories.</td>
+          <td>mv file.txt new_file.txt</td>
+        </tr>
+        <tr>
+          <td>cat &lt;file&gt;</td>
+          <td>Concatenates files to standard output. Often used just to view file contents.</td>
+          <td>cat /etc/hosts</td>
+        </tr>
+        <tr>
+          <td>less &lt;file&gt;</td>
+          <td>Opens a file for paged viewing. Navigate with arrow keys, space, and q to quit.</td>
+          <td>less /var/log/syslog</td>
+        </tr>
+        <tr>
+          <td>head &lt;file&gt;</td>
+          <td>Displays the first 10 lines of a file by default. Use -n to specify number of lines.</td>
+          <td>head -n 20 example.log</td>
+        </tr>
+        <tr>
+          <td>tail &lt;file&gt;</td>
+          <td>Displays the last 10 lines of a file by default. Commonly used with -f for logs.</td>
+          <td>tail -f /var/log/syslog</td>
+        </tr>
+        <tr>
+          <td>chmod &lt;mode&gt; &lt;file&gt;</td>
+          <td>Changes file or directory permissions. Modes can be numeric (e.g., 755) or symbolic.</td>
+          <td>chmod 755 script.sh</td>
+        </tr>
+        <tr>
+          <td>chown &lt;user&gt;:&lt;group&gt;</td>
+          <td>Changes file or directory ownership to the specified user and group.</td>
+          <td>chown ubuntu:ubuntu /var/www/html</td>
+        </tr>
+        <tr>
+          <td>find &lt;path&gt; ...</td>
+          <td>Searches for files in a directory hierarchy. Very powerful with many options</td>
+          <td>find /home -name "file.txt"</td>
+        </tr>
+        <tr>
+          <td>grep &lt;pattern&gt;</td>
+          <td>Searches text or files for matching patterns. Supports regular expressions.</td>
+          <td>grep "error" /var/log/syslog</td>
+        </tr>
+        <tr>
+          <td>sort &lt;file&gt;</td>
+          <td>Sorts lines of text in specified files. Use -r for reverse, -n for numeric sort.</td>
+          <td>sort -r names.txt</td>
+        </tr>
+        <tr>
+          <td>wc [-l] [-w] [-c]</td>
+          <td>Counts lines (-l), words (-w), or bytes/characters (-c).</td>
+          <td>wc -l file.txt</td>
+        </tr>
+        <tr>
+          <td>ps aux</td>
+          <td>Lists running processes with user, CPU, memory usage, etc.</td>
+          <td>ps aux</td>
+        </tr>
+        <tr>
+          <td>top / htop</td>
+          <td>
+            Displays real-time processes/activity. htop is a more user-friendly version if installed.
+          </td>
+          <td>
+            top (or) htop
+          </td>
+        </tr>
+        <tr>
+          <td>kill &lt;PID&gt;</td>
+          <td>Sends a signal to a process (default is SIGTERM).</td>
+          <td>kill 1234</td>
+        </tr>
+        <tr>
+          <td>killall &lt;name&gt;</td>
+          <td>Kills processes by name rather than PID.</td>
+          <td>killall chrome</td>
+        </tr>
+        <tr>
+          <td>df -h</td>
+          <td>Shows disk usage of mounted file systems in human-readable format.</td>
+          <td>df -h</td>
+        </tr>
+        <tr>
+          <td>du -sh &lt;dir&gt;</td>
+          <td>Summarizes disk usage of a given directory (or file). -s for summary, -h for human.</td>
+          <td>du -sh /var</td>
+        </tr>
+        <tr>
+          <td>free -h</td>
+          <td>Displays current memory usage in human-readable format.</td>
+          <td>free -h</td>
+        </tr>
+        <tr>
+          <td>history</td>
+          <td>Lists previously executed commands. Can use !&lt;number&gt; to re-run.</td>
+          <td>history</td>
+        </tr>
+        <tr>
+          <td>env</td>
+          <td>Displays current environment variables.</td>
+          <td>env</td>
+        </tr>
+        <tr>
+          <td>export &lt;VAR&gt;=&lt;val&gt;</td>
+          <td>Sets (and exports) environment variables for the current shell/session.</td>
+          <td>export PATH="/usr/local/bin:$PATH"</td>
+        </tr>
+        <tr>
+          <td>alias &lt;name&gt;=...</td>
+          <td>Creates an alias for a command. Useful for shortcuts.</td>
+          <td>alias ll='ls -la'</td>
+        </tr>
+        <tr>
+          <td>uname -a</td>
+          <td>Shows system information (kernel name, version, etc.).</td>
+          <td>uname -a</td>
+        </tr>
+        <tr>
+          <td>whoami</td>
+          <td>Prints the effective username of the current user.</td>
+          <td>whoami</td>
+        </tr>
+        <tr>
+          <td>date</td>
+          <td>Displays or sets the system date and time.</td>
+          <td>date</td>
+        </tr>
+        <tr>
+          <td>uptime</td>
+          <td>Shows how long the system has been running, plus load averages.</td>
+          <td>uptime</td>
+        </tr>
+        <tr>
+          <td>ping &lt;host&gt;</td>
+          <td>Checks network connectivity/reachability to a host.</td>
+          <td>ping google.com</td>
+        </tr>
+        <tr>
+          <td>netstat / ss</td>
+          <td>Displays network connections, routing tables, etc. ss is the more modern tool.</td>
+          <td>ss -tuln</td>
+        </tr>
+        <tr>
+          <td>ip / ifconfig</td>
+          <td>Shows or manipulates network interface settings. ip is newer than ifconfig.</td>
+          <td>ip addr show</td>
+        </tr>
+        <tr>
+          <td>tar -czvf &lt;file&gt;</td>
+          <td>Creates (c), compresses (z), and writes (v=verbose) an archive. -f specifies file.</td>
+          <td>tar -czvf archive.tar.gz /path/to/dir</td>
+        </tr>
+        <tr>
+          <td>unzip / zip</td>
+          <td>Extracts or creates zip archives.</td>
+          <td>zip -r archive.zip folder_to_zip</td>
+        </tr>
+        <tr>
+          <td>which &lt;command&gt;</td>
+          <td>Shows the full path of a command.</td>
+          <td>which python</td>
+        </tr>
+        <tr>
+          <td>man &lt;command&gt;</td>
+          <td>Displays the manual page for a command; essential for finding options and usage.</td>
+          <td>man grep</td>
+        </tr>
+        <tr>
+          <td>nano &lt;file&gt;</td>
+          <td>Simple command-line text editor. Great for quick edits.</td>
+          <td>nano /etc/nginx/nginx.conf</td>
+        </tr>
+        <tr>
+          <td>vim &lt;file&gt;</td>
+          <td>Powerful command-line text editor with modes. Takes time to learn, widely used.</td>
+          <td>vim /etc/environment</td>
+        </tr>
+        <tr>
+          <td>ssh user@hostname</td>
+          <td>Securely connects to a remote host.</td>
+          <td>ssh user@192.168.0.10</td>
+        </tr>
+        <tr>
+          <td>scp &lt;src&gt; &lt;dest&gt;</td>
+          <td>Securely copies files between hosts over SSH.</td>
+          <td>scp file.txt user@remote:/home</td>
+        </tr>
+        <tr>
+          <td>wget &lt;URL&gt;</td>
+          <td>Retrieves content from web servers. Handy for file downloads.</td>
+          <td>wget http://example.com/file.tar.gz</td>
+        </tr>
+        <tr>
+          <td>curl [options] &lt;URL&gt;</td>
+          <td>Transfers data to/from servers. Versatile: can perform requests, test APIs, etc.</td>
+          <td>curl -X GET http://api.example.com/data</td>
+        </tr>
+        <tr>
+          <td>gcloud &lt;command&gt; ...</td>
+          <td>CLI for managing GCP resources (VMs, storage, networking, etc.).</td>
+          <td>gcloud compute instances list</td>
+        </tr>
+      </tbody>
+</table>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+</html>
