@@ -1,0 +1,29 @@
+name: Deploy to GCP Storage
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Install Google Cloud SDK
+        run: |
+          curl -sSL https://sdk.cloud.google.com | bash
+          source "$HOME/google-cloud-sdk/path.bash.inc"
+          gcloud version
+
+      - name: Upload files to GCS
+        run: |
+          gsutil -m rsync -r . gs://portfolio-website-1
