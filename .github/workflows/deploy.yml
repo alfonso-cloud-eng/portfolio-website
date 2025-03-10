@@ -26,9 +26,12 @@ jobs:
       - name: Verify authentication
         run: gcloud auth list
 
+      - name: Remove temporary credentials file
+        run: rm -f gha-creds-*.json
+
       - name: Upload files to GCS
         run: |
           gsutil -m rsync -r -x '^(\.git|\.github)/' . gs://portfolio-website-1
 
-          
+
 
