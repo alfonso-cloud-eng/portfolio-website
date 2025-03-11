@@ -282,39 +282,61 @@
     color: #cccccc; 
   }
   
-  /* --------------------------------------------------
-     10. Projects Grid
-     -------------------------------------------------- */
-  .projects-grid {
+/* =========================================
+   Projects Grid & Project Cards (Animated)
+   ========================================= */
+   .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1rem;
   }
+  
+  /* Project Card */
   .project-card {
     background: #2b2b2b;
     border-radius: 4px;
     padding: 1.5rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transition: transform 0.2s ease-in-out;
-    cursor: default;
+    color: #f4f4f4;
+    cursor: pointer;
     position: relative;
+    
+    /* Fade-in from below */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
   }
+  
+  /* IntersectionObserver sets .visible */
+  .project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Dramatic hover effect */
   .project-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-10px) scale(1.10);
+    box-shadow: 0 15px 25px rgba(49,152,255,0.8);
   }
+  
+  
   .project-card h3 {
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
     color: #f4f4f4;
   }
+  
   .project-card p {
     color: #cccccc;
   }
+  
+  /* Links inside project-card (unchanged) */
   .project-card a {
     color: #3198ff;
     text-decoration: none;
     font-weight: bold;
   }
+  
   .project-card a:hover {
     text-decoration: underline;
   }
@@ -558,5 +580,72 @@
 .skill-card h3 {
   text-align: left; /* Ensures h3 aligns to the left */
 }
+
+/* Cheatsheet Grid */
+.cheatsheet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13em, 1fr));
+  gap: 1rem;
+}
+
+/* Individual Cheatsheet Card */
+.cheatsheet-card {
+  background: #2b2b2b;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  opacity: 0;                        /* Start invisible for reveal animation */
+  transform: translateY(20px);        /* Initial reveal animation */
+  color: #f4f4f4; 
+  align-items: center;                   /* Light text */
+}
+
+/* Fix: Ensure hover effect applies after reveal */
+.cheatsheet-card.visible {
+  opacity: 1;
+  transform: translateY(0); /* Reset the initial reveal animation */
+}
+
+/* Stronger Hover Effect: Scale + Lift */
+.cheatsheet-card:hover {
+  transform: translateY(-5px) scale(1.07);  /* Move up and expand */
+  box-shadow: 0 5px 10px #3198ff; /* More depth */
+}
+
+/* Links inside the card */
+.cheatsheet-card a {
+  text-decoration: none;
+  color: #f4f4f4;
+  display: block;
+}
+
+.cheatsheet-card img {
+  width: auto;        /* Allow width to adjust dynamically */
+  height: 3.9em;      /* Ensure all images have the same height */
+  margin-right: 0.5rem;
+  object-fit: contain; /* Ensures the image is fully visible within the given dimensions */
+  vertical-align: middle;
+}
+
+/* Responsive Design Adjustments */
+@media screen and (max-width: 1000px) {
+  .cheatsheet-card img {
+    width: auto;  /* Maintain aspect ratio */
+    height: 2em;  /* Smaller height for mobile screens */
+    margin-right: 0.3rem;
+  }
+}
+
+/* Card Title */
+.cheatsheet-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #f4f4f4;
+  margin-left: 0px;
+}
+
+
 
   

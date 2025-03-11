@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cheatsheets</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Link to your main CSS -->
+    <link rel="stylesheet" type="text/css" href="../../styles-main.css">
+</head>
+<body>
+    <!-- HEADER / NAVIGATION -->
+    <div id="header-placeholder"></div>
+    <script>
+      fetch('../../header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+    </script>
+
+  <h1>Cheatsheets</h1>
+  <section class="cheatsheet-grid">
+    <!-- 1) GCP -->
+    <div class="cheatsheet-card reveal">
+      <a href="GCP cheatsheet.html">
+        <img src="../../images/gcp.png" alt="GCP Logo">
+        <h3>GCP</h3>
+      </a>
+    </div>
+
+    <!-- 2) CI/CD - DevOps -->
+    <div class="cheatsheet-card reveal">
+      <a href="CICD CheatSheet.html">
+        <img src="../../images/cicd.png" alt="CI/CD DevOps Logo">
+        <h3>CI/CD - DevOps</h3>
+      </a>
+    </div>
+
+    <!-- 3) Docker -->
+    <div class="cheatsheet-card reveal">
+      <a href="Docker CheatSheet.html">
+        <img src="../../images/docker.png" alt="Docker Logo">
+        <h3>Docker</h3>
+      </a>
+    </div>
+
+    <!-- 4) Kubernetes -->
+    <div class="cheatsheet-card reveal">
+      <a href="Kubernetes Cheatsheet.html">
+        <img src="../../images/kubernetes.png" alt="Kubernetes Logo">
+        <h3>Kubernetes</h3>
+      </a>
+    </div>
+
+    <!-- 5) Linux -->
+    <div class="cheatsheet-card reveal">
+      <a href="Linux Cheatsheet.html">
+        <img src="../../images/linux.png" alt="Linux Logo">
+        <h3>Linux</h3>
+      </a>
+    </div>
+
+    <!-- 6) Networking -->
+    <div class="cheatsheet-card reveal">
+      <a href="Networking Fundamentals Cheatsheet.html">
+        <img src="../../images/networking.png" alt="Networking Logo">
+        <h3>Networking</h3>
+      </a>
+    </div>
+
+    <!-- 7) NoSQL -->
+    <div class="cheatsheet-card reveal">
+      <a href="NoSQL CheatSheet.html">
+        <img src="../../images/nosql.png" alt="NoSQL Logo">
+        <h3>NoSQL</h3>
+      </a>
+    </div>
+
+    <!-- 8) Python -->
+    <div class="cheatsheet-card reveal">
+      <a href="Python CheatSheet.html">
+        <img src="../../images/python.png" alt="Python Logo">
+        <h3>Python</h3>
+      </a>
+    </div>
+
+    <!-- 9) SQL -->
+    <div class="cheatsheet-card reveal">
+      <a href="SQL CheatSheet.html">
+        <img src="../../images/sql.png" alt="SQL Logo">
+        <h3>SQL</h3>
+      </a>
+    </div>
+
+    <!-- 10) Terraform -->
+    <div class="cheatsheet-card reveal">
+      <a href="Terraform Cheatsheet.html">
+        <img src="../../images/terraform.png" alt="Terraform Logo">
+        <h3>Terraform</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- Minimal JavaScript for fade-in reveal and scale on hover -->
+  <script>
+    // IntersectionObserver for reveal effect
+    const revealCards = document.querySelectorAll('.reveal');
+    const observerOptions = { threshold: 0.1 };
+
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealCards.forEach(card => revealOnScroll.observe(card));
+  </script>
+
+    <!-- FOOTER -->
+    <div id="footer-placeholder"></div>
+    <script>
+      fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('footer-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+</body>
+</html>
