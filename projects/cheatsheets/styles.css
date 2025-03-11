@@ -1,0 +1,286 @@
+/* General Styling */
+body {
+    font-family: Inter, Inter;
+    background-color: #1e1e1e;
+    margin: 0;
+    padding: 1.25rem; /* 20px */
+    color: #f4f4f4;
+    font-size: 1rem; /* 16px */
+    line-height: 1.6;
+    letter-spacing: 0.003em;
+    word-spacing: 0.05em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-left: 10%;  /* replaced 260px with 10% for responsiveness */
+    padding-right: 10%; /* replaced 260px with 10% for responsiveness */
+    padding-bottom: 3rem; /* ~50px */
+}
+
+/* Title Styling */
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-family: georgia;
+    font-size: 3rem; /* ~48px, slightly adjusted for responsiveness */
+}
+
+h2 {
+    margin-left: 0;
+    margin-top: 2.5rem; /* 40px converted to rem */
+}
+
+h3 {
+    margin-left: 1.25rem; /* 20px converted to rem */
+}
+
+h4 {
+    margin-left: 3rem; /* 50px converted to rem */
+    margin-top: 2.5rem; /* 40px converted to rem */
+    font-size: 1.125rem; /* 18px converted to rem */
+}
+@media (max-width: 1000px) {
+    h1 {
+      font-size: 2.5rem; /* Reduced from 3rem for smaller screens */
+    }
+    h2 {
+      font-size: 2rem;   /* Optional: set a font size for h2 if needed */
+      margin-top: 2rem;  /* Slightly reduce top margin */
+    }
+    h3 {
+      font-size: 1.7rem; /* Increased to be more readable on mobile */
+      margin-left: 1rem; /* Adjust left margin if desired */
+    }
+    h4 {
+      font-size: 1.25rem; /* Slightly increased from 1.125rem */
+      margin-left: 2.5rem; /* Reduced left margin for smaller screens */
+      margin-top: 2rem;    /* Adjust top margin */
+    }
+    body {
+        padding-left: 5%;  /* replaced 260px with 10% for responsiveness */
+        padding-right: 5%;
+    }
+  }
+
+  .header {
+    text-align: center;
+  }
+  
+  .header img {
+    width: 8.125rem;       /* 130px converted to rem (130/16) */
+    margin-top: 3.75rem;    /* 60px converted to rem (60/16) */
+    margin-bottom: 0;
+  }
+  
+  .header h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 2.5rem;      /* Adjust as needed */
+  }
+
+  .header-note {
+    font-style: italic;
+    font-size: 1em;
+    color: #aaaaaa;
+    margin-top: -0.625rem; /* Approximately -10px */
+    margin-bottom: 3.75rem; /* Approximately 60px */
+  }
+  
+  
+  /* Media Query for smaller screens */
+  @media (max-width: 1000px) {
+    .header img {
+      width: 14rem;         /* Reduce image size on mobile */
+      margin-top: 5.5rem;   /* Adjust top margin on mobile */
+    }
+    .header h1 {
+      font-size: 4rem;      /* Adjust header font size for readability on smaller devices */
+    }
+  }  
+
+  .image-container {
+    text-align: center;
+    margin-bottom: 3.125rem; /* 50px converted to rem */
+  }
+  
+  .image-container img {
+    width: 20rem;
+    max-width: 100%;  /* Ensures the image scales down on smaller devices */
+    height: auto;
+    margin-top: 3.75rem; /* 60px converted to rem */
+    margin-bottom: 0;
+  }
+  
+  @media (max-width: 1000px) {
+    .image-container img {
+      width: 100%;      /* On smaller screens, image takes full container width */
+      margin-top: 2.5rem; /* Optionally adjust the top margin for better spacing on mobile */
+    }
+  }
+/* Collapsible Sections */
+details {
+    border: 1px solid #444;
+    border-radius: 0.3125rem; /* 5px */
+    padding: 0;
+    margin-bottom: 0.625rem; /* 10px */
+}
+details[open] {
+    margin-bottom: 1.875rem; /* 30px */
+}
+
+summary {
+    padding: 0;
+    font-weight: bold;
+    background-color: #2b2b2b;
+    border-radius: 0.3125rem 0.3125rem 0 0;
+    cursor: pointer;
+    list-style: none; /* Removes default marker */
+    display: flex;    /* Ensures inline display */
+    align-items: center;
+    margin: 0;
+}
+
+summary:hover {
+    background-color: #184878;
+}
+
+/* Table Container */
+.table-container {
+    width: 70%;
+    margin: 0 auto;
+    overflow-x: auto;
+    border-radius: 0.5rem; /* 8px */
+    padding-top: 1.25rem; /* 20px */
+    padding-bottom: 0;
+    padding-left: 3.75rem; /* 60px */
+    padding-right: 3.75rem; /* 60px */
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 0.5rem; /* 8px */
+    overflow: hidden;
+    table-layout: auto;
+    margin-bottom: 0;
+    margin-top: 1.25rem; /* 20px */
+}
+
+th, td {
+    padding: 0.75rem 1rem; /* approximates 12px 15px */
+    text-align: left;
+    border: 1px solid #444;
+    color: #f4f4f4;
+}
+
+th {
+    background-color: #184878;
+    color: white;
+    letter-spacing: 0.003em;
+    word-spacing: 0.05em;
+}
+
+tr:nth-child(even) {
+    background-color: #171717;
+}
+
+tr:hover {
+    background-color: #2b2b2b;
+}
+
+@media (max-width: 1000px) {
+    table, tr, td {
+      font-size: 1.5rem; /* About 24px for table cell text */
+      min-width: 6.25rem;  /* Approximately 100px */
+    }
+    th {
+      font-size: 1.75rem; /* About 28px for header cells */
+      min-width: 6.25rem; /* Approximately 100px */
+    }
+    /* Increase font size for the first column (Concepts) without forcing extra width */
+    table th:first-child,
+    table td:first-child {
+      font-size: 2rem; /* Adjusted for better readability */
+      min-width: 6.25rem; /* Keep it consistent with other columns */
+    }
+    .table-container {
+      width: 95%;
+      overflow-x: auto;
+    }
+  
+  table th:nth-child(3),
+  table td:nth-child(3) {
+    overflow-wrap: break-word;
+    word-break: break-all;
+    width: 40%;       /* Give the third column 40% of the table width */
+    min-width: 8rem;  /* Ensure it doesn't shrink below about 128px (if base font is 16px) */
+  }
+}
+  
+  
+
+/* Default link color */
+a {
+    color: #3198ff; /* Soft blue for dark backgrounds */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Hover effect */
+a:hover {
+    color: #82CFFF; /* Lighter blue for hover */
+    text-decoration: underline; /* Optional: adds underline on hover */
+}
+
+/* Visited link color */
+a:visited {
+    color: #8AB4F8; /* Subtle color for visited links */
+}
+
+/* Active link color */
+a:active {
+    color: #357ABD; /* Slightly darker blue when clicked */
+}
+
+/* Custom style: change comment color to a greenish hue */
+.token.comment {
+    color: #6A9955 !important;
+}
+
+/* Optional: Adjust the code block styling */
+pre {
+    margin: 1.25rem 0; /* 20px */
+}
+/* Footer styling */
+.footer {
+    background-color: #2b2b2b;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 0.9375rem 0;   /* ~15px vertical padding */
+    font-size: 0.9em;
+    border-top: 1px solid #444;
+    margin-top: 2.5rem;     /* ~40px top margin */
+    border-radius: 0.5rem;  /* ~8px border radius */
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+  
+  .footer p:last-child {
+    margin: 0.3125rem 0 0 0;  /* ~5px top margin for second paragraph */
+    font-size: 0.85em;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 1000px) {
+    .footer {
+      padding: 0.75rem 0;   /* slightly reduced vertical padding */
+      margin-top: 2rem;     /* a bit less top margin */
+      font-size: 1em;       /* slightly larger base font for readability */
+    }
+    .footer p:last-child {
+      margin-top: 0.5rem;
+      font-size: 0.9em;
+    }
+  }
+  

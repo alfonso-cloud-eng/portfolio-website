@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+      h3 {
+  margin-top: 50px;          /* Adds space above each h3 */
+      }
+      </style>
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('../../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="../../images/sql.png">
+  <h1>SQL Cheatsheet</h1>
+</div>
+
+<!-- Tables -->
+<div><h3>Data Definition Language (DDL) Commands</h3>
+  <table>
+    <tr>
+      <th>Statement</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>CREATE DATABASE</td>
+      <td>
+        Creates a new database.<br>
+        <code>CREATE DATABASE database_name;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>CREATE TABLE</td>
+      <td>
+        Creates a new table.<br>
+        <code>
+        CREATE TABLE table_name ( <br>
+        &nbsp;&nbsp;column1 datatype [constraints], <br>
+        &nbsp;&nbsp;column2 datatype [constraints], <br>
+        &nbsp;&nbsp;... <br>
+        );
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>ALTER TABLE</td>
+      <td>
+        Modifies an existing table’s structure.<br>
+        <code>ALTER TABLE table_name ADD column_name datatype;</code><br>
+        <code>ALTER TABLE table_name MODIFY column_name new_datatype;</code><br>
+        <code>ALTER TABLE table_name DROP COLUMN column_name;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>DROP TABLE</td>
+      <td>
+        Deletes a table and all its data permanently.<br>
+        <code>DROP TABLE table_name;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>TRUNCATE TABLE</td>
+      <td>
+        Removes all rows from a table without logging individual row deletions (faster than DELETE).<br>
+        <code>TRUNCATE TABLE table_name;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>RENAME (TABLE)</td>
+      <td>
+        Renames an existing table.<br>
+        <code>ALTER TABLE old_table_name RENAME TO new_table_name;</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Data Manipulation Language (DML) Commands</h3>
+  <table>
+    <tr>
+      <th>Statement</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>INSERT</td>
+      <td>
+        Inserts new rows into a table.<br>
+        <code>
+        INSERT INTO table_name (column1, column2, ...) <br>
+        VALUES (value1, value2, ...);
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>UPDATE</td>
+      <td>
+        Modifies existing rows in a table.<br>
+        <code>
+        UPDATE table_name <br>
+        SET column1 = value1, <br>
+        &nbsp;&nbsp;&nbsp;column2 = value2 <br>
+        WHERE condition;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>
+        Deletes rows from a table based on a condition.<br>
+        <code>
+        DELETE FROM table_name <br>
+        WHERE condition;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>MERGE</td>
+      <td>
+        Merges two tables (insert, update, or delete rows in a target based on a source).<br>
+        <code>
+        MERGE INTO target_table USING source_table <br>
+        ON (target_table.key = source_table.key) <br>
+        WHEN MATCHED THEN <br>
+        &nbsp;&nbsp;UPDATE SET target_table.col = source_table.col <br>
+        WHEN NOT MATCHED THEN <br>
+        &nbsp;&nbsp;INSERT (col1, col2) VALUES (source_table.col1, source_table.col2);
+        </code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Data Query Language (DQL) – SELECT & Query Clauses</h3>
+  <table>
+    <tr>
+      <th>Clause/Keyword</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>SELECT</td>
+      <td>
+        Retrieves data from a database.<br>
+        <code>SELECT column1, column2 FROM table_name;</code><br>
+        <code>SELECT * FROM table_name;</code> (all columns)
+      </td>
+    </tr>
+    <tr>
+      <td>FROM</td>
+      <td>Specifies which table(s) the data is coming from.</td>
+    </tr>
+    <tr>
+      <td>WHERE</td>
+      <td>
+        Filters rows based on a condition.<br>
+        <code>SELECT * FROM table_name WHERE condition;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>AND / OR / NOT</td>
+      <td>
+        Logical operators used within WHERE.<br>
+        <code>SELECT * FROM table_name WHERE condition1 AND condition2;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>ORDER BY</td>
+      <td>
+        Sorts the result set by specified column(s).<br>
+        <code>SELECT * FROM table_name ORDER BY column1 [ASC|DESC];</code>
+      </td>
+    </tr>
+    <tr>
+      <td>GROUP BY</td>
+      <td>
+        Groups rows sharing certain values so that aggregate functions can be applied to each group.<br>
+        <code>SELECT column, COUNT(*) FROM table_name GROUP BY column;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>HAVING</td>
+      <td>
+        Filters groups after GROUP BY.<br>
+        <code>SELECT column, COUNT(*) FROM table_name GROUP BY column HAVING COUNT(*) &gt; 1;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>LIMIT / OFFSET</td>
+      <td>
+        Restricts the number of rows returned / Skips a number of rows.<br>
+        <code>SELECT * FROM table_name LIMIT 10 OFFSET 20;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>DISTINCT</td>
+      <td>
+        Selects unique values.<br>
+        <code>SELECT DISTINCT column FROM table_name;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>ALIASES</td>
+      <td>
+        Renames a column or table in the query.<br>
+        <code>SELECT column AS alias_name FROM table_name AS t;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>SUBQUERY</td>
+      <td>
+        A query nested inside another query.<br>
+        <code>
+        SELECT * <br>
+        FROM table_name <br>
+        WHERE column IN (SELECT column FROM other_table);
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>WITH (CTE)</td>
+      <td>
+        Common Table Expression for temporary result sets.<br>
+        <code>
+        WITH cte_name AS ( <br>
+        &nbsp;&nbsp;SELECT ... <br>
+        ) <br>
+        SELECT * FROM cte_name;
+        </code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Joins Quick Reference</h3>
+  <table>
+    <tr>
+      <th>Join Type</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>INNER JOIN</td>
+      <td>
+        Returns rows that have matching values in both tables.<br>
+        <code>
+        SELECT t1.*, t2.* <br>
+        FROM table1 t1 <br>
+        INNER JOIN table2 t2 ON t1.id = t2.id;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>LEFT (OUTER) JOIN</td>
+      <td>
+        Returns all rows from the left table, and matched rows from the right table.<br>
+        <code>
+        SELECT t1.*, t2.* <br>
+        FROM table1 t1 <br>
+        LEFT JOIN table2 t2 ON t1.id = t2.id;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>RIGHT (OUTER) JOIN</td>
+      <td>
+        Returns all rows from the right table, and matched rows from the left table.<br>
+        <code>
+        SELECT t1.*, t2.* <br>
+        FROM table1 t1 <br>
+        RIGHT JOIN table2 t2 ON t1.id = t2.id;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>FULL (OUTER) JOIN</td>
+      <td>
+        Returns rows when there is a match in one of the tables.<br>
+        <code>
+        SELECT t1.*, t2.* <br>
+        FROM table1 t1 <br>
+        FULL OUTER JOIN table2 t2 ON t1.id = t2.id;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>CROSS JOIN</td>
+      <td>
+        Returns the Cartesian product of both tables.<br>
+        <code>
+        SELECT t1.*, t2.* <br>
+        FROM table1 t1 <br>
+        CROSS JOIN table2 t2;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>SELF JOIN</td>
+      <td>
+        Joins a table to itself.<br>
+        <code>
+        SELECT a.*, b.* <br>
+        FROM table_name a <br>
+        JOIN table_name b ON a.some_col = b.some_col;
+        </code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Window Functions & Analytical Queries</h3>
+  <table>
+    <tr>
+      <th>Function</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>ROW_NUMBER()</td>
+      <td>
+        Assigns a unique sequential integer to rows within a partition.<br>
+        <code>
+        SELECT ROW_NUMBER() OVER (ORDER BY column) AS rn, * <br>
+        FROM table_name;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>RANK() / DENSE_RANK()</td>
+      <td>
+        Assigns a rank to each row within a partition. <br>
+        <code>
+        SELECT RANK() OVER (ORDER BY column DESC) AS rank_col, * <br>
+        FROM table_name;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>LAG() / LEAD()</td>
+      <td>
+        Accesses data from the preceding (LAG) or following (LEAD) row.<br>
+        <code>
+        SELECT <br>
+        &nbsp;&nbsp;LAG(column) OVER (ORDER BY date_col) AS prev_val, <br>
+        &nbsp;&nbsp;LEAD(column) OVER (ORDER BY date_col) AS next_val, <br>
+        &nbsp;&nbsp;* <br>
+        FROM table_name;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>PARTITION BY</td>
+      <td>
+        Divides the result set into partitions to apply window functions separately within each partition.<br>
+        <code>
+        SELECT column, <br>
+        &nbsp;&nbsp;ROW_NUMBER() OVER (PARTITION BY category ORDER BY date_col) AS rn <br>
+        FROM table_name;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>NTILE(n)</td>
+      <td>
+        Distributes rows into n buckets.<br>
+        <code>
+        SELECT NTILE(4) OVER (ORDER BY sales DESC) AS quartile, * <br>
+        FROM table_name;
+        </code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Transaction Control (TCL)</h3>
+  <table>
+    <tr>
+      <th>Statement</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>COMMIT</td>
+      <td>
+        Permanently saves the changes made in the current transaction.<br>
+        <code>COMMIT;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>ROLLBACK</td>
+      <td>
+        Undoes changes made in the current transaction.<br>
+        <code>ROLLBACK;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>SAVEPOINT</td>
+      <td>
+        Creates a point within a transaction to which you can roll back.<br>
+        <code>
+        SAVEPOINT savepoint_name; <br>
+        ... <br>
+        ROLLBACK TO savepoint_name;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>SET TRANSACTION</td>
+      <td>
+        Sets transaction properties like isolation level.<br>
+        <code>SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Data Control Language (DCL)</h3>
+  <table>
+    <tr>
+      <th>Statement</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>GRANT</td>
+      <td>
+        Gives privileges to users/roles.<br>
+        <code>GRANT SELECT, INSERT ON table_name TO user_name;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>REVOKE</td>
+      <td>
+        Removes privileges from users/roles.<br>
+        <code>REVOKE SELECT, INSERT ON table_name FROM user_name;</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Constraints & Data Integrity</h3>
+  <table>
+    <tr>
+      <th>Constraint</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>PRIMARY KEY</td>
+      <td>
+        Uniquely identifies each row. Only one primary key per table.<br>
+        <code>
+        CREATE TABLE table_name ( <br>
+        &nbsp;&nbsp;id INT PRIMARY KEY, <br>
+        &nbsp;&nbsp;... <br>
+        );
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>FOREIGN KEY</td>
+      <td>
+        Enforces referential integrity between tables.<br>
+        <code>
+        CREATE TABLE table_name ( <br>
+        &nbsp;&nbsp;fk_id INT, <br>
+        &nbsp;&nbsp;FOREIGN KEY (fk_id) REFERENCES other_table(id) <br>
+        );
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>UNIQUE</td>
+      <td>
+        Ensures all values in a column are distinct.<br>
+        <code>CREATE TABLE table_name (col INT UNIQUE);</code>
+      </td>
+    </tr>
+    <tr>
+      <td>NOT NULL</td>
+      <td>
+        Ensures a column cannot have NULL values.<br>
+        <code>CREATE TABLE table_name (col INT NOT NULL);</code>
+      </td>
+    </tr>
+    <tr>
+      <td>CHECK</td>
+      <td>
+        Ensures values meet specific criteria.<br>
+        <code>
+        CREATE TABLE table_name ( <br>
+        &nbsp;&nbsp;col INT CHECK (col &gt;= 0) <br>
+        );
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>DEFAULT</td>
+      <td>
+        Provides a default value if none is specified.<br>
+        <code>CREATE TABLE table_name (col INT DEFAULT 100);</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Indexes & Performance</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>CREATE INDEX</td>
+      <td>
+        Speeds up data retrieval. Impacts write performance.<br>
+        <code>
+        CREATE INDEX index_name <br>
+        ON table_name (column1, [column2, ...]);
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>UNIQUE INDEX</td>
+      <td>
+        Ensures index column(s) do not contain duplicates.<br>
+        <code>
+        CREATE UNIQUE INDEX index_name <br>
+        ON table_name (column_name);
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>CLUSTERED INDEX (SQL Server)</td>
+      <td>
+        Sorts the table data by the index key. Only one per table (in certain RDBMS like SQL Server).</td>
+    </tr>
+    <tr>
+      <td>EXPLAIN / EXPLAIN PLAN</td>
+      <td>
+        Shows how the database will execute a query, which helps in optimization.<br>
+        <code>EXPLAIN SELECT * FROM table_name;</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Views, Stored Procedures & Triggers</h3>
+  <table>
+    <tr>
+      <th>Object</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>VIEW</td>
+      <td>
+        A virtual table based on a SELECT query.<br>
+        <code>
+        CREATE VIEW view_name AS <br>
+        SELECT column1, column2 <br>
+        FROM table_name <br>
+        WHERE condition;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>STORED PROCEDURE</td>
+      <td>
+        A reusable block of SQL statements stored in the database.<br>
+        <code>
+        CREATE PROCEDURE procedure_name (parameters) <br>
+        BEGIN <br>
+        &nbsp;&nbsp;-- SQL statements <br>
+        END;
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>TRIGGER</td>
+      <td>
+        An action that is automatically invoked after/before an event (INSERT, UPDATE, DELETE).<br>
+        <code>
+        CREATE TRIGGER trigger_name <br>
+        AFTER INSERT ON table_name <br>
+        FOR EACH ROW <br>
+        BEGIN <br>
+        &nbsp;&nbsp;-- Trigger logic <br>
+        END;
+        </code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Other Useful Tips</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description / Example Syntax</th>
+    </tr>
+    <tr>
+      <td>Comments</td>
+      <td>
+        Single-line comment: <code>-- comment</code><br>
+        Multi-line comment: <code>/* comment */</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Multiple Schema Support</td>
+      <td>
+        Access tables with: <code>schema_name.table_name</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Data Types</td>
+      <td>
+        Examples: <br>
+        <ul>
+          <li><code>INT</code>, <code>BIGINT</code>, <code>DECIMAL</code></li>
+          <li><code>VARCHAR(n)</code>, <code>CHAR(n)</code>, <code>TEXT</code></li>
+          <li><code>DATE</code>, <code>TIME</code>, <code>TIMESTAMP</code></li>
+          <li><code>BOOLEAN</code></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>CASE Expression</td>
+      <td>
+        Provides conditional logic in a query.<br>
+        <code>
+        SELECT <br>
+        &nbsp;&nbsp;CASE <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;WHEN condition THEN 'Value1' <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;ELSE 'Value2' <br>
+        &nbsp;&nbsp;END AS alias_name <br>
+        FROM table_name;
+        </code>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+</html>

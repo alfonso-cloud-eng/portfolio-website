@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terraform Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">  
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('../../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="../../images/terraform.png">
+  <h1>Terraform Cheatsheet</h1>
+</div>
+
+<!-- Tables -->
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Explanation</th>
+      <th>Command / Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Terraform CLI Install</td>
+      <td>Install Terraform on your local machine or CI/CD environment.</td>
+      <td><code>On Linux (example):<br><br>`curl -fsSL https://apt.releases.hashicorp.com/gpg</code></td>
+    </tr>
+    <tr>
+      <td>Providers</td>
+      <td>Plugins that allow Terraform to interact with various APIs and services (e.g., Google Cloud, AWS, Azure). Each must be configured (version, credentials, etc.).</td>
+      <td><code>Declared in .tf files (example):<br><br>hcl<br>provider "google" {<br> project = var.project_id<br> region = var.region<br> zone = var.zone<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Initializing</td>
+      <td>Downloads providers and sets up the working directory so Terraform is ready to run. Must be done before plan/apply.</td>
+      <td><code>terraform init</code></td>
+    </tr>
+    <tr>
+      <td>Planning</td>
+      <td>Checks your configuration, compares it to remote state, and shows the changes that will be made. Helps avoid surprises.</td>
+      <td><code>terraform plan</code></td>
+    </tr>
+    <tr>
+      <td>Applying</td>
+      <td>Applies changes to match your desired configuration. Will prompt for confirmation unless you use -auto-approve.</td>
+      <td><code>terraform apply</code></td>
+    </tr>
+    <tr>
+      <td>Destroying</td>
+      <td>Destroys all resources from the current configuration. Useful for cleanup.</td>
+      <td><code>terraform destroy</code></td>
+    </tr>
+    <tr>
+      <td>State Files</td>
+      <td>Terraform maintains a local or remote state file (terraform.tfstate) that stores a mapping of real-world resources to your configuration. This file is crucial for understanding current infrastructure state and for making incremental changes. Handle state carefully and keep it secure.</td>
+      <td><code>Typically stored in local disk by default, or in remote backends (like GCS). Never commit sensitive state to version control.</code></td>
+    </tr>
+    <tr>
+      <td>Backends</td>
+      <td>Mechanisms to store Terraform state remotely and securely (e.g., in Google Cloud Storage, AWS S3, Terraform Cloud). Enables collaboration and state locking so multiple team members can work safely.</td>
+      <td><code>Example in backend.tf:<br><br>hcl<br>terraform {<br> backend "gcs" {<br> bucket = "my-terraform-state-bucket"<br> prefix = "terraform/state"<br> project = "my-gcp-project"<br> }<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Variables</td>
+      <td>Allow parameterizing your Terraform configuration, making it flexible and reusable across different environments.</td>
+      <td><code>Declared in .tf files or .tfvars (example):<br><br>hcl<br>variable "project_id" {<br> type = string<br>}<br>
+Use them: project = var.project_id</code></td>
+    </tr>
+    <tr>
+      <td>Outputs</td>
+      <td>Expose key information from your configuration for easy reference. Often used to pass values to external systems or to quickly see addresses of new resources.</td>
+      <td><code>hcl<br>output "instance_ip" {<br> value = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Resources</td>
+      <td>The fundamental blocks to create and manage infrastructure (e.g., compute instances, storage, networking). Each resource has a type and configuration arguments.</td>
+      <td><code>hcl<br>resource "google_compute_instance" "vm_instance" {<br> name = "my-vm"<br> machine_type = var.machine_type<br> ...<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Data Sources</td>
+      <td>Read information defined outside of Terraform or managed by a different configuration. Allows data lookups without managing those resources.</td>
+      <td><code>hcl<br>data "google_compute_network" "vpc_net" {<br> name = "my-network"<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Modules</td>
+      <td>Group resources together into reusable packages. Encouraged for organizing bigger projects or sharing standardized setups across teams.</td>
+      <td><code>hcl<br>module "vpc" {<br> source = "./modules/vpc"<br> vpc_name = var.vpc_name<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Workspaces</td>
+      <td>Let you maintain multiple state files in a single directory structure. Useful for multi-environment setups (e.g., dev, test, prod).</td>
+      <td><code>terraform workspace new dev<br>terraform workspace select dev</code></td>
+    </tr>
+    <tr>
+      <td>Version Locking</td>
+      <td>Ensures consistency by specifying allowed Terraform and provider versions. Protects your environment from accidental upgrades.</td>
+      <td><code>hcl<br>terraform {<br> required_version = ">= 1.4.0"<br> required_providers {<br> google = {<br> source = "hashicorp/google"<br> version = "~> 4.0"<br> }<br> }<br>}<br></code></td>
+    </tr>
+    <tr>
+      <td>Formatting &amp; Validation</td>
+      <td>Keeps your configs clean and ensures correctness.</td>
+      <td><code>terraform fmt to format code<br>terraform validate to check syntax</code></td>
+    </tr>
+    <tr>
+      <td>Importing Resources</td>
+      <td>Bring an existing resource under Terraform management without destroying and re-creating it. State is updated to reflect the existing resource configuration.</td>
+      <td><code>terraform import google_compute_instance.vm_instance my-project/us-central1-a/my-instance</code></td>
+    </tr>
+    <tr>
+      <td>Lifecycle Hooks</td>
+      <td>Control how resources are created, updated, or destroyed via the lifecycle block (e.g., prevent_destroy = true, or ignoring changes in certain arguments).</td>
+      <td><code>hcl<br>resource "google_compute_instance" "vm_instance" {<br> lifecycle {<br> prevent_destroy = true<br> }<br>}<br></code></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Example .tf files -->
+<head>
+  <meta charset="UTF-8">
+  <!-- Load Prism.js CSS theme -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="code-styles.css">
+</head>
+<body>
+  <div style="margin-top: 50px;">
+    <p>Below is a simple structure you could use. Create a directory, e.g. <code>my-terraform-project/</code> and place these files inside it:</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      my-terraform-project/
+      ├── provider.tf
+      ├── variables.tf
+      ├── main.tf
+      ├── outputs.tf
+      └── backend.tf  (optional: if using remote state in GCS)      
+    </code></pre>
+    <h2>1. <code>provider.tf</code></h2>
+    <p style="margin-left: 30px;">Configures the Google provider to point to the right project, region, and zone.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      provider "google" {
+        # project, region, and zone will be read from the variables
+        project = var.project_id
+        region  = var.region
+        zone    = var.zone
+      }    
+    </code></pre>
+    <h2>2. <code>variables.tf</code></h2>
+    <p style="margin-left: 30px;">Defines variables so you can parameterize your config.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      variable "project_id" {
+        type        = string
+        description = "GCP Project ID"
+      }
+      
+      variable "region" {
+        type        = string
+        description = "GCP region"
+        default     = "us-central1"
+      }
+      
+      variable "zone" {
+        type        = string
+        description = "GCP zone"
+        default     = "us-central1-a"
+      }
+      
+      variable "network_name" {
+        type        = string
+        description = "Name for the VPC network"
+        default     = "my-vpc"
+      }
+      
+      variable "subnet_name" {
+        type        = string
+        description = "Name for the subnet"
+        default     = "my-subnet"
+      }
+      
+      variable "machine_type" {
+        type        = string
+        description = "Instance machine type"
+        default     = "e2-micro"
+      }
+      
+      variable "instance_name" {
+        type        = string
+        description = "Name for the compute instance"
+        default     = "my-vm"
+      }
+    </code></pre>
+    <h2>3. <code>main.tf</code></h2>
+    <p style="margin-left: 30px;">Core Terraform resources for a VPC, subnet, firewall rule, and a Compute Engine instance.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      # Create a VPC network
+      resource "google_compute_network" "vpc_network" {
+        name                    = var.network_name
+        project                 = var.project_id
+        auto_create_subnetworks = false
+      }
+      
+      # Create a subnet in that VPC
+      resource "google_compute_subnetwork" "vpc_subnet" {
+        name          = var.subnet_name
+        ip_cidr_range = "10.0.0.0/24"
+        region        = var.region
+        network       = google_compute_network.vpc_network.self_link
+        project       = var.project_id
+      }
+      
+      # Create a firewall rule to allow SSH
+      resource "google_compute_firewall" "allow_ssh" {
+        name    = "allow-ssh"
+        project = var.project_id
+        network = google_compute_network.vpc_network.self_link
+      
+        allow {
+          protocol = "tcp"
+          ports    = ["22"]
+        }
+        source_ranges = ["0.0.0.0/0"]
+      }
+      
+      # Create a Compute Engine instance
+      resource "google_compute_instance" "vm_instance" {
+        name         = var.instance_name
+        machine_type = var.machine_type
+        project      = var.project_id
+        zone         = var.zone
+      
+        boot_disk {
+          initialize_params {
+            image = "projects/debian-cloud/global/images/family/debian-11"
+          }
+        }
+      
+        network_interface {
+          network    = google_compute_network.vpc_network.self_link
+          subnetwork = google_compute_subnetwork.vpc_subnet.self_link
+          # Ephemeral external IP
+          access_config {}
+        }
+      }
+    </code></pre>
+    <h2>4. <code>outputs.tf</code></h2>
+    <p style="margin-left: 30px;">Outputs let you easily reference attributes of created resources (e.g., instance IP).</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      output "instance_name" {
+        description = "Name of the compute instance"
+        value       = google_compute_instance.vm_instance.name
+      }
+      
+      output "instance_external_ip" {
+        description = "External IP of the compute instance"
+        value       = google_compute_instance.vm_instance.network_interface[0].access_config[0].nat_ip
+      }
+    </code></pre>
+    <h2>(Optional) <code>backend.tf</code></h2>
+    <p style="margin-left: 30px;">Configures a remote backend to store Terraform state in a Google Cloud Storage (GCS) bucket. This is optional: if you prefer local state, skip this file.</p>
+    <pre><code class="language-bash"; style="color: #6ab4ff;">
+      terraform {
+        backend "gcs" {
+          bucket = "my-terraform-state-bucket"
+          prefix = "terraform/state"
+          # Optionally specify the project to bill for storage
+          project = "my-gcp-project"
+        }
+      }
+      <p style="margin-left: 30px;">Open your terminal and run the following commands (assuming you have access to a Kubernetes cluster):</p>
+
+    </code></pre>
+    <p style="margin-left: 30px;"></br>
+      1. Run <code>terraform init</code> to initialize the working directory.</br></br>
+      2. Optionally run <code>terraform plan</code> to see the changes Terraform will make.</br></br>
+      3. Run <code>terraform apply</code> to create the resources.</br></br>
+      4. Run <code>terraform destroy</code> to remove them when finished.</br>
+    </p>
+  </div>
+  <!-- Load Prism.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <!-- Optionally load the bash component for better Dockerfile comment highlighting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+</body>
+
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NoSQL Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+      h3 {
+  margin-top: 50px;          /* Adds space above each h3 */
+      }
+      </style>
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('../../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="../../images/nosql.png">
+  <h1>NoSQL Cheatsheet</h1>
+</div>
+
+<!-- Tables -->
+<div><h3>NoSQL Concepts Overview</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>NoSQL</td>
+      <td>Refers to non-relational databases that can handle large volumes of rapidly changing data and scale out horizontally. They often relax strict ACID properties for performance and flexibility.</td>
+    </tr>
+    <tr>
+      <td>CAP Theorem</td>
+      <td>States that a distributed system can only guarantee two of the following simultaneously: Consistency, Availability, and Partition Tolerance. Different NoSQL databases choose different trade-offs.</td>
+    </tr>
+    <tr>
+      <td>BASE</td>
+      <td>“Basically Available, Soft state, Eventually consistent.” Many NoSQL databases follow BASE principles instead of strict ACID transactions to optimize for performance and scalability.</td>
+    </tr>
+    <tr>
+      <td>Horizontal Scalability</td>
+      <td>NoSQL databases typically scale by adding more nodes (sharding/partitioning data), rather than vertically scaling a single server.</td>
+    </tr>
+    <tr>
+      <td>Schema Flexibility</td>
+      <td>Most NoSQL databases do not enforce a rigid schema. The data model can evolve more easily as requirements change.</td>
+    </tr>
+  </table>
+  
+  <h3>Key-Value Databases</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+      <th>Schema Example</th>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td>Stores data in a simple key-value pair. Good for caching and real-time applications with simple lookups. Examples: Redis, Memcached.</td>
+      <td>
+        Key: <strong>"user:1001"</strong><br>
+        Value: <strong>"John Doe"</strong>
+      </td>
+    </tr>
+    <tr>
+      <td>Typical Use Cases</td>
+      <td>Session management, caching, leaderboard counts, token storage, quick retrieval by key.</td>
+      <td>
+        <em>Example:</em><br>
+        Key: <strong>"session:abc123"</strong><br>
+        Value: <strong>"{'user_id': 1001, 'expires': '2025-03-09T15:00:00'}"</strong>
+      </td>
+    </tr>
+    <tr>
+      <td>Common Commands</td>
+      <td>Set, Get, Delete by key.</td>
+      <td>
+        <strong>Redis Example:</strong><br>
+        <code>SET user:1001 "John Doe"</code><br>
+        <code>GET user:1001</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Document Databases</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+      <th>Schema Example</th>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td>Stores data as documents (usually JSON or BSON). Offers flexible schema and advanced querying. Examples: MongoDB, CouchDB, Firestore.</td>
+      <td>
+        <em>MongoDB Document Example:</em><br>
+        <code>{
+    "_id": 1001,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "orders": [
+      {
+        "order_id": 500,
+        "total": 89.99
+      }
+    ]
+  }</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Typical Use Cases</td>
+      <td>Content management systems, user profiles, event logging, any scenario requiring flexible data structures.</td>
+      <td>
+        <em>Collection:</em> "users"<br>
+        <em>Documents:</em> represent individual user profiles, each can have different fields if needed.
+      </td>
+    </tr>
+    <tr>
+      <td>Common Commands</td>
+      <td>Insert, Find, Update, Delete (typical CRUD operations). Also supports indexing for fields.</td>
+      <td>
+        <strong>MongoDB Example:</strong><br>
+        <code>db.users.insertOne({ _id: 1001, name: "John Doe" })</code><br>
+        <code>db.users.find({ _id: 1001 })</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Query Flexibility</td>
+      <td>Can query nested fields, arrays, and perform aggregations. Supports advanced operators like <code>$in</code>, <code>$lt</code>, <code>$regex</code>, etc.</td>
+      <td>
+        <strong>Aggregation Example:</strong><br>
+        <code>db.orders.aggregate([
+    { $match: { status: "shipped" } },
+    { $group: { _id: "$customerId", totalSpent: { $sum: "$amount" } } }
+  ])</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Column-Family Databases</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+      <th>Schema Example</th>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td>Organize data into column families, which contain rows that can have varying columns. Optimized for reading/writing large volumes of data. Examples: Cassandra, HBase.</td>
+      <td>
+        <em>Cassandra Table Example:</em><br>
+        Keyspace: <strong>my_app</strong><br>
+        Table: <strong>users</strong><br>
+        Primary key: <strong>(user_id)</strong><br><br>
+        <code>
+        CREATE TABLE users (
+          user_id int,
+          name text,
+          email text,
+          PRIMARY KEY (user_id)
+        );
+        </code>
+      </td>
+    </tr>
+    <tr>
+      <td>Typical Use Cases</td>
+      <td>High write throughput, large-scale analytics, time-series data, event logging with predictable query patterns.</td>
+      <td>
+        <em>Example:</em><br>
+        For storing sensor readings, each row can have columns for each timestamp. 
+      </td>
+    </tr>
+    <tr>
+      <td>Common Commands</td>
+      <td>CQL (Cassandra Query Language) is similar to SQL. You define tables, insert/update data, use partition keys, clustering keys, etc.</td>
+      <td>
+        <strong>Cassandra Example:</strong><br>
+        <code>INSERT INTO users (user_id, name, email)
+  VALUES (1001, 'John Doe', 'john@example.com');</code>
+      </td>
+    </tr>
+    <tr>
+      <td>Partitioning</td>
+      <td>Data is distributed across the cluster using partition keys for horizontal scalability. Careful design of partition keys is crucial for performance.</td>
+      <td>
+        <em>Partition Key Example:</em><br>
+        <code>PRIMARY KEY ((user_id), some_other_key)</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>Graph Databases</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+      <th>Schema Example</th>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td>Designed to store data in nodes and relationships (edges). Excellent for highly interconnected data. Examples: Neo4j, JanusGraph.</td>
+      <td>
+        <em>Neo4j Schema Example:</em><br>
+        <strong>Nodes:</strong> (Person { name: "John", age: 30 })<br>
+        <strong>Relationship:</strong> (John)-[:KNOWS]->(Jane)
+      </td>
+    </tr>
+    <tr>
+      <td>Typical Use Cases</td>
+      <td>Social networks, recommendation engines, fraud detection, network topologies, or anything requiring graph traversal.</td>
+      <td>
+        <em>Example:</em> A "Friend of a Friend" search or shortest path between entities.
+      </td>
+    </tr>
+    <tr>
+      <td>Common Commands / Query Language</td>
+      <td>Cypher (Neo4j), Gremlin (Apache TinkerPop). Queries use pattern matching on node labels and relationships.</td>
+      <td>
+        <strong>Neo4j Cypher Query Example:</strong><br>
+        <code>MATCH (p:Person)-[:KNOWS]->(friend:Person)
+  WHERE p.name = "John"
+  RETURN friend;</code>
+      </td>
+    </tr>
+  </table>
+  
+  <h3>General Best Practices</h3>
+  <table>
+    <tr>
+      <th>Practice</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>Know Your Access Patterns</td>
+      <td>Design your schema (or data model) around how data is queried. This is critical in NoSQL to optimize performance.</td>
+    </tr>
+    <tr>
+      <td>Use Indexes Wisely</td>
+      <td>Indexes speed up reads but can slow writes and use additional memory/disk. Only index what you really need.</td>
+    </tr>
+    <tr>
+      <td>Partition / Shard Carefully</td>
+      <td>Even data distribution across clusters is important for performance. Avoid hotspots by choosing keys that won’t concentrate loads on a single node.</td>
+    </tr>
+    <tr>
+      <td>Monitor and Tune</td>
+      <td>Monitor query performance, resource usage, and replication lag. Tweak configurations (e.g., read/write consistency levels) for your workload.</td>
+    </tr>
+    <tr>
+      <td>Security and Backups</td>
+      <td>Enable authentication/authorization, encrypt data at rest and in transit, and have a reliable backup/recovery strategy.</td>
+    </tr>
+  </table></div>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+</html>

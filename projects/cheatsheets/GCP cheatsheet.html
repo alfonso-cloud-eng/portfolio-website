@@ -1,0 +1,3703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GCP Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('../../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="../../images/gcp.png">
+  <h1>GCP Cheatsheet</h1>
+  <p class="header-note">(Click to expand each section)</p>
+</div>
+
+<!-- Tables -->
+<div>
+<h2>1. Cloud Computing Fundamentals</h2>
+
+  <details><summary><h3>1.1. What is cloud computing?</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition</strong></th>
+          <th><strong>Key Points / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cloud Computing (NIST Definition)</strong></td>
+          <td>The delivery of a shared pool of on-demand computing resources (e.g., servers, storage, networking, databases) over the public internet, provisioned with minimal effort or provider interaction.</td>
+          <td>
+            <ul>
+              <li>Eliminates the need for significant upfront infrastructure.</li>
+              <li>Pay-per-use model.</li>
+              <li>Enables faster provisioning of resources for scalability.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>On-Demand Self-Service</strong></td>
+          <td>Ability to provision computing resources automatically, without direct human interaction from the service provider.</td>
+          <td>
+            <ul>
+              <li>Spin up or tear down resources (e.g., virtual machines, storage) at any time.</li>
+              <li>No need to contact support just to create more instances.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Broad Network Access</strong></td>
+          <td>Services are available over the network and accessible through standard mechanisms (e.g., web browsers, mobile, APIs).</td>
+          <td>
+            <ul>
+              <li>Access from various devices (phones, tablets, laptops, etc.).</li>
+              <li>Ensures availability of resources from anywhere.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Resource Pooling</strong></td>
+          <td>Provider’s computing resources serve multiple customers via a multi-tenant model, while ensuring data privacy and security for each.</td>
+          <td>
+            <ul>
+              <li>Similar to an apartment building sharing electricity and water but still maintaining private apartments.</li>
+              <li>Customers do not control exact physical resource locations but can often choose a region or zone at a higher abstraction level.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Rapid Elasticity</strong></td>
+          <td>The ability to scale resources up or down—often automatically—to match demand.</td>
+          <td>
+            <ul>
+              <li>A core benefit of cloud computing.</li>
+              <li>Appears effectively “unlimited” to the consumer, provisioning at any scale, at any time.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Measured Service</strong></td>
+          <td>Resource usage is monitored, measured, and reported, enabling a pay-for-use model.</td>
+          <td>
+            <ul>
+              <li>Pay only for what you consume (instances, storage, bandwidth).</li>
+              <li>Transparent usage reporting for both provider and consumer.</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>1.2. Cloud Deployment Models</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition</strong></th>
+          <th><strong>Key Points / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Public Cloud</strong></td>
+          <td>Cloud services offered by third-party providers over the public internet.</td>
+          <td>
+            <ul>
+              <li>Examples: Google Cloud (GCP), AWS, Azure.</li>
+              <li>Infrastructure is fully owned and managed by the provider.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Multi-Cloud</strong></td>
+          <td>Using multiple public clouds together (e.g., GCP + AWS + Azure) as part of one environment or strategy.</td>
+          <td>
+            <ul>
+              <li>Useful for disaster recovery (DR) and mitigating vendor lock-in.</li>
+              <li>Often more complex since you lose the benefits of unique, proprietary features from each cloud.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Private Cloud</strong></td>
+          <td>An on-premises cloud dedicated to a single organization, still meeting the five essential cloud characteristics.</td>
+          <td>
+            <ul>
+              <li>Implementations include GCP Anthos, AWS Outposts, Azure Stack.</li>
+              <li>Not just regular on-prem with virtualization; must fulfill NIST cloud characteristics (on-demand, elasticity, measured service, etc.).</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Hybrid Cloud</strong></td>
+          <td>A single “cloud-like” environment that combines private cloud and public cloud.</td>
+          <td>
+            <ul>
+              <li>Must provide consistent tooling and interface between private and public.</li>
+              <li><strong>Important</strong>: Merely connecting on-prem to a public cloud is called a “hybrid environment,” not necessarily a true “hybrid cloud” unless it meets cloud characteristics on-prem.</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>1.3. Cloud Service Models (XaaS)</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Service Model</strong></th>
+          <th><strong>Definition</strong></th>
+          <th><strong>Key Points / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>IaaS (Infrastructure as a Service)</strong></td>
+          <td>The vendor abstracts and manages the underlying data center, networking, servers, storage, and virtualization layers. You manage OS, runtime, apps, data.</td>
+          <td>
+            <ul>
+              <li>Example: <strong>Compute Engine</strong> on GCP (you handle OS patching, app deployment).</li>
+              <li>Unit of consumption: <strong>Operating System</strong> (you control and maintain it).</li>
+              <li>Most flexibility next to on-prem, but more management overhead than PaaS or SaaS.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>PaaS (Platform as a Service)</strong></td>
+          <td>The vendor abstracts data center, networking, servers, storage, virtualization, <strong>and</strong> the runtime/operating system. You manage the application and data.</td>
+          <td>
+            <ul>
+              <li>Example: <strong>App Engine</strong> on GCP (you only focus on your code and data).</li>
+              <li>Unit of consumption: <strong>Runtime</strong> (the environment you deploy code to).</li>
+              <li>Simplifies deployment for developers; no need to worry about OS or scaling servers.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>SaaS (Software as a Service)</strong></td>
+          <td>The vendor handles everything, delivering the software to you as a web or API-based service.</td>
+          <td>
+            <ul>
+              <li>Example: <strong>Google Workspace / G Suite</strong>, Microsoft Office 365.</li>
+              <li>Unit of consumption: <strong>The Application</strong> (you just use it).</li>
+              <li>Least management overhead, but least flexibility.</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>XaaS (Anything as a Service)</strong></td>
+          <td>An umbrella term for any service delivered over the cloud (e.g., FaaS, CaaS, DBaaS).</td>
+          <td>
+            <ul>
+              <li>GCP also includes services like <strong>Functions (FaaS)</strong> or <strong>Cloud Run (CaaS)</strong>.</li>
+              <li>Continuing expansions of cloud-managed solutions.</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+<h2>2. Google Cloud Fundamentals</h2>
+
+  <details><summary><h3>2.1. Google Cloud Global Infrastructure</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition</strong></th>
+          <th><strong>Key Points / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Private Global Network</strong></td>
+          <td>Google’s private high-bandwidth, low-latency network that interconnects its data centers worldwide.</td>
+          <td>
+            - Traffic typically remains on Google’s private backbone, ensuring high performance and security. <br/>
+            - Includes extensive fiber, points of presence (PoPs), and subsea cables across continents.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Regions</strong></td>
+          <td>Independent geographic areas that contain multiple zones.</td>
+          <td>
+            - Each region can have several zones (usually 3+). <br/>
+            - Inter-zone latency within a region is typically under 5 ms. <br/>
+            - Deploying services across multiple zones in a region improves fault tolerance.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Zones</strong></td>
+          <td>The smallest deployment entity within a region, acting as an isolated failure domain.</td>
+          <td>
+            - Resources (like Compute Engine instances) live in a specific zone. <br/>
+            - Redundant design: if one zone goes down, others remain unaffected.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Multi-Regions</strong></td>
+          <td>Large geographic areas containing multiple regions.</td>
+          <td>
+            - Used for maximum redundancy, distribution, or availability. <br/>
+            - Data is stored and replicated across multiple regions within the multi-region.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Points of Presence (PoP)</strong></td>
+          <td>Edge locations or network entry points where traffic enters/exits Google’s backbone.</td>
+          <td>
+            - Optimizes latency by routing requests to the nearest PoP. <br/>
+            - Also known as Google’s “edge network.”
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Subsea Cables</strong></td>
+          <td>High-capacity undersea fiber cables connecting continents.</td>
+          <td>
+            - Google invests heavily in private subsea cables. <br/>
+            - Enables fast, low-latency connectivity between major geographic areas.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>2.2. Compute Service Options</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Service</strong></th>
+          <th><strong>Service Model</strong></th>
+          <th><strong>Definition</strong></th>
+          <th><strong>Key Points / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Compute Engine</strong></td>
+          <td>IaaS (Infrastructure as a Service)</td>
+          <td>Virtual machines (VMs) running in Google’s data centers.</td>
+          <td>
+            - Complete control over OS, software, libraries. <br/>
+            - You manage patching, scaling (auto-scaling possible with instance groups). <br/>
+            - Supports custom or public images, plus marketplace solutions.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Google Kubernetes Engine (GKE)</strong></td>
+          <td>CaaS (Container as a Service)</td>
+          <td>Managed Kubernetes environment for container orchestration.</td>
+          <td>
+            - Runs on top of Compute Engine instances as worker nodes. <br/>
+            - Automates container deployment, scaling, and management. <br/>
+            - Based on open-source Kubernetes, so it’s portable between on-prem/other clouds if also running Kubernetes.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>App Engine</strong></td>
+          <td>PaaS (Platform as a Service)</td>
+          <td>Fully managed platform for building and hosting web apps.</td>
+          <td>
+            - Auto-scales based on traffic. <br/>
+            - Abstracts OS management, security updates, runtime patching. <br/>
+            - Supports common languages (Java, Python, Go, Node.js, etc.) and custom runtimes.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Cloud Functions</strong></td>
+          <td>FaaS (Function as a Service)</td>
+          <td>Serverless environment to run short-lived functions triggered by events.</td>
+          <td>
+            - No server management; pay only for execution time. <br/>
+            - Integrates well with other GCP services (e.g., Cloud Storage triggers, Pub/Sub, etc.). <br/>
+            - Good for lightweight, event-driven microservices, data processing, and real-time event handling.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Cloud Run</strong></td>
+          <td>Serverless (also considered FaaS/CaaS)</td>
+          <td>Fully managed compute for containerized apps, built on KNative.</td>
+          <td>
+            - Deploy any container with your choice of language, runtime, or libraries. <br/>
+            - Scales to zero when no traffic; scales up instantly on demand. <br/>
+            - Often described as “serverless containers.”
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>2.3 Storage & Database Options</h3></summary>
+    <h4>2.3.1 Storage Services</h4>
+    <table>
+        <thead>
+          <tr>
+            <th><strong>Service</strong></th>
+            <th><strong>Type</strong></th>
+            <th><strong>Definition</strong></th>
+            <th><strong>Key Points / Explanation</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cloud Storage</strong></td>
+            <td>Object Storage</td>
+            <td>Scalable, durable, highly available object storage (documents, images, backups, etc.).</td>
+            <td>
+              - 11 “nines” of durability (99.999999999%). <br/>
+              - Multiple storage classes (Standard, Nearline, Coldline, Archive) for cost optimization based on access frequency. <br/>
+              - Availability options: Regional, Dual-Regional, or Multi-Regional.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Filestore</strong></td>
+            <td>File Storage</td>
+            <td>Fully managed NFS (Network File System) for sharing files across multiple Compute Engine VMs or GKE.</td>
+            <td>
+              - NFS v3 compliant. <br/>
+              - Useful when multiple VMs/containers need concurrent read/write access to the same shared file system.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Persistent Disk</strong></td>
+            <td>Block Storage</td>
+            <td>Durable block storage volumes for Compute Engine (VM) instances.</td>
+            <td>
+              - Attached to a single VM for OS/data disk use. <br/>
+              - Available as HDD (Standard) or SSD for higher IOPS, lower latency. <br/>
+              - Zonal or regional replication options.<br/><br/>
+              <b>Disk Types in GCP</b><br/>
+              • Persistent Disks: They’re like a safe box that keeps your data even when your VM is off, available as slower standard disks or faster SSDs.<br>
+              • Local SSDs: These are super-fast disks attached right to your VM, but they lose their data when the VM stops.<br>
+              • Boot Disks: A kind of persistent disk that holds the operating system so your VM can start and run.</td>
+          </tr>
+        </tbody>
+    </table>
+    <h4>2.3.2 Database Services</h4>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Service</strong></th>
+          <th><strong>Type</strong></th>
+          <th><strong>Definition</strong></th>
+          <th><strong>Key Points / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cloud SQL</strong></td>
+          <td>Relational (SQL)</td>
+          <td>Fully managed SQL database (MySQL, PostgreSQL, SQL Server).</td>
+          <td>
+            - Automated backups, replication, patching, scaling. <br/>
+            - Zonal high-availability; can set up cross-region read replicas.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Cloud Spanner</strong></td>
+          <td>Relational (SQL)</td>
+          <td>Horizontally scalable, strongly consistent, globally distributed relational database.</td>
+          <td>
+            - Handles high transaction volume with strong consistency. <br/>
+            - Multi-region or even global replication. <br/>
+            - Used for mission-critical apps needing global scale and ACID transactions.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Bigtable</strong></td>
+          <td>NoSQL (Wide-Column)</td>
+          <td>Fully managed, high-throughput, low-latency NoSQL database (inspired by Google’s internal Bigtable system).</td>
+          <td>
+            - Good for large analytic or operational workloads (e.g., IoT, time-series data). <br/>
+            - Scales to petabytes. <br/>
+            - Cluster resizing without downtime.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Datastore</strong> / <strong>Firestore</strong></td>
+          <td>NoSQL (Document)</td>
+          <td>Schemaless or document-style databases often used for web/mobile/IoT apps.</td>
+          <td>
+            - <strong>Datastore</strong>: multi-region replication, ACID transactions. <br/>
+            - <strong>Firestore</strong>: near-real-time updates, designed for offline use, easy integration with Firebase for mobile. <br/>
+            - Both scale automatically and can handle millions of reads/writes.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Memorystore</strong></td>
+          <td>In-Memory Cache</td>
+          <td>Fully managed Redis or Memcached in-memory data store.</td>
+          <td>
+            - Low latency caching layer for frequently accessed data. <br/>
+            - Helps scale read performance in high-traffic scenarios.<br/>
+            <i>Memorystore/Redis is a managed in-memory cache that multiple applications can share for rapid data access, whereas local SSDs are high-speed, VM-attached disks used for fast, temporary storage that lose data when the VM stops.</i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>2.4 Networking Services</h3></summary>
+    <table>
+        <thead>
+          <tr>
+            <th><strong>Concept / Service</strong></th>
+            <th><strong>Definition</strong></th>
+            <th><strong>Key Points / Explanation</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>VPC (Virtual Private Cloud)</strong></td>
+            <td>A virtualized global network that manages networking for GCP resources.</td>
+            <td>
+              - Acts like your “virtual data center.” <br/>
+              - Global scope spans all GCP regions. <br/>
+              - You can create subnets per region, control IP ranges, and segment networks. <br/>
+              - Each project has a default VPC; you can create additional VPCs if needed.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Firewall Rules</strong></td>
+            <td>Control inbound/outbound traffic at the instance level, globally distributed.</td>
+            <td>
+              - Defaults exist (allow internal traffic, SSH, etc.), and you can define custom rules. <br/>
+              - Stateful firewall; traffic is allowed or denied based on rules.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Routes</strong></td>
+            <td>Specify how traffic leaves an instance and gets routed to other destinations.</td>
+            <td>
+              - Default route to the internet, plus additional routes for custom routing scenarios. <br/>
+              - Work with firewall rules to manage traffic flow.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Load Balancing</strong></td>
+            <td>Distributes inbound traffic across multiple backends/instances to handle workloads efficiently.</td>
+            <td>
+              - <strong>HTTP/HTTPS Load Balancing</strong>: Global, Layer 7 load balancing with content-based routing. <br/>
+              - <strong>Network Load Balancing</strong>: Regional, Layer 4 load balancing for TCP/UDP traffic.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Cloud DNS</strong></td>
+            <td>Google’s managed DNS service, using the same infrastructure as Google’s own DNS.</td>
+            <td>
+              - Create/maintain DNS records (A, AAAA, MX, CNAME, TXT, etc.) in managed zones. <br/>
+              - Low-latency, high-availability DNS resolution.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Cloud VPN</strong></td>
+            <td>Secure IPsec connection between on-premises network and GCP VPC over the public internet.</td>
+            <td>
+              - Encrypted traffic using VPN tunnels. <br/>
+              - Ideal for lower-volume or basic hybrid scenarios.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Direct Interconnect</strong></td>
+            <td>Dedicated high-speed, private connection from on-premises data center to GCP, bypassing the public internet.</td>
+            <td>
+              - Provides low latency, high availability. <br/>
+              - Suited for large data transfers, stable throughput needs.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Peering (Direct/Carrier)</strong></td>
+            <td>Connects your network to Google’s edge through a peering exchange or via a carrier partner.</td>
+            <td>
+              - Direct peering: exchange traffic directly with Google at a peering facility. <br/>
+              - Carrier peering: traffic flows to GCP through a partner’s network.
+            </td>
+          </tr>
+        </tbody>
+    </table>
+  </details>
+
+<h2>3. GCP Account Setup & Management</h2>
+
+<details><summary><h3>3.1 Resource Hierarchy</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Resource</strong></td>
+          <td>Any entity you use in GCP, e.g., Compute Engine VMs, Cloud Storage buckets, Cloud SQL instances, plus higher-level “account” resources (projects, folders, organization).</td>
+        </tr>
+        <tr>
+          <td><strong>Resource Hierarchy</strong></td>
+          <td>A structure (organization → folders → projects → service-level resources) for organizing and managing cloud resources.</td>
+        </tr>
+        <tr>
+          <td><strong>Parent-Child Relationship</strong></td>
+          <td>Policies/permissions set at a parent resource are inherited by its children. Each child has exactly one parent.</td>
+        </tr>
+        <tr>
+          <td><strong>Organization Node</strong></td>
+          <td>The root of the hierarchy, associated with one G Suite/Cloud Identity domain. IAM policies set at this level apply across all folders/projects/resources.</td>
+        </tr>
+        <tr>
+          <td><strong>Folders</strong></td>
+          <td>An optional grouping mechanism between organization and projects (e.g., by department or environment). Must have an organization node to use folders. Each folder can contain multiple child folders or projects, but any folder/project has exactly one parent.</td>
+        </tr>
+        <tr>
+          <td><strong>Projects</strong></td>
+          <td>The required base-level grouping entity for using GCP services; all service resources belong to a single project. A project can only belong to one folder or the organization if no folders are used.</td>
+        </tr>
+        <tr>
+          <td><strong>Service-Level Resources</strong></td>
+          <td>Actual resources you create (VMs, buckets, databases, etc.). They sit at the bottom of the hierarchy, inside a project.</td>
+        </tr>
+        <tr>
+          <td><strong>Labels</strong></td>
+          <td>Key-value pairs that help organize and filter resources, especially for cost tracking.</td>
+        </tr>
+        <tr>
+          <td><strong>IAM Policy Inheritance</strong></td>
+          <td>Setting an IAM policy at one level automatically applies that policy to child objects. E.g., a role assigned at the folder level flows down to all projects/resources under that folder.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>3.2 Creating a Free Tier Account</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Step / Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Free Tier</strong></td>
+          <td>
+            - 12-month free trial.<br>
+            - $300 USD credit (or local currency equivalent) to explore GCP.<br>
+            - Personal (individual) account only, not a business account.<br>
+            - Ends when credits are used or 12 months pass.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Always Free</strong></td>
+          <td>
+            - Set of services/resources GCP provides at no cost indefinitely (within usage limits).<br>
+            - Available on any upgraded GCP account (i.e., after you’ve added billing details).<br>
+            - If usage goes beyond the free limits, standard billing applies.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Requirements</strong></td>
+          <td>
+            - A <strong>new</strong> Gmail address (to avoid conflicts).<br>
+            - A valid credit/debit card (for verification).<br>
+            - (Optional) Use Incognito/Private Browser session to avoid accidental account collisions.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Steps to Create</strong></td>
+          <td>
+            1. Go to the Free Trial URL (cloud.google.com/free).<br>
+            2. Create a new Google/Gmail account if needed.<br>
+            3. Provide credit card info for identity verification (no charges unless you exceed credits).<br>
+            4. Accept terms to start the free trial.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Verification &amp; Setup</strong></td>
+          <td>
+            - Google may send you a phone verification code.<br>
+            - Once complete, you see your free trial credit displayed in the GCP Console’s billing section.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>3.3 Securing Your Account (Two-Step Verification)</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Two-Step Verification</strong></td>
+          <td>An extra layer of account security requiring something you <em>know</em> (your password) and something you <em>have</em> (phone/security key). If your password is compromised, attackers still need physical access to the second factor.</td>
+        </tr>
+        <tr>
+          <td><strong>Verification Methods</strong></td>
+          <td>
+            - <strong>Text/Voice Call</strong>: Google sends a code via SMS or phone.<br>
+            - <strong>Authenticator App</strong>: Generates one-time codes (e.g., Google Authenticator).<br>
+            - <strong>Google Prompt</strong>: Approve sign-ins via push notification.<br>
+            - <strong>Security Key</strong>: Physical USB/NFC key for strong protection against phishing.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Backup Codes</strong></td>
+          <td>One-time codes you can download/print in case your phone/security key is unavailable.</td>
+        </tr>
+        <tr>
+          <td><strong>Best Practices</strong></td>
+          <td>
+            - Always enable multi-factor auth (MFA) for <em>all</em> admin and personal GCP accounts.<br>
+            - Use push notifications or security keys if possible (fewer SIM-swap risks).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+  <details><summary><h3>3.4 GCP Console Overview</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Feature</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Console Home Page</strong></td>
+          <td>- Displays summary “cards” about recent activity, project info, billing, etc.<br>- You can customize which cards appear.</td>
+        </tr>
+        <tr>
+          <td><strong>Navigation Menu</strong></td>
+          <td>- “Hamburger” menu in the top-left corner gives access to all GCP services grouped by category (Compute, Networking, etc.).<br>- You can “pin” frequently used services to the top for quick access.</td>
+        </tr>
+        <tr>
+          <td><strong>Search Bar</strong></td>
+          <td>- Quickly locate services, APIs, or even specific resources by name.</td>
+        </tr>
+        <tr>
+          <td><strong>Project Selector</strong></td>
+          <td>- Choose your active project in the top menu. Project-level resources (VMs, Cloud Functions, etc.) are accessed only under the currently selected project.</td>
+        </tr>
+        <tr>
+          <td><strong>Console Top Bar</strong></td>
+          <td>- <strong>Activate Cloud Shell</strong> icon for terminal access to GCP resources.<br>- <strong>Notifications</strong> (bell icon) for events/logs.<br>- <strong>Help</strong> (question mark icon) for docs/keyboard shortcuts.</td>
+        </tr>
+        <tr>
+          <td><strong>Activity &amp; Recommendations</strong></td>
+          <td>
+            - <strong>Activity</strong> tab shows recent actions (creating resources, changing IAM, etc.).<br>
+            - <strong>Recommendations</strong> shows cost or performance suggestions from GCP’s Recommender service (e.g., right-sizing VMs).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>3.5 Cloud Billing</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cloud Billing Account</strong></td>
+          <td>Tracks costs for GCP usage. Linked to at least one payment method (credit card or bank account). Can pay for multiple projects.</td>
+        </tr>
+        <tr>
+          <td><strong>Payments Profile</strong></td>
+          <td>A Google-level resource storing payment methods, billing contacts, and legal information. Used across Google services (not just GCP).</td>
+        </tr>
+        <tr>
+          <td><strong>Billing Account Types</strong></td>
+          <td>
+            - <strong>Self-Service (Online)</strong>: Credit/debit card auto-charged, invoices visible online.<br>
+            - <strong>Invoiced (Offline)</strong>: Must qualify for invoice billing; pay via check/wire transfer, and receive monthly invoices by mail or electronically.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Sub-Accounts</strong></td>
+          <td>Used by resellers to group charges (e.g., multiple customers) on a separate section of the invoice. Linked to a master billing account.</td>
+        </tr>
+        <tr>
+          <td><strong>Ownership &amp; Linking</strong></td>
+          <td>- A single organization owns a billing account (though it can pay for projects in different orgs).<br>- A project without an attached billing account can only use GCP’s free services (limited usage).</td>
+        </tr>
+        <tr>
+          <td><strong>Roles &amp; Permissions</strong></td>
+          <td>Billing access is controlled by IAM roles, e.g., Billing Account Administrator, Billing Account Creator, Billing Account User, etc.</td>
+        </tr>
+        <tr>
+          <td><strong>Creating/Editing/Closing</strong></td>
+          <td>
+            - You can create new billing accounts (must have Billing Account Creator role).<br>
+            - Link/unlink projects (Project Billing Manager + appropriate billing roles).<br>
+            - Close billing accounts after detaching all projects.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>3.6 Controlling Costs &amp; Budget Alerts</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Committed Use Discounts</strong></td>
+          <td>You commit to a specific level of resources/usage for 1-3 years, in exchange for reduced hourly rates on those resources.</td>
+        </tr>
+        <tr>
+          <td><strong>Resource-Based Commitments</strong></td>
+          <td>Commit to a certain amount of vCPUs, memory, GPUs, etc. in a particular region for Compute Engine. Discounts up to 57% for most machine types (up to 70% for memory-optimized).</td>
+        </tr>
+        <tr>
+          <td><strong>Spend-Based Commitments</strong></td>
+          <td>Commit to a spending level ($ per hour) for specific services, such as Cloud SQL or VMware Engine. Discounts up to ~25-52% depending on 1-year or 3-year.</td>
+        </tr>
+        <tr>
+          <td><strong>Sustained Use Discounts</strong></td>
+          <td>Automatic discounts for Compute Engine when you run resources (general purpose/memory-optimized VMs) for a substantial portion of the month (25%+). Scales up to 30% max discount.</td>
+        </tr>
+        <tr>
+          <td><strong>GCP Pricing Calculator</strong></td>
+          <td>Web tool to estimate monthly costs for a planned architecture. Helps forecast spend in advance (cloud.google.com/products/calculator/).</td>
+        </tr>
+        <tr>
+          <td><strong>Budgets &amp; Budget Alerts</strong></td>
+          <td>
+            - Define a budget amount for a billing account or specific projects.<br>
+            - Set thresholds to trigger email alerts (50%, 90%, 100%, etc.) of your budget.<br>
+            - By default, emails go to Billing Admins/Users. You can configure additional recipients via Cloud Monitoring or integrate with Pub/Sub for automated responses.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Pub/Sub Integration</strong></td>
+          <td>Programmatic notifications when budgets exceed thresholds. Example automations: shut down expensive resources, push Slack alerts, or freeze new deployments.</td>
+        </tr>
+        <tr>
+          <td><strong>Reservations</strong></td>
+          <td>Reserve (and guarantee availability of) certain VM resources (e.g., a certain number of cores/CPUs in a region). Pairs well with committed use discounts for consistent, predictable workloads.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>3.7 Billing Export</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Billing Export to BigQuery</td>
+        <td>Automatically export granular billing data (usage cost details, pricing) from GCP to a BigQuery dataset.</td>
+      </tr>
+      <tr>
+        <td>Daily Cost Detail</td>
+        <td>Exports daily usage and costs at a detailed level.</td>
+      </tr>
+      <tr>
+        <td>Pricing Data</td>
+        <td>Optionally exports GCP’s list pricing information to BigQuery.</td>
+      </tr>
+      <tr>
+        <td>Use Cases</td>
+        <td>- Analyze spend in BigQuery or visualize via tools like Looker Studio (Data Studio).<br>
+            - Helps with cost optimization, trend analysis, and custom dashboards.</td>
+      </tr>
+      <tr>
+        <td>Important Note</td>
+        <td>Billing export is <strong>not retroactive</strong>; data is collected only after you enable this feature.</td>
+      </tr>
+      <tr>
+        <td>Setup Steps</td>
+        <td>1. Create or choose a BigQuery dataset.<br>
+            2. Enable billing export in GCP Console (link dataset).<br>
+            3. Enable the BigQuery Data Transfer Service API.<br>
+            4. Data is updated daily (for cost detail).</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>3.8 Cloud APIs</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Cloud APIs</td>
+        <td>The set of GCP service endpoints that let you programmatically control and integrate GCP resources (e.g. Compute Engine API, BigQuery API, etc.).</td>
+      </tr>
+      <tr>
+        <td>Enable an API</td>
+        <td>You must enable each API at the project level before you can use it (via Console, gcloud CLI, or Service Usage API).</td>
+      </tr>
+      <tr>
+        <td>API Library</td>
+        <td>Console section listing available GCP APIs. Allows quick enabling/disabling.</td>
+      </tr>
+      <tr>
+        <td>Monitoring / Quotas</td>
+        <td>API usage can be tracked in the API Dashboard (IAM & Admin → Quotas). Quotas help prevent excessive usage.</td>
+      </tr>
+      <tr>
+        <td>Automation</td>
+        <td>Accessing Cloud APIs directly allows you to script or code solutions in your preferred language. gcloud/Console also use these APIs under the hood.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>3.9 Adding an Admin User</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Super Admin Account</td>
+        <td>- Exists in G Suite / Cloud Identity setups.<br>
+            - Has irrevocable org-level permissions (can grant Organization Admin, etc.).<br>
+            - Should <em>not</em> be used for daily tasks (principle of least privilege).</td>
+      </tr>
+      <tr>
+        <td>Personal Gmail Approach</td>
+        <td>- If you do <em>not</em> have G Suite / Cloud Identity, you may use personal Gmail accounts as separate “admin” or “user” accounts.<br>
+            - Each standalone Gmail account can have distinct billing & IAM roles.</td>
+      </tr>
+      <tr>
+        <td>Billing Account Admin vs. User</td>
+        <td>- <strong>Billing Account Admin</strong>: Full control over billing (budgets, payment methods, etc.).<br>
+            - <strong>Billing Account User</strong>: Can link/unlink projects to the billing account but <em>cannot</em> modify payment methods or budgets.</td>
+      </tr>
+      <tr>
+        <td>Principle of Least Privilege</td>
+        <td>Assign only the minimum required roles (e.g., a second user might only need Billing Account User if they just need to attach projects to billing).</td>
+      </tr>
+      <tr>
+        <td>Steps to Add</td>
+        <td>1. In Console, go to Billing → Account Management.<br>
+            2. Add the new user’s email, select the appropriate role (e.g., Billing Account User).<br>
+            3. New user can log in, create projects, attach to that billing account, etc.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>3.10 Cloud SDK and CLI (Overview)</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Cloud SDK</td>
+        <td>A set of command-line tools (primarily <code>gcloud</code>, <code>gsutil</code>, <code>bq</code>) for managing GCP resources.</td>
+      </tr>
+      <tr>
+        <td>gcloud CLI</td>
+        <td>Main CLI tool for GCP. Allows you to create, update, delete resources (VMs, networks, etc.), manage IAM, billing, etc.</td>
+      </tr>
+      <tr>
+        <td>User vs. Service Account Auth</td>
+        <td>
+          - <strong>User Account</strong>: Tied to an individual’s Google identity. Good for interactive use on a single machine.<br>
+          - <strong>Service Account</strong>: Tied to a service identity. Often used for automation (scripts, CI/CD).
+        </td>
+      </tr>
+      <tr>
+        <td>Key Commands</td>
+        <td>
+          - <code>gcloud init</code>: Initialize & authorize the SDK; creates a configuration.<br>
+          - <code>gcloud auth login</code>: Authorize using user credentials.<br>
+          - <code>gcloud config</code>: Manage configurations (set account, project, zone, etc.).<br>
+          - <code>gcloud components</code>: Install/update additional CLI components.
+        </td>
+      </tr>
+      <tr>
+        <td>Command Format</td>
+        <td><code>gcloud [component] [entity] [operation] [arguments] [flags]</code> (e.g., <code>gcloud compute instances create …</code>).</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>3.11 Managing Cloud SDK</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Multiple Configurations</td>
+        <td>You can create named “profiles” of gcloud settings (e.g., <code>default</code>, <code>master</code>) to handle different accounts/projects. Switch with <code>gcloud config configurations activate &lt;NAME&gt;</code>.</td>
+      </tr>
+      <tr>
+        <td>Auth & Accounts</td>
+        <td>
+          - <code>gcloud auth list</code>: List all authorized accounts and shows which one is active.<br>
+          - <code>gcloud auth revoke &lt;ACCOUNT&gt;</code>: Remove credentials for an account.
+        </td>
+      </tr>
+      <tr>
+        <td>Set Config Properties</td>
+        <td><code>gcloud config set &lt;property&gt; &lt;value&gt;</code> (e.g., <code>gcloud config set project my-project</code>). Applies to the currently active configuration.</td>
+      </tr>
+      <tr>
+        <td>Components</td>
+        <td>
+          - <code>gcloud components install &lt;component&gt;</code>: Install optional tools (e.g., <code>kubectl</code>).<br>
+          - <code>gcloud components list</code>: See available components.<br>
+          - <code>gcloud components update</code>: Update all installed components to the latest version.
+        </td>
+      </tr>
+      <tr>
+        <td>Interactive Shell (beta)</td>
+        <td><code>gcloud beta interactive</code> provides inline autocompletion, hints, and command documentation.</td>
+      </tr>
+      <tr>
+        <td>Info & Logs</td>
+        <td><code>gcloud info</code>: Shows details about your SDK installation, project, active account, and config location.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>3.12 Cloud Shell & Editor</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Cloud Shell</td>
+        <td>A browser-based, ephemeral VM with the Cloud SDK & other dev tools preinstalled (git, Docker, Kubernetes tools, etc.). Authenticated as your user automatically.</td>
+      </tr>
+      <tr>
+        <td>Persistent Home Directory (5 GB)</td>
+        <td>Each user gets 5 GB of persistent storage mounted to <code>/home/&lt;user&gt;</code>. Data remains intact across sessions but sessions themselves are ephemeral. After 1 hour of inactivity, the VM is reclaimed, but files in <code>/home</code> persist.</td>
+      </tr>
+      <tr>
+        <td>Auto-Upgrade</td>
+        <td>Cloud Shell’s SDK components are updated weekly.</td>
+      </tr>
+      <tr>
+        <td>Code Editor</td>
+        <td>Integrated via Eclipse Theia. Allows browsing, editing files in your Cloud Shell environment.</td>
+      </tr>
+      <tr>
+        <td>Web Preview</td>
+        <td>Lets you preview web apps running in Cloud Shell on a secure proxy (ports typically 8080 or 8081). Accessible only to your logged-in user.</td>
+      </tr>
+      <tr>
+        <td>Customization</td>
+        <td>
+          - You can auto-install extra tools by creating <code>.customize_environment</code> in your home directory.<br>
+          - Boot script runs at session startup (e.g., to install Terraform, Helm, etc.).
+        </td>
+      </tr>
+      <tr>
+        <td>Quota & Limits</td>
+        <td>
+          - 50 hours/week usage limit.<br>
+          - If idle for 1 hour, session is terminated.<br>
+          - If you don’t use Cloud Shell for 120 days, your home disk is deleted (with warning).
+        </td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>3.13 Creating & Managing Projects</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Creating a Project</strong></td>
+        <td>- Each project is a separate namespace for resources.<br>- Must have a billing account linked (unless using only free-tier services).</td>
+      </tr>
+      <tr>
+        <td><strong>Switching Projects</strong></td>
+        <td>- GCP Console “Project Selector” or <code>gcloud config set project &lt;PROJECT_ID&gt;</code>.<br>- Each project has a unique ID (automatically assigned or custom).</td>
+      </tr>
+      <tr>
+        <td><strong>Linking to Billing</strong></td>
+        <td>- Users need appropriate billing roles to link a project to a billing account (e.g., Billing Account User + Project Owner).</td>
+      </tr>
+      <tr>
+        <td><strong>Permissions</strong></td>
+        <td>- Projects can be shared with other Google accounts via IAM roles.<br>- E.g., Project Editor, Project Owner, Project Viewer.</td>
+      </tr>
+      <tr>
+        <td><strong>Managing Multiple Projects</strong></td>
+        <td>- Best practice to isolate environments, e.g., dev/test/prod in separate projects.<br>- Each project can have distinct roles, budgets, APIs enabled, etc.</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>3.14 Limits & Quotas</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Quotas</strong></td>
+        <td>Resource usage limits for APIs/services at the project level (e.g., number of VMs, load balancers, requests per day).</td>
+      </tr>
+      <tr>
+        <td><strong>Types of Quotas</strong></td>
+        <td>- <strong>Rate Quotas</strong>: e.g., requests per second, per day (resets after time).<br>- <strong>Allocation Quotas</strong>: e.g., max number of VMs or CPU cores (must manually free up by deleting resources).</td>
+      </tr>
+      <tr>
+        <td><strong>Purpose</strong></td>
+        <td>- Protect GCP users from accidental usage spikes.<br>- Manage resource distribution among many customers.<br>- Provide a limit you can request to raise if needed.</td>
+      </tr>
+      <tr>
+        <td><strong>Viewing Quotas</strong></td>
+        <td>1. <strong>Quotas Page</strong> (IAM & Admin → Quotas) for a full project-wide list.<br>2. <strong>API Dashboard</strong> (APIs & Services → select an API → Quotas) for per-API usage over time.</td>
+      </tr>
+      <tr>
+        <td><strong>Requesting Increases</strong></td>
+        <td>- Select the quota, click “Edit Quotas,” specify new limit, and submit to Google for approval.<br>- Approval is often within ~2 business days.</td>
+      </tr>
+      <tr>
+        <td><strong>Quota Monitoring</strong></td>
+        <td>- Some services expose quota metrics in Cloud Monitoring (e.g., Compute Engine).<br>- You can create custom dashboards and alerts for near-quota usage.</td>
+      </tr>
+      <tr>
+        <td><strong>Errors</strong></td>
+        <td>Hitting a quota limit may return HTTP 429 or <code>resourceExhausted</code> (for gRPC).</td>
+      </tr>
+    </table>
+  </details>
+
+<h2>4. Identity and Access Management (IAM)</h2>
+
+<details><summary><h3>4.1 Core IAM Concepts</h3></summary>
+    <table >
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Principle of Least Privilege</strong></td>
+        <td>Grant only the minimum necessary permissions to users/services. Avoid broad roles (e.g., Owner, Editor) in favor of more granular ones.</td>
+      </tr>
+      <tr>
+        <td><strong>IAM</strong></td>
+        <td>&ldquo;Identity and Access Management&rdquo; in GCP. Manages who (member) has what (role/permission) on which resource.</td>
+      </tr>
+      <tr>
+        <td><strong>Policy</strong></td>
+        <td>Collection of statements/bindings specifying which members get which roles (and under what conditions). Attached to a resource (organization, folder, project, or resource).</td>
+      </tr>
+      <tr>
+        <td><strong>Binding</strong></td>
+        <td>Binds a <strong>role</strong> to one or more <strong>members</strong>, plus optional <strong>conditions</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong>Metadata (ETag, Version)</strong></td>
+        <td>
+          - <strong>Etag</strong>: Concurrency control token that changes each time the policy is updated.<br>
+          - <strong>Version</strong>: Specifies policy schema version (1, 3 are common). Version 3 supports conditions.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Audit Config</strong></td>
+        <td>Specifies which permission types (Admin Read, Data Read, Data Write) get logged, and which identities are exempted.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>4.2 Members (Identities)</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Member Type</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Google Account</strong></td>
+        <td>A user with a Google identity (e.g., gmail.com or a managed account in your domain).</td>
+      </tr>
+      <tr>
+        <td><strong>Service Account</strong></td>
+        <td>Special account for applications/VMs, not tied to a human. Used to authenticate workloads (e.g., GCE, GKE pods) to other GCP services.</td>
+      </tr>
+      <tr>
+        <td><strong>Google Group</strong></td>
+        <td>A named collection of accounts/service accounts. Granting roles to the group implicitly grants them to all members.</td>
+      </tr>
+      <tr>
+        <td><strong>G Suite/Cloud Identity Domain</strong></td>
+        <td>Represents all users under a specific domain (e.g., my-company.com). Can manage domain users centrally.</td>
+      </tr>
+      <tr>
+        <td><strong>allAuthenticatedUsers</strong></td>
+        <td>Anyone with a Google Account/Service Account authenticated with Google.</td>
+      </tr>
+      <tr>
+        <td><strong>allUsers</strong></td>
+        <td>Anyone on the internet (anonymous &amp; authenticated). <strong>Highly risky</strong>&mdash;grants public access.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>4.3 Roles &amp; Permissions</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Permission</strong></td>
+        <td>Action allowed on a service (e.g., <code>compute.instances.start</code>). Typically follows the pattern <code>service.resource.verb</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Role</strong></td>
+        <td>Named collection of permissions. You <strong>cannot</strong> grant permissions directly; you grant roles to members.</td>
+      </tr>
+      <tr>
+        <td><strong>Primitive Roles</strong></td>
+        <td>Owner, Editor, Viewer. Very broad. Apply at project level. <strong>Google recommends</strong> avoiding them except for small cases&mdash;prefer more granular roles.</td>
+      </tr>
+      <tr>
+        <td><strong>Predefined Roles</strong></td>
+        <td>Roles curated by Google for specific services. Provide fine-grained permissions. E.g., <code>compute.instanceAdmin.v1</code>, <code>storage.objectViewer</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>Custom Roles</strong></td>
+        <td>User-defined roles bundling specific permissions. Not automatically updated by Google. Created at org or project level. Let you tailor exactly which permissions are included.</td>
+      </tr>
+      <tr>
+        <td><strong>Launch Stage (Custom Roles)</strong></td>
+        <td>Each custom role has a stage: alpha, beta, or GA. Mainly for internal lifecycle tracking.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>4.4 Policy Inheritance &amp; Conditions</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Hierarchy</strong></td>
+        <td>Org &rarr; Folders &rarr; Projects &rarr; Resources. A resource inherits the union of policies from higher levels.</td>
+      </tr>
+      <tr>
+        <td><strong>Effective Policy</strong></td>
+        <td>Union of the resource&rsquo;s own policy + all inherited policies from ancestors.</td>
+      </tr>
+      <tr>
+        <td><strong>Policy Versions</strong></td>
+        <td>
+          - <strong>v1</strong>: Standard (no conditions).<br>
+          - <strong>v2</strong>: Internal to Google.<br>
+          - <strong>v3</strong>: Supports <strong>conditions</strong>.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Condition</strong></td>
+        <td>A logic expression restricting the role binding to specific context (e.g. time-based, IP-based). If condition is false, no access is granted.</td>
+      </tr>
+      <tr>
+        <td><strong>Time-Based Access</strong></td>
+        <td>Example: Grant role only until a certain date/time, or only during specific hours.</td>
+      </tr>
+      <tr>
+        <td><strong>Resource-Based Access</strong></td>
+        <td>Example: Grant roles only for certain resource name patterns or regions.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>4.5 Service Accounts</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Service Account</strong></td>
+        <td>Non-human account for apps/VMs to access GCP APIs. Identified by unique email (e.g., <code>my-sa@my-project.iam.gserviceaccount.com</code>).</td>
+      </tr>
+      <tr>
+        <td><strong>Types</strong></td>
+        <td>
+          - <strong>User Managed</strong>: You create &amp; manage.<br>
+          - <strong>Default</strong>: Auto-created for GCE/App Engine with Editor role by default.<br>
+          - <strong>Google Managed</strong>: For internal Google services (service agents).
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Authentication (Keys)</strong></td>
+        <td>
+          - <strong>Google-managed keys</strong>: Private portion never exposed, automatically rotated.<br>
+          - <strong>User-managed keys</strong>: You hold the private key. Must rotate &amp; secure it yourself (risk of compromise).
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Service Account Permissions</strong></td>
+        <td>Service accounts can be granted roles (i.e., they&rsquo;re an identity). Also, controlling who can &ldquo;act as&rdquo; (impersonate) a service account is crucial (via the &ldquo;Service Account User&rdquo; role).</td>
+      </tr>
+      <tr>
+        <td><strong>Access Scopes</strong></td>
+        <td>Legacy mechanism for granting permissions on default service accounts. Modern approach is to use IAM roles on the service account.</td>
+      </tr>
+      <tr>
+        <td><strong>Best Practices (Service Accounts)</strong></td>
+        <td>
+          - Use a separate service account per application component.<br>
+          - Avoid using default service accounts in production&mdash;create custom ones with minimal roles.<br>
+          - Rotate external (user-managed) keys frequently.<br>
+          - Keep keys out of source code.
+        </td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>4.6 Cloud Identity</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Concept</strong></th>
+        <th><strong>Definition / Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Cloud Identity</strong></td>
+        <td>Google&rsquo;s Identity-as-a-Service solution. Centrally manages users/groups, enforces policies (2SV, password rules), SSO, device management, and more.</td>
+      </tr>
+      <tr>
+        <td><strong>Device Management</strong></td>
+        <td>Enforce security policies on users&rsquo; mobile or desktop devices, e.g. passcodes, wiping corporate data on departure.</td>
+      </tr>
+      <tr>
+        <td><strong>Security Features</strong></td>
+        <td>
+          - <strong>2-Step Verification</strong>: Mandate strong multi-factor authentication.<br>
+          - <strong>Password Policies</strong>: Centralized control of password complexity, rotation, etc.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Single Sign-On (SSO)</strong></td>
+        <td>Users log in once with corporate credentials (Cloud Identity or G Suite) to access multiple apps. Supports SAML, OAuth, OpenID, AD FS, etc.</td>
+      </tr>
+      <tr>
+        <td><strong>Reporting &amp; Audits</strong></td>
+        <td>Audit logs for user logins, group changes, device changes. Export to BigQuery for analysis.</td>
+      </tr>
+      <tr>
+        <td><strong>Directory Management</strong></td>
+        <td>Sync with on-prem or external identity providers (Active Directory, LDAP) using Google Cloud Directory Sync (GCDS).</td>
+      </tr>
+      <tr>
+        <td>Google Cloud Directory Sync</td>
+        <td>A tool that synchronizes user accounts, groups, and directory data from on-premises LDAP directories to Google Cloud services.</td>
+      </tr>
+      <tr>
+        <td>Identity federation</td>
+        <td>A set of protocols and practices that enable an external identity provider to authenticate users, allowing access to multiple systems using a single set of credentials.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>4.7 IAM Best Practices</h3></summary>
+    <table>
+      <tr>
+        <th><strong>Best Practice</strong></th>
+        <th><strong>Explanation</strong></th>
+      </tr>
+      <tr>
+        <td><strong>Use Least Privilege</strong></td>
+        <td>Grant only necessary permissions&mdash;prefer narrower roles (e.g., predefined) over broad roles (Owner/Editor).</td>
+      </tr>
+      <tr>
+        <td><strong>Use Groups</strong></td>
+        <td>Assign IAM roles to Google groups rather than individual users. Makes membership changes simpler without editing the policy.</td>
+      </tr>
+      <tr>
+        <td><strong>Set Policies at the Appropriate Level</strong></td>
+        <td>E.g., if you only need to grant roles for a single project, don&rsquo;t do it at the organization or folder level.</td>
+      </tr>
+      <tr>
+        <td><strong>Control Service Account Creation</strong></td>
+        <td>Limit who can create or manage service accounts&mdash;because someone who can impersonate a high-privilege service account can access all resources that account has.</td>
+      </tr>
+      <tr>
+        <td><strong>Rotate Keys</strong></td>
+        <td>For any user-managed service account keys, rotate them periodically to prevent compromise.</td>
+      </tr>
+      <tr>
+        <td><strong>Check Audit Logs</strong></td>
+        <td>Monitor logs for suspicious policy changes and/or key usage. Export them to Cloud Storage or BigQuery for long-term retention.</td>
+      </tr>
+      <tr>
+        <td><strong>Minimize Default SA Usage</strong></td>
+        <td>Don&rsquo;t rely on default service accounts (often have broad Editor role). Create custom SAs with narrower permissions.</td>
+      </tr>
+      <tr>
+        <td><strong>Mirror Org Structure</strong></td>
+        <td>Use folders/projects to match your organization&rsquo;s departments/teams for logical separation and policy inheritance.</td>
+      </tr>
+    </table>
+  </details>
+
+<h2>5. Networking Services</h2>
+
+<details><summary><h3>5.1 Networking Refresher (OSI Layers, IPv4, IPv6, etc.)</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept / Layer</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OSI Model (7 Layers)</strong></td>
+          <td>A conceptual model for how data moves through a network: Physical → Data Link → <strong>Network (Layer 3)</strong> → <strong>Transport (Layer 4)</strong> → Session → Presentation → <strong>Application (Layer 7)</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>IPv4 Addressing</strong></td>
+          <td>32-bit address written as dotted decimals (e.g., <code>192.168.0.1</code>). Divided into network + host portions. RFC 1918 private ranges:<br>
+          • <code>10.0.0.0/8</code><br>
+          • <code>172.16.0.0/12</code><br>
+          • <code>192.168.0.0/16</code></td>
+        </tr>
+        <tr>
+          <td><strong>CIDR (Classless Inter-Domain Routing)</strong></td>
+          <td>Replaces “classful” A/B/C approach with flexible prefix notation (e.g., <code>/16</code>). The larger the slash number, the smaller the network size, e.g. <code>/24</code> = 256 addresses; <code>/16</code> = 65,536 addresses.</td>
+        </tr>
+        <tr>
+          <td><strong>IPv6 Addressing</strong></td>
+          <td>128-bit hexadecimal notation (e.g., <code>2001:0db8:85a3::8a2e:0370:7334</code>). Can shorten zero blocks with <code>::</code>. Uses <code>/64</code> for many typical subnets.</td>
+        </tr>
+        <tr>
+          <td><strong>Transport (Layer 4)</strong></td>
+          <td>- <strong>TCP</strong> (Transmission Control Protocol) ensures reliable, ordered delivery.<br>
+          - <strong>UDP</strong> (User Datagram Protocol) is a simpler, connectionless protocol often used for DNS or streaming.</td>
+        </tr>
+        <tr>
+          <td><strong>Application (Layer 7)</strong></td>
+          <td>Protocols like HTTP(S), DNS, SSH, SMTP, etc. The highest layer where user-facing apps / services operate.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.2 Virtual Private Cloud (VPC)</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>VPC Overview</strong></td>
+          <td>A global, software-defined network in GCP. Spans all regions. Contains subnets (regional). Allows internal communication over private IPs within the same VPC.</td>
+        </tr>
+        <tr>
+          <td><strong>Global Resource</strong></td>
+          <td>VPC itself is a global resource, but subnets are per-region.</td>
+        </tr>
+        <tr>
+          <td><strong>Default Network</strong></td>
+          <td>Created automatically in new projects (unless disabled by an org policy). It’s an <strong>auto mode</strong> VPC with one predefined subnet per region (using <code>10.128.0.0/9</code> block). Includes default firewall rules for SSH, RDP, ICMP, and internal traffic.</td>
+        </tr>
+        <tr>
+          <td><strong>Auto Mode vs. Custom Mode</strong></td>
+          <td>- <strong>Auto Mode</strong>: Automatically creates one subnet per region. Subnets are assigned from the <code>10.128.0.0/9</code> range. Can be converted to custom mode.<br>
+          - <strong>Custom Mode</strong>: No subnets by default; you manually create subnets &amp; define IP ranges. Recommended for production.</td>
+        </tr>
+        <tr>
+          <td><strong>VPC Peering / VPN</strong></td>
+          <td>Separate VPCs typically can’t communicate via internal IPs unless you set up VPC peering or a VPN / Interconnect.</td>
+        </tr>
+        <tr>
+          <td><strong>Default Firewall Rules</strong></td>
+          <td>Default VPC includes rules allowing inbound SSH, RDP, ICMP from any source, and all protocols/ports inside the network. Modify or remove as needed for security.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.3 VPC Network Subnets</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Subnets</strong></td>
+          <td>Regional partitions of a VPC network’s IP space. Contain primary (and optionally secondary) IP ranges.</td>
+        </tr>
+        <tr>
+          <td><strong>Primary vs. Secondary Range</strong></td>
+          <td>- <strong>Primary</strong>: The main CIDR block used for VM instance IP assignments.<br>
+          - <strong>Secondary</strong>: (Optional) Additional CIDR blocks for scenarios like container alias IPs, etc.</td>
+        </tr>
+        <tr>
+          <td><strong>Subnet Expansion</strong></td>
+          <td>You can expand a subnet’s IP range without downtime, as long as it doesn’t overlap with existing subnets. Once expanded, it cannot be reverted to a smaller range.</td>
+        </tr>
+        <tr>
+          <td><strong>Auto Mode Subnets</strong></td>
+          <td>Created automatically for each region with default CIDR blocks. Each region’s block can be expanded (up to /16), or you can convert the entire VPC to Custom Mode for more control.</td>
+        </tr>
+        <tr>
+          <td><strong>Reserved IPs</strong></td>
+          <td>Each subnet’s primary range reserves 4 IP addresses (network, default gateway, future use, broadcast). Secondary ranges do not have reserved IPs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.4 Routing & Private Google Access</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Routes</strong></td>
+          <td>Define how traffic exits a VM to reach a destination (either inside or outside the VPC). Each route has a destination range + next hop.</td>
+        </tr>
+        <tr>
+          <td><strong>System-Generated Routes</strong></td>
+          <td>- <strong>Default Route</strong>: <code>0.0.0.0/0</code> → Default Internet Gateway. Priority 1000. You can remove/replace it if you want full isolation.<br>
+          - <strong>Subnet Routes</strong>: One route per subnet’s primary and secondary range. Priority 0, more specific than default route. Cannot be removed separately.</td>
+        </tr>
+        <tr>
+          <td><strong>Custom Routes</strong></td>
+          <td>- <strong>Static</strong>: Manually created or set up with policy-based VPN.<br>
+          - <strong>Dynamic</strong>: Managed by Cloud Router (using BGP for Cloud VPN/Interconnect).</td>
+        </tr>
+        <tr>
+          <td><strong>Routing Priority</strong></td>
+          <td>Lower number = higher priority. For identical destination ranges, the route with the smallest priority value wins.</td>
+        </tr>
+        <tr>
+          <td><strong>Private Google Access</strong></td>
+          <td>VM instances without external IPs can still access Google APIs/services by enabling this on their subnet. Traffic to Google stays on Google’s backbone rather than going out to the public internet.</td>
+        </tr>
+        <tr>
+          <td><strong>Use Cases for PGA</strong></td>
+          <td>- Subnet without external IP addresses.<br>
+          - On-prem to GCP via VPN/Interconnect.<br>
+          - GCP serverless or VPC peering (private services access).</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.5 IP Addressing in GCP</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Internal vs. External IP</strong></td>
+          <td>- <strong>Internal IP</strong>: Reachable only within the same VPC (private).<br>
+          - <strong>External IP</strong>: Reachable from the public internet (if firewall allows).</td>
+        </tr>
+        <tr>
+          <td><strong>Ephemeral vs. Static</strong></td>
+          <td>- <strong>Ephemeral</strong>: Auto-assigned, released when resource is stopped/deleted.<br>
+          - <strong>Static</strong>: Reserved and remains allocated to your project until released.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal IP Allocation</strong></td>
+          <td>- Automatically assigned from subnet’s IP range.<br>
+          - You can specify an address or reserve one.<br>
+          - Alias IP ranges let you define multiple IPs on a VM (e.g., container pods).</td>
+        </tr>
+        <tr>
+          <td><strong>External IP Allocation</strong></td>
+          <td>- Ephemeral assigned if you launch a VM with external access (and you don’t specify a static one).<br>
+          - Can reserve a static external IP (regional or global). Regional → used by VMs / LBs in that region. Global → used by global LBs.</td>
+        </tr>
+        <tr>
+          <td><strong>Promotion (Ephemeral → Static)</strong></td>
+          <td>You can take an ephemeral IP (internal or external) in use by a resource and promote it to static so it won’t change.</td>
+        </tr>
+        <tr>
+          <td><strong>Bringing Your Own IP (BYOIP)</strong></td>
+          <td>You can import your own publicly routable IP prefixes (min <code>/24</code>) to GCP. Must prove ownership.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.6 Creating Internal &amp; External Static IP Addresses (Demo Highlights)</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Action</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Reserve a Static Internal IP</strong></td>
+          <td>1. On VM creation (Console → Networking → Reserve static internal IP).<br />
+    2. Or create VM with ephemeral IP, then promote it to static.<br />
+    3. Must be within the subnet’s CIDR range.</td>
+        </tr>
+        <tr>
+          <td><strong>Reserve a Static External IP</strong></td>
+          <td>1. Go to VPC Network → External IP addresses → Reserve static address.<br />
+    2. Assign it to a VM or load balancer.<br />
+    3. (Optional) Promote ephemeral external IP to static.</td>
+        </tr>
+        <tr>
+          <td><strong>Promote Ephemeral → Static</strong></td>
+          <td>Convert a currently-used IP to a persistent assignment (for internal or external addresses). Prevents IP changes on VM stop/start.</td>
+        </tr>
+        <tr>
+          <td><strong>Deleting / Releasing</strong></td>
+          <td>Remember to remove static IPs when no longer needed; otherwise, they incur charges even if unattached.<br />
+    - For internal IPs, use gcloud or re-assign in the networking settings.<br />
+    - For external IPs, “Release static address” in the console or via gcloud.</td>
+        </tr>
+        <tr>
+          <td><strong>gcloud compute addresses</strong></td>
+          <td>- <code>list</code>: View addresses in your project (internal &amp; external).<br />
+    - <code>create</code>: Reserve a static IP.<br />
+    - <code>delete</code>: Release it.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.7 VPC Firewall Rules</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Distributed Firewall</strong></td>
+          <td>Each VPC has a distributed, stateful firewall at the VM level. Rules apply inbound (ingress) or outbound (egress).</td>
+        </tr>
+        <tr>
+          <td><strong>Implied Rules</strong></td>
+          <td>- <strong>Allow Egress</strong>: All outbound traffic is permitted unless blocked by a higher-priority rule.<br />
+    - <strong>Deny Ingress</strong>: All inbound traffic is denied unless allowed by a firewall rule.</td>
+        </tr>
+        <tr>
+          <td><strong>Default Rules</strong></td>
+          <td>In the default VPC, rules allow ICMP, RDP(3389), SSH(22) inbound from any source and all protocols within the network. Priority 65534.</td>
+        </tr>
+        <tr>
+          <td><strong>Firewall Rule Components</strong></td>
+          <td>- <strong>Direction</strong>: Ingress or Egress.<br />
+    - <strong>Action</strong>: Allow or Deny.<br />
+    - <strong>Targets</strong>: Which VMs (all, by tags, by service account).<br />
+    - <strong>Source/Dest</strong>: IP ranges, tags, or service accounts.<br />
+    - <strong>Protocols/Ports</strong>: e.g. tcp:22, icmp, etc.<br />
+    - <strong>Priority</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>Stateful</strong></td>
+          <td>Once a connection is allowed, the return traffic is automatically allowed (connection tracking).</td>
+        </tr>
+        <tr>
+          <td><strong>Enable / Disable</strong></td>
+          <td>You can disable a rule without removing it (handy for troubleshooting).</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.8 Custom VPC (Demo Highlights)</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Action</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Create Custom VPC</strong></td>
+          <td>1. VPC Network → Create VPC.<br />
+    2. Choose <strong>Custom</strong> subnet mode (no automatic subnets).<br />
+    3. Manually add subnets, specifying region + CIDR.</td>
+        </tr>
+        <tr>
+          <td><strong>Add Public / Private Subnets</strong></td>
+          <td>E.g., “public” subnet with external IP usage, “private” subnet with no external IP addresses.</td>
+        </tr>
+        <tr>
+          <td><strong>Enable Private Google Access</strong></td>
+          <td>Allows VMs with <strong>no external IP</strong> to still reach Google APIs/services (Cloud Storage, etc.) over internal IP.<br />
+    - Turned on at the subnet level.</td>
+        </tr>
+        <tr>
+          <td><strong>Create Instances</strong></td>
+          <td>- Public instance: ephemeral or static external IP, can reach internet.<br />
+    - Private instance: no external IP. Must rely on private Google Access or direct connection from the public instance to reach outside resources.</td>
+        </tr>
+        <tr>
+          <td><strong>Firewall Rules</strong></td>
+          <td>- E.g., allow SSH from 0.0.0.0/0 to public instances, allow internal traffic from public→private.<br />
+    - Use target tags (e.g., “public” / “private”) to limit scope.</td>
+        </tr>
+        <tr>
+          <td><strong>Verification</strong></td>
+          <td>- SSH into public instance from internet.<br />
+    - From public → private instance (SSH or ping).<br />
+    - Check Cloud Storage access from private instance via private Google Access (no external IP).</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.9 VPC Network Peering</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>VPC Peering</strong></td>
+          <td>Privately connect two VPC networks (in the same or different projects/orgs) so their internal IPs can talk without traversing the public internet.</td>
+        </tr>
+        <tr>
+          <td><strong>Supported</strong></td>
+          <td>- All subnet routes are exchanged.<br />
+    - Optionally, custom static routes can be imported/exported.<br />
+    - Reduces egress costs, latency, and improves security.</td>
+        </tr>
+        <tr>
+          <td><strong>Restrictions</strong></td>
+          <td>- <strong>No transitive peering</strong> (A↔B, B↔C doesn’t imply A↔C).<br />
+    - Subnet IP ranges must not overlap.<br />
+    - Each side must configure the peering, must be “active” on both sides.</td>
+        </tr>
+        <tr>
+          <td><strong>Separate Admins</strong></td>
+          <td>Each VPC is managed independently (its own firewall rules, routes, etc.). Peering simply provides private connectivity.</td>
+        </tr>
+        <tr>
+          <td><strong>Demo Steps</strong></td>
+          <td>1. Create two custom VPC networks (e.g., NetA, NetB) in separate projects.<br />
+    2. Create VMs in each (firewall rules to allow SSH/ICMP).<br />
+    3. Under VPC Peering, create connection from NetA to NetB, then from NetB to NetA.<br />
+    4. Test connectivity by pinging internal IPs.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.10 Shared VPC</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th><strong>Concept</strong></th>
+          <th><strong>Definition / Explanation</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Shared VPC</strong></td>
+          <td>Lets multiple projects share a common VPC network in a “host project.” Service projects attach to the host’s shared VPC. Instances in service projects get IP addresses from the host’s shared subnets.</td>
+        </tr>
+        <tr>
+          <td><strong>Host Project</strong></td>
+          <td>Contains the shared VPC network (one or more). Must belong to an organization. Administrators of the host project can grant subnets to service projects.</td>
+        </tr>
+        <tr>
+          <td><strong>Service Project</strong></td>
+          <td>Project “attached” to a host project’s shared VPC. VMs created in the service project can use subnets from the host’s shared network.</td>
+        </tr>
+        <tr>
+          <td><strong>Roles</strong></td>
+          <td>- <strong>Shared VPC Admin</strong>: Can enable host projects, attach service projects, and delegate subnet usage.<br />
+    - <strong>Service Project Admin</strong>: Manage resources in the service project. May have project-level or subnet-level usage permissions on the host project.</td>
+        </tr>
+        <tr>
+          <td><strong>Use Cases</strong></td>
+          <td>1. <strong>Simple Shared VPC</strong>: Single host project with multiple service projects.<br />
+    2. <strong>Multiple Host Projects</strong>: e.g., dev vs. prod.<br />
+    3. <strong>Hybrid</strong>: On-prem + host project with shared subnets.<br />
+    4. <strong>Multi-tier</strong>: Different service projects for web vs. back-end tiers.</td>
+        </tr>
+        <tr>
+          <td><strong>Standalone Project</strong></td>
+          <td>Neither a host nor a service project. Uses its own VPC as normal.</td>
+        </tr>
+      </tbody>
+    </table>
+  </details>
+
+    <details><summary><h3>5.11 VPC Flow Logs</h3></summary>
+    <table>
+      <thead>
+        <th><b>Concept</b></td>
+        <th><b>Definition / Explanation</b></td>
+      </thead>
+      <tr>
+        <td><b>VPC Flow Logs</b></td>
+        <td>Captures a <i>sample</i> of network flows to and from VM instances (including GKE nodes). Used for real-time visibility into traffic, forensics, capacity planning, cost optimization, etc.</td>
+      </tr>
+      <tr>
+        <td><b>Enable on Subnet</b></td>
+        <td>Flow logs are enabled on a per-subnet basis. All VMs in that subnet then produce flow logs in real time.</td>
+      </tr>
+      <tr>
+        <td><b>Sampling Rate</b></td>
+        <td>Approximately 1 out of every 10 packets is captured. The sampling rate is set by Google Cloud and cannot be changed.</td>
+      </tr>
+      <tr>
+        <td><b>Data Export</b></td>
+        <td>- <b>Cloud Logging</b> for 30 days (by default).<br>- Can export logs to Cloud Storage for longer retention or to BigQuery for analysis.</td>
+      </tr>
+      <tr>
+        <td><b>Use Cases</b></td>
+        <td>- <b>Network Monitoring</b> (throughput, performance).<br>- <b>Real-Time Security</b> (send logs to SIEM systems, detect anomalies).<br>- <b>Forensics</b> (trace suspicious IP traffic).<br>- <b>Cost / Capacity</b> (see traffic flows, optimize egress).</td>
+      </tr>
+      <tr>
+        <td><b>Log Format</b></td>
+        <td>- Base fields (always included) plus optional metadata fields (e.g., GKE annotations).<br>- Can filter logs to only store what you need.<br>- Viewed in Cloud Logging (classic/preview logs viewer).</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>5.12 DNS Fundamentals</h3></summary>
+    <table>
+      <thead>
+        <th><b>Concept</b></td>
+        <th><b>Definition / Explanation</b></td>
+      </thead>
+      <tr>
+        <td><b>Domain Name System (DNS)</b></td>
+        <td>A global, hierarchical, distributed database for translating human-friendly domain names (e.g., google.com) into IP addresses (e.g., 172.217.x.x).</td>
+      </tr>
+      <tr>
+        <td><b>Root (.)</b></td>
+        <td>The top of the DNS hierarchy—13 DNS root servers each respond for TLD references (like .com, .net).</td>
+      </tr>
+      <tr>
+        <td><b>Top-Level Domain (TLD)</b></td>
+        <td>E.g., .com, .org, .net (generic TLD), or .uk, .ca (country-code TLD). TLD name servers point to authoritative name servers for your domain.</td>
+      </tr>
+      <tr>
+        <td><b>Second-Level Domains</b></td>
+        <td>Your registered domain (e.g., bowtieinc.co). Often purchased via a domain registrar. Typically delegates to subdomains (e.g., dev.bowtieinc.co).</td>
+      </tr>
+      <tr>
+        <td><b>DNS Resolver</b></td>
+        <td>A server (often ISP-provided) that recursively queries DNS on your behalf. Caches results based on TTL to speed up subsequent requests.</td>
+      </tr>
+      <tr>
+        <td><b>Zone File</b></td>
+        <td>Contains DNS records (A, AAAA, MX, CNAME, etc.) for a domain (a zone). Hosted by an authoritative name server.</td>
+      </tr>
+      <tr>
+        <td><b>Caching & TTL</b></td>
+        <td>Resolvers store DNS records in memory for a “time to live” period. Low TTL = more frequent updates but more queries. High TTL = fewer queries, but changes propagate slower.</td>
+      </tr>
+      <tr>
+        <td><b>Lookup Steps</b></td>
+        <td>1. Client queries DNS resolver. 2. Resolver contacts root name server, then TLD server, then authoritative server. 3. Authoritative server returns IP address. 4. Resolver caches result, returns to client.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>5.13 DNS Record Types</h3></summary>
+    <table>
+      <thead>
+        <th><b>Record Type</b></td>
+        <th><b>Definition / Explanation</b></td>
+      </thead>
+      <tr>
+        <td><b>NS (Name Server)</b></td>
+        <td>Specifies the authoritative name servers for a domain. E.g., the domain’s DNS is served by <code>ns1.example.com</code>, <code>ns2.example.com</code>.</td>
+      </tr>
+      <tr>
+        <td><b>A / AAAA</b></td>
+        <td>- <b>A</b>: Maps a domain to an IPv4 address.<br>- <b>AAAA</b>: Maps a domain to an IPv6 address.</td>
+      </tr>
+      <tr>
+        <td><b>CNAME</b></td>
+        <td>Canonical name record. Points one domain name to another. E.g., <code>ftp.bowtieinc.co</code> → <code>bowtieinc.co</code>.</td>
+      </tr>
+      <tr>
+        <td><b>TXT</b></td>
+        <td>Holds arbitrary text data, often used for domain ownership verification (e.g., Google Workspace), SPF/DKIM records for email security, or other meta info.</td>
+      </tr>
+      <tr>
+        <td><b>MX (Mail eXchange)</b></td>
+        <td>Specifies mail server(s) for handling email for a domain. Includes a priority value (lower = higher priority). E.g., <code>bowtieinc.co. IN MX 10 mail.bowtieinc.co.</code></td>
+      </tr>
+      <tr>
+        <td><b>PTR (Pointer)</b></td>
+        <td>Reverse DNS record. Maps an IP address back to a domain name. Stored in special <code>.in-addr.arpa</code> (IPv4) or <code>.ip6.arpa</code> (IPv6) zones. Often used for logging, spam checks.</td>
+      </tr>
+      <tr>
+        <td><b>SOA (Start of Authority)</b></td>
+        <td>Holds zone-level data, e.g., admin email, serial number, and refresh intervals. Exactly one per zone. Ensures correctness and zone authority.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>5.14 Network Address Translation (NAT)</h3></summary>
+    <table>
+      <thead>
+        <th><b>Concept</b></td>
+        <th><b>Definition / Explanation</b></td>
+      </thead>
+      <tr>
+        <td><b>NAT</b></td>
+        <td>Translates private (RFC 1918) IP addresses to a public IP (or pool of public IPs) to enable internet-bound traffic. Also can hide real IP addresses for security.</td>
+      </tr>
+      <tr>
+        <td><b>Static NAT</b> (1-to-1)</td>
+        <td>A private IP is permanently mapped to a single public IP. Outbound & inbound traffic can occur using that mapped public IP. Often used if a device must be reachable externally on a stable IP.</td>
+      </tr>
+      <tr>
+        <td><b>Dynamic NAT</b> (Many-to-Few)</td>
+        <td>A pool of public IPs is shared among private addresses. IPs from the pool are allocated on demand. Released back into the pool after usage.</td>
+      </tr>
+      <tr>
+        <td><b>PAT (Port Address Translation)</b> (Many-to-1)</td>
+        <td>Multiple private IPs share a single public IP. NAT device uses unique source ports to track connections. E.g., typical home router scenario, also used by GCP’s Cloud NAT.</td>
+      </tr>
+      <tr>
+        <td><b>Use Cases</b></td>
+        <td>- Dealing with limited public IP addresses.<br>- Securing private networks from direct internet exposure.<br>- Common home/office router scenario.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>5.15 Cloud DNS</h3></summary>
+    <table>
+      <thead>
+        <th><b>Concept</b></td>
+        <th><b>Definition / Explanation</b></td>
+      </thead>
+      <tr>
+        <td><b>Cloud DNS</b></td>
+        <td>Google’s managed authoritative DNS service. Fully distributed, high availability (globally). Manages DNS zones &amp; records for domains.</td>
+      </tr>
+      <tr>
+        <td><b>Public vs. Private Zones</b></td>
+        <td>- <b>Public</b>: DNS data is visible over the internet. Typically used for external domain hosting.<br>- <b>Private</b>: DNS data accessible only from within your VPC network(s).</td>
+      </tr>
+      <tr>
+        <td><b>Managed Zones</b></td>
+        <td>A “DNS zone” hosted by Google’s DNS name servers. You create records (A, CNAME, MX, etc.) for your domain.<br>- Public zone usage requires domain purchase from a registrar (not provided by Cloud DNS).</td>
+      </tr>
+      <tr>
+        <td><b>Authoritative Name Servers</b></td>
+        <td>Cloud DNS automatically allocates name servers for your zone. You update your domain’s NS records at your registrar to point to these.</td>
+      </tr>
+      <tr>
+        <td><b>Records &amp; Record Sets</b></td>
+        <td>Within a zone, you define resource record sets (e.g., <code>www</code> → A record). An “SOA” and “NS” record are created by default.</td>
+      </tr>
+      <tr>
+        <td><b>Usage</b></td>
+        <td>- Host a public DNS domain (point domain registrar’s NS to Cloud DNS).<br>- Host a private DNS zone for internal name resolution (works only within your VPC or with DNS peering).</td>
+      </tr>
+    </table>
+  </details>
+
+  <details><summary><h3>5.16 Google Cloud Connectivity and Security Services</h3></summary>
+    <table>
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Definition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Private Google Access</td>
+          <td>Enables VM instances without external IPs to access Google APIs and services through internal connectivity.</td>
+        </tr>
+        <tr>
+          <td>Private Service Connect</td>
+          <td>Provides internal endpoints in a VPC network to privately connect to managed services using internal IP addresses.</td>
+        </tr>
+        <tr>
+          <td>VPC Service Controls</td>
+          <td>Enhances security by establishing a security perimeter around Google Cloud resources to mitigate data exfiltration risks.</td>
+        </tr>
+        <tr>
+          <td>Serverless VPC Access</td>
+          <td>Allows serverless environments to securely connect to VPC networks using internal IP addresses without requiring a public IP connection.</td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </details>
+
+<h2>6. Compute Engine</h2>
+
+<details><summary><h3>6.1 Virtualization Fundamentals</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Bare Metal Model</td>
+        <td>One OS running directly on the server hardware. Typically not flexible, underutilizes resources.</td>
+      </tr>
+      <tr>
+        <td>Hypervisor</td>
+        <td>A software layer (also called a VMM—Virtual Machine Monitor) that enables multiple OSes (VMs) to share and manage the same host hardware.</td>
+      </tr>
+      <tr>
+        <td>Full Virtualization</td>
+        <td>Emulates all hardware in software. Early approaches used binary translation, which was slow.</td>
+      </tr>
+      <tr>
+        <td>Para-Virtualization</td>
+        <td>Modified guest OS communicates directly with hypervisor (no full emulation). Improves performance, but requires guest OS changes.</td>
+      </tr>
+      <tr>
+        <td>Hardware-Assisted Virtualization</td>
+        <td>Modern CPUs have virtualization extensions (Intel VT-x, AMD-V). Hypervisor leverages these to run unmodified OSes efficiently. Reduces overhead (no heavy binary translation).</td>
+      </tr>
+      <tr>
+        <td>Kernel-Level Virtualization</td>
+        <td>The hypervisor is part of the OS kernel itself (for example, KVM on Linux). VMs are treated like user-space processes. This approach powers GCP’s Compute Engine (with nested virtualization support).</td>
+      </tr>
+      <tr>
+        <td>Nested Virtualization</td>
+        <td>Running a hypervisor (and VMs) inside another VM. Google’s kernel-level virtualization approach supports this. Useful for migrating on-prem VM images without big changes.</td>
+      </tr>
+      <tr>
+        <td>Benefits</td>
+        <td>- Better Resource Utilization (multiple OSes on same hardware).<br>- Isolation (one VM crash doesn’t affect others).<br>- Flexibility (spin up VMs on demand).</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>6.2 Compute Engine Overview</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Compute Engine</td>
+        <td>Google Cloud’s IaaS offering for running VMs (“instances”). Google manages the underlying hardware, data centers, networking, etc.</td>
+      </tr>
+      <tr>
+        <td>VPC Integration</td>
+        <td>Instances live in a VPC subnet. Must choose region/zone upon creation, attach disk, and configure networking.</td>
+      </tr>
+      <tr>
+        <td>Pricing</td>
+        <td>Pay per second (minimum 1 minute). Sustained use discounts or Committed use discounts can reduce cost.</td>
+      </tr>
+      <tr>
+        <td>Core Configuration</td>
+        <td>1. Machine Type (vCPU + memory).<br>2. OS Image (public, custom, marketplace).<br>3. Disk Type (standard, SSD, local SSD).<br>4. Network (VPC, subnets, firewall rules).</td>
+      </tr>
+      <tr>
+        <td>Multitenant vs. Sole-Tenant</td>
+        <td>- Multitenant: Default. The physical host is shared with other customers.<br>- Sole Tenant: Dedicated physical host (for compliance or performance reasons) at higher cost.</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary> <h3>6.3 Creating a VM Instance (Demo Highlights)</h3></summary>
+    <table>
+      <tr>
+        <th>Action</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Name & Labels</td>
+        <td>- Name: Unique within the project.<br>- Labels: Key-value pairs to help organize resources (e.g. env=dev).</td>
+      </tr>
+      <tr>
+        <td>Region & Zone</td>
+        <td>Choose a region, then a zone for your VM. Once picked, cannot be moved.</td>
+      </tr>
+      <tr>
+        <td>Machine Configuration</td>
+        <td>- Choose from pre-defined (general purpose, compute/mem optimized) or custom machine types.<br>- Possibly add GPUs (for n1 type).</td>
+      </tr>
+      <tr>
+        <td>Boot Disk</td>
+        <td>- Select OS image from “public images,” custom images, or marketplace solutions.<br>- Choose disk type (standard, balanced, SSD) and size.</td>
+      </tr>
+      <tr>
+        <td>Management / Security / Networking</td>
+        <td>- Management: Add startup scripts, availability policies, etc.<br>- Security: Shielded VM, OS Login, disabling project-wide SSH keys.<br>- Networking: Subnet, external IP, network tags, etc.</td>
+      </tr>
+      <tr>
+        <td>SSH / RDP</td>
+        <td>If Linux: typically SSH on port 22.<br>If Windows: RDP on port 3389. Must have firewall rules to allow inbound traffic.</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>6.4 Compute Engine Machine Types</h3></summary>
+    <table>
+      <tr>
+        <th>Machine Family</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>General Purpose</td>
+        <td>Balanced CPU/memory. Good for a wide variety of workloads like web apps, small/medium DBs, dev/test, etc. Families: E2, N1, N2, N2D.</td>
+      </tr>
+      <tr>
+        <td>Compute Optimized (C2)</td>
+        <td>Highest performance per core, ideal for compute-intensive tasks (HPC, gaming, single-threaded workloads). Only available as predefined machine types.</td>
+      </tr>
+      <tr>
+        <td>Memory Optimized (M1/M2)</td>
+        <td>Ultra-high memory for large in-memory DBs (SAP HANA) or analytics. Up to 12 TB RAM. Only available as predefined.</td>
+      </tr>
+      <tr>
+        <td>Predefined Types</td>
+        <td>Google provides a set of standard shapes (e.g., n2-standard-4). Also have high-memory or high-CPU variants.</td>
+      </tr>
+      <tr>
+        <td>Custom Machine Types</td>
+        <td>Define your own vCPUs & memory (within limits). Available for general-purpose families (e2, n1, n2, n2d). Perfect if pre-defined types don’t match your ratio needs. Slightly higher cost than an equivalent pre-defined type.</td>
+      </tr>
+      <tr>
+        <td>Shared-Core Types</td>
+        <td>F1-micro, G1-small (N1) or e2-micro/small/medium. These use fractional CPU allocation & can burst CPU usage occasionally. Low-cost, best for small workloads, dev/test, or rarely used services.</td>
+      </tr>
+      <tr>
+        <td>GPUs</td>
+        <td>Attach NVIDIA GPUs (e.g., Tesla K80, P100, etc.) only on n1 machine types. Used for ML training, HPC, or 3D rendering.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>6.5 Managing Instances</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Instance Lifecycle</td>
+        <td>- Provisioning → Staging → Running → (stop/suspend/terminate).<br>- Paying for CPU & memory only when in Running or Repair states. You still pay for attached disks/IPs even if suspended/stopped.</td>
+      </tr>
+      <tr>
+        <td>Stopping / Suspending</td>
+        <td>- Stop: Shuts down the OS. Then transitions to Terminated. Does not incur CPU cost, but you pay for static IP & disks.<br>- Suspend: Similar to “close laptop lid.” VM state & memory is preserved, but you still pay for disk & IP.</td>
+      </tr>
+      <tr>
+        <td>Live Migration</td>
+        <td>GCP can move your running VM to another host during maintenance without reboot. You can also do manual cross-zone moves within a region.</td>
+      </tr>
+      <tr>
+        <td>Shielded VMs</td>
+        <td>Ensures verifiable integrity of the VM’s boot sequence. Components: secure boot, vTPM, measured boot, integrity monitoring. Prevents low-level rootkits or boot malware.</td>
+      </tr>
+      <tr>
+        <td>Guest Environment</td>
+        <td>Scripts & daemons installed in the OS that handle instance setup (metadata, ssh key injection, etc.). Public images come with it by default. For custom images, you may need to install it yourself.</td>
+      </tr>
+      <tr>
+        <td>Metadata & Startup Scripts</td>
+        <td>- Metadata: Key-value pairs accessible via <a href="http://metadata.google.internal">http://metadata.google.internal</a>.<br>- Startup/Shutdown Scripts: Scripts set in metadata or instance config to run on VM boot / shutdown.</td>
+      </tr>
+      <tr>
+        <td>OS Login</td>
+        <td>An alternative to managing SSH keys in instance/project metadata. Ties SSH access to IAM roles. Allows 2FA for SSH.</td>
+      </tr>
+      <tr>
+        <td>Windows Login</td>
+        <td>Use “Set Windows Password” to generate credentials. Connect via RDP on port 3389. Alternatively, use OS Login for Windows if you want.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>6.6 Connecting to Your Instances (Demo Highlights)</h3></summary>
+    <table>
+      <tr>
+        <th>Action</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Linux SSH</td>
+        <td>- Via Console: “SSH in Browser.”<br>- Via Cloud Shell or local gcloud: <code>gcloud compute ssh instance-name</code>.<br>- OS Login recommended for user management.</td>
+      </tr>
+      <tr>
+        <td>Windows RDP</td>
+        <td>- Enable RDP inbound firewall rule on port 3389.<br>- Use “Set Windows Password” in the console or <code>gcloud</code>.<br>- Then RDP with IP, username, password.</td>
+      </tr>
+      <tr>
+        <td>SSH Key Management</td>
+        <td>- If not using OS Login, store public keys in instance or project metadata.<br>- Possibly block project-wide SSH keys if you want instance-level only.</td>
+      </tr>
+      <tr>
+        <td>Powershell Remoting (WinRM)</td>
+        <td>- If using remote PowerShell on Windows, open port 5986.<br>- Provide credentials.</td>
+      </tr>
+      <tr>
+        <td>Browser-based</td>
+        <td>- “Open in browser window” for quick SSH.<br>- For Windows, a “Chrome RDP” extension or .rdp file.</td>
+      </tr>
+    </table>
+  </details>
+  
+    <details><summary><h3>6.7 Metadata & Startup Scripts</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Instance & Project Metadata</td>
+        <td>- Metadata is stored as key-value pairs, accessible within GCP via <a href="http://metadata.google.internal/">http://metadata.google.internal/</a>. - There are default metadata (e.g., instance name, zone) + custom metadata (user-defined) at project or instance level. - Default metadata is always present; custom metadata can be set in the console, CLI, or API.</td>
+      </tr>
+      <tr>
+        <td>Startup & Shutdown Scripts</td>
+        <td>- Startup Scripts run on VM boot (e.g., install packages, configure software). - Shutdown Scripts run on VM shutdown (e.g., cleanup tasks, exporting logs). - Stored in metadata (key: `startup-script` or `shutdown-script`), or in a file that references a Cloud Storage URL.</td>
+      </tr>
+      <tr>
+        <td>Use Cases</td>
+        <td>- Dynamic config: e.g., pass parameters to a startup script using metadata. - Automated installs & updates. - Automatic data exports on shutdown.</td>
+      </tr>
+      <tr>
+        <td>Metadata Queries</td>
+        <td>- Use `curl` or `wget` with the special header `Metadata-Flavor: Google`. - Endpoints: `/computeMetadata/v1/instance/...` or `/computeMetadata/v1/project/...`. - Common queries: instance name, zone, custom metadata (under `/attributes`).</td>
+      </tr>
+      <tr>
+        <td>Block Project-Wide SSH Keys</td>
+        <td>- Instance metadata can override project-wide keys. - Checking “Block project-wide SSH keys” means only keys in that instance’s metadata or OS Login apply.</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>6.8 Compute Engine Billing</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Resource-Based Billing</td>
+        <td>- vCPU, memory, disk, etc. are each billed individually. - On-demand usage billed per second (1-minute minimum).</td>
+      </tr>
+      <tr>
+        <td>Instance Uptime</td>
+        <td>- Billed while instance is running (or in “repair” state). - Stopped/suspended instances do not incur vCPU/memory costs, but disks and static IPs still accrue charges.</td>
+      </tr>
+      <tr>
+        <td>Reservations</td>
+        <td>- You can reserve VM resources in a zone for future use. - Pay on-demand rates while reserved. - Ensures capacity is always available to you. - Still eligible for sustained/committed use discounts.</td>
+      </tr>
+      <tr>
+        <td>Sustained Use Discounts</td>
+        <td>- Automatic discounts for running certain VMs for a significant fraction of the month. - Up to 30% off for N1 (vCPU + memory), 20% for N2/N2D/C2. - Combine usage across same region & VM type for bigger discount.</td>
+      </tr>
+      <tr>
+        <td>Committed Use Discounts</td>
+        <td>- 1-year or 3-year commitment for vCPU/memory/gpu. - Up to 57% (or 70% for memory-optimized) discount. - Pay monthly whether you use it or not. - If usage > commitment, extra is at on-demand rate. - E2, N1, N2, N2D, C2 are supported.</td>
+      </tr>
+      <tr>
+        <td>Preemptible VMs</td>
+        <td>- Up to 80% cheaper than on-demand. - Compute Engine can shut down (preempt) your VM at any time, and definitely after 24 hours. - Ideal for batch or fault-tolerant workloads. - No SLA, no live migrate, no automatic restart.</td>
+      </tr>
+      <tr>
+        <td>Spot VMs</td>
+        <td>
+          - Cost-effective alternative to on-demand VMs, often up to 60-91% cheaper.<br>
+          - Compute Engine can reclaim Spot VMs at any time when needed for other workloads.<br>
+          - No 24-hour limit like Preemptible VMs, allowing longer runtimes if capacity remains available.<br>
+          - Ideal for batch processing, machine learning training, CI/CD jobs, and fault-tolerant workloads.<br>
+          - No SLA, no live migration, no automatic restart, but can be combined with managed instance groups for resiliency.<br>
+          </td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>6.9 Storage Fundamentals</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Block Storage</td>
+        <td>- Data split into evenly sized blocks, each with unique ID. - Presented to OS as raw volume/hard drive. - Fastest type, often used as boot volumes (e.g., persistent disks, local SSD on Compute Engine).</td>
+      </tr>
+      <tr>
+        <td>File Storage</td>
+        <td>- Data structured in hierarchical directories (files/folders). - Already structured, usually network-attached (e.g., NFS). - In GCP, provided via Filestore service (not bootable, purely shared file storage).</td>
+      </tr>
+      <tr>
+        <td>Object Storage</td>
+        <td>- Data stored as “objects” with metadata + unique ID. - Infinitely scalable, often used for unstructured data (images, logs). - In GCP, Cloud Storage is object storage (flat namespace, not directly bootable, but can be FUSE-mounted).</td>
+      </tr>
+      <tr>
+        <td>Performance Terms</td>
+        <td>- I/O (IO): Single read/write request. - Queue Depth: # of IOs pending. - IOPS: IO operations per second. - Throughput: data transfer speed (MB/s). - Latency: time for each IO to complete (ms). - Sequential vs. Random: large sequential vs. scattered small ops.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>6.10 Persistent Disk & Local SSDs</h3></summary>
+    <h4>6.10.1 Persistent Disks</h4>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>PD Types</td>
+        <td>1. Standard (pd-standard): Backed by HDD, cheapest, best for sequential IO (large reads/writes).<br>
+            2. Balanced (pd-balanced): Mid-tier cost/performance, good general-purpose option.<br>
+            3. SSD (pd-ssd): Fastest PD type with low latency, high IOPS, higher cost.</td>
+      </tr>
+      <tr>
+        <td>Zonal vs. Regional</td>
+        <td>- Zonal: Resides in a single zone.<br>
+            - Regional: Synchronously replicated across two zones in same region for higher availability.<br>
+            - Regional is slower & more expensive but more fault-tolerant.</td>
+      </tr>
+      <tr>
+        <td>PD Characteristics</td>
+        <td>- Max 64 TB per disk.<br>
+            - Disks are network-attached (not physically attached).<br>
+            - Resizable online (bigger only).<br>
+            - Encrypted at rest (can use default or customer-managed keys).<br>
+            - Independent lifecycle from the VM (attach/detach, keep disk after VM delete).</td>
+      </tr>
+      <tr>
+        <td>PD Performance</td>
+        <td>- Performance scales with disk size & vCPU count.<br>
+            - Must have enough vCPUs to drive desired IOPS.<br>
+            - For standard/balanced/SSD PD: the bigger the disk, the higher the IOPS/throughput.</td>
+      </tr>
+      <tr>
+        <td>Snapshot</td>
+        <td>- Incremental backups at block level.<br>
+            - Typically used for zonal PD to replicate data or keep backups.<br>
+            - Snapshots can be stored in multi-regions or single region.</td>
+      </tr>
+    </table>
+    
+    <h4>6.10.2 Local SSD</h4>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Local SSD</td>
+        <td>- Physically attached to the host server.<br>
+            - Highest IOPS & lowest latency.<br>
+            - Limited to 24 x 375 GB partitions = max 9 TB.</td>
+      </tr>
+      <tr>
+        <td>Volatile Data</td>
+        <td>- Data is lost when VM is stopped, deleted, or moved.<br>
+            - Good for caches, scratch data, or ephemeral workloads.</td>
+      </tr>
+      <tr>
+        <td>NVMe vs. SCSI</td>
+        <td>- SCSI is older, single queue.<br>
+            - NVMe (non-volatile memory express) is newer, supports many queues & commands, typically offers higher IOPS/throughput.</td>
+      </tr>
+      <tr>
+        <td>Availability</td>
+        <td>- Only for N1, N2, and compute-optimized VM families.<br>
+            - Not attachable/detachable. Must be chosen at instance creation.</td>
+      </tr>
+      <tr>
+        <td>Performance</td>
+        <td>- Very high read/write ops (millions of IOPS).<br>
+            - Lower latency than PD.</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>6.11 Managing Disks on Compute Engine</h3></summary>
+    <table>
+      <tr>
+        <th>Action</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Create a Persistent Disk</td>
+        <td>- Zonal or Regional.<br>
+            - Blank or from image/snapshot.<br>
+            - Choose type (standard, balanced, SSD) & size.</td>
+      </tr>
+      <tr>
+        <td>Attach/Detach</td>
+        <td>- Attach disk to a running VM or a stopped VM (except local SSD).<br>
+            - On Linux, must format + mount.<br>
+            - On Windows, must initialize in Disk Management.</td>
+      </tr>
+      <tr>
+        <td>Resizing a Persistent Disk</td>
+        <td>- Disks can be expanded without downtime.<br>
+            - Must resize the filesystem inside the OS (e.g., `resize2fs` on Linux).</td>
+      </tr>
+      <tr>
+        <td>Mounting & FSTAB</td>
+        <td>- After formatting, create mount point & add entry to `/etc/fstab` (Linux) for auto-mount on reboot.</td>
+      </tr>
+      <tr>
+        <td>Data Persistence</td>
+        <td>- PD remains intact even if VM is deleted (unless “delete disk” is selected).<br>
+            - Local SSD data is lost on VM stop/delete.</td>
+      </tr>
+      <tr>
+        <td>Deleting Disks</td>
+        <td>- Must detach first from a running VM (or delete VM if boot disk).<br>
+            - Freed resources stop incurring cost.</td>
+      </tr>
+      <tr>
+        <td>Snapshot</td>
+        <td>- Create from a disk for backup or migration.<br>
+            - Snapshots are incremental, can restore to new disk or instance.</td>
+      </tr>
+    </table>
+  </details>
+
+    <details><summary><h3>6.12 Snapshots</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Snapshot Fundamentals</td>
+        <td>- <strong>Snapshots</strong> are <strong>incremental, point-in-time backups</strong> of persistent disks (zonal or regional). - Snapshots can be taken from <strong>running</strong> or <strong>stopped</strong> instances (disks do not have to be detached). - They are <strong>global resources</strong>: can create new disks in any region from a snapshot.</td>
+      </tr>
+      <tr>
+        <td>Location & Storage</td>
+        <td>- Stored in Cloud Storage. Choose <strong>multi-regional</strong> (higher availability, higher cost) or <strong>regional</strong> (lower cost, but limited to a single region). - If snapshot region = disk region, <strong>no network charge</strong> for snapshot/restore in that region.</td>
+      </tr>
+      <tr>
+        <td>Incremental & Compression</td>
+        <td>- The <strong>first</strong> snapshot is a <strong>full</strong> snapshot of the disk. - Subsequent snapshots only store <strong>changed or new blocks</strong> since the last successful snapshot. - Snapshots are compressed automatically.</td>
+      </tr>
+      <tr>
+        <td>Deleting Snapshots</td>
+        <td>- Deleting a snapshot does <strong>not</strong> necessarily remove all of its data if other snapshots depend on it. - Deployment Manager will manage references among snapshots, adjusting block references as needed (some blocks may move to next snapshot).</td>
+      </tr>
+      <tr>
+        <td>Frequency & Best Practices</td>
+        <td>- Minimum 10 minutes between snapshots of the same disk. - Regular snapshots reduce data-loss risk. - Off-peak snapshot times = faster & cheaper if data changes are fewer. - For Windows: Volume Shadow Copy Service (VSS) can be used for consistent snapshots.</td>
+      </tr>
+    </table>
+  </details>
+    
+    <details><summary><h3>6.13 Creating Snapshots & Snapshot Schedules</h3></summary>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Manual Snapshots</td>
+        <td>- <strong>One-off</strong> snapshots can be created from the console or CLI. - Must specify the source disk, snapshot name, and region or multi-region storage location. - Snapshots are incremental, so repeated snapshots are quick & cost less.</td>
+      </tr>
+      <tr>
+        <td>Snapshot Schedules</td>
+        <td>- Automate periodic snapshots of a given disk. - <strong>One schedule per disk</strong>; must be in the <strong>same region</strong> as the disk. - Optionally define <strong>snapshot retention</strong> (e.g., “keep 14 days”), <strong>source disk deletion rule</strong>. - Attachable or detachable from a disk.</td>
+      </tr>
+      <tr>
+        <td>Manage Snapshots & Schedules</td>
+        <td>- You can <strong>detach</strong> a schedule or <strong>delete</strong> it after detaching from all disks. - Schedules cannot be edited. Instead, remove and re-create with different settings. - Snapshots remain until manually deleted or retention policy cleans them up.</td>
+      </tr>
+      <tr>
+        <td>Creating a Disk from Snapshot</td>
+        <td>- Create new disk in any region from an existing snapshot. - The new disk can then be attached to a VM as a data disk or a boot disk (if snapshot is from a bootable disk).</td>
+      </tr>
+    </table>
+  </details>
+  
+    <details><summary><h3>6.14 Deployment Manager</h3></summary>
+    <h4>6.14.1 Overview</h3>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Deployment Manager</td>
+        <td>- GCP’s <strong>infrastructure-as-code</strong> tool for automating resource provisioning. - Uses <strong>YAML</strong> for configurations + optional <strong>Jinja</strong> or <strong>Python</strong> templates. - Deploy, update, and delete resources in a single, repeatable workflow.</td>
+      </tr>
+      <tr>
+        <td>Key Components</td>
+        <td>- <strong>Configuration</strong>: The main YAML file describing resources. - <strong>Template(s)</strong>: Reusable building blocks (Jinja/Python). - <strong>Deployment</strong>: A collection of resources managed together.</td>
+      </tr>
+      <tr>
+        <td>Resource Types</td>
+        <td>- Base types: e.g., <code>compute.v1.instance</code>. - Composite types: e.g., <code>gcp-types/compute-v1:instances</code> (bundled sets of resources).</td>
+      </tr>
+      <tr>
+        <td>Properties & References</td>
+        <td>- <strong>Properties</strong>: Parameters for the resource. Must match the specific API’s fields (e.g., machineType, network). - <strong>References</strong>: Let one resource read values from another resource (e.g., <code>$(ref.resourceName.selfLink)</code>).</td>
+      </tr>
+      <tr>
+        <td>Manifests</td>
+        <td>- Read-only descriptor for each deployment. Auto-created when you deploy. - Summarizes expanded config + resources (similar to a “compiled” version).</td>
+      </tr>
+    </table>
+    
+    <h4>6.14.2 Usage & Best Practices</h4>
+    <table>
+      <tr>
+        <th>Concept</th>
+        <th>Definition / Explanation</th>
+      </tr>
+      <tr>
+        <td>Workflow</td>
+        <td>1. Write config (<code>.yaml</code>) + optional templates (<code>.jinja</code>/<code>.py</code>). 2. <strong>Preview</strong> (<code>--preview</code>) or <strong>deploy</strong> (<code>gcloud deployment-manager deployments create ...</code>). 3. Update (<code>gcloud deployment-manager deployments update ...</code>) or delete resources.</td>
+      </tr>
+      <tr>
+        <td>Preview Mode</td>
+        <td>- Doesn’t provision any resources. - Helps catch errors in your config or templates before real deployment.</td>
+      </tr>
+      <tr>
+        <td>Templates</td>
+        <td>- Split configurations into smaller re-usable <code>.jinja</code> or <code>.py</code> files. - Use environment variables + custom properties to handle dynamic values.</td>
+      </tr>
+      <tr>
+        <td>References</td>
+        <td>- Use <code>$(ref.myResource.property)</code> to refer to output from one resource as an input to another. - Ensures correct order of creation (dependency).</td>
+      </tr>
+      <tr>
+        <td>Best Practices</td>
+        <td>- Keep separate config for major categories (e.g., network vs. compute vs. security). - Always <strong>preview</strong> changes. - Use version control (Git) + automation (CICD). - Use references to handle resource dependencies. - Automate project creation if needed.</td>
+      </tr>
+    </table>
+  </details>
+ 
+
+<h2>7. High Availability and Autoscaling</h2>
+    
+<details><summary><h3>7.1 Cloud Load Balancers (CLB)</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+        </tr>
+        <tr>
+          <td>Load Balancer Purpose</td>
+          <td>Distribute traffic across multiple resources (VMs, instance groups, etc.) to increase availability, reduce latency, and improve overall user experience.</td>
+        </tr>
+        <tr>
+          <td>Software-Defined & Global</td>
+          <td>GCP load balancers are fully <strong>software-defined</strong>, no hardware devices needed. Certain GCP load balancers can be <strong>global</strong> (premium tier) or <strong>regional</strong> (standard tier).</td>
+        </tr>
+        <tr>
+          <td>Forwarding Rule</td>
+          <td>Directs traffic (based on protocol and port) to a target backend (e.g., <strong>backend service</strong> or target pool).</td>
+        </tr>
+        <tr>
+          <td>Backend Service</td>
+          <td>Defines how the load balancer distributes traffic to back ends. Contains settings like <strong>health checks</strong>, <strong>session affinity</strong>, <strong>timeout</strong>, and references to instance groups or <strong>NEGs</strong> as back ends.</td>
+        </tr>
+      </table>
+
+      <h4>7.1.1 Types of CLB</h4>
+      <table>
+        <tr>
+          <th>LB Type</th>
+          <th>Key Characteristics</th>
+        </tr>
+        <tr>
+          <td>HTTP(S) Load Balancing</td>
+          <td>- <strong>Global</strong>, Layer <strong>7</strong> (application).<br>- <strong>Proxy-based</strong>: terminates HTTP(S) traffic at Google Front Ends (GFE).<br>- Supports <strong>cross-region</strong> distribution & <strong>content-based routing</strong> (URL maps).<br>- IPv4 & IPv6, IPv6 terminates at LB → forwards IPv4 to backend.<br>- Premium-tier = global; standard-tier = regional.</td>
+        </tr>
+        <tr>
+          <td>SSL Proxy Load Balancing</td>
+          <td>- <strong>Global</strong>, Layer <strong>4</strong> (TCP over SSL).<br>- Terminates SSL at LB, re-encrypt or pass plain TCP to backend.<br>- IPv4 & IPv6, IPv6 terminates at LB.<br>- Only supports <strong>TCP with SSL</strong> (proxy).</td>
+        </tr>
+        <tr>
+          <td>TCP Proxy Load Balancing</td>
+          <td>- <strong>Global</strong>, Layer <strong>4</strong> (TCP).<br>- Proxy-based: Terminates TCP at LB, can re-establish TCP or SSL to backend.<br>- IPv4 & IPv6, IPv6 terminates at LB.</td>
+        </tr>
+        <tr>
+          <td>Network Load Balancing (NLB)</td>
+          <td>- <strong>Regional</strong>, Layer <strong>4</strong> (TCP/UDP).<br>- <strong>Pass-through</strong>: no termination, direct server return.<br>- Balances TCP, UDP, SSL (self-managed).<br>- Great for non-HTTP protocols needing direct IP:port LB.</td>
+        </tr>
+        <tr>
+          <td>Internal Load Balancing (ILB)</td>
+          <td>- <strong>Regional</strong>, Layer <strong>4</strong> (TCP/UDP).<br>- <strong>Internal</strong> only, not internet-facing.<br>- Balances traffic within a VPC (private IP addresses).</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>7.2 Instance Groups and Instance Templates</h3></summary>
+      <h4>7.2.1 Instance Templates</h4>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+        </tr>
+        <tr>
+          <td>Instance Template</td>
+          <td>A resource that defines a VM’s configuration (machine type, disk, metadata, etc.). Re-used to create multiple VMs or <strong>Managed Instance Groups (MIGs)</strong>.</td>
+        </tr>
+        <tr>
+          <td>No Editing Templates</td>
+          <td>Once created, <strong>cannot edit</strong>. Must create a new template if a config changes.</td>
+        </tr>
+        <tr>
+          <td>Usage</td>
+          <td>- Create MIG using an instance template.<br>- Optionally base a new template on an existing instance.<br>- Includes OS images (public/custom), metadata, machine type, disks, network, etc.</td>
+        </tr>
+      </table>
+
+      <h4>7.2.2 Managed Instance Groups (MIGs)</h4>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+        </tr>
+        <tr>
+          <td>MIG Overview</td>
+          <td>- A fleet of identical VMs (stateless recommended).<br>- MIG automatically handles scaling, healing, auto-updates, multi-zone/regional deployments, etc.<br>- Must use <strong>instance templates</strong> to create identical VMs.</td>
+        </tr>
+        <tr>
+          <td>Auto Healing</td>
+          <td>- Uses MIG health checks to replace unhealthy instances automatically.<br>- Distinct from LB health checks (which only remove from traffic, not recreate).</td>
+        </tr>
+        <tr>
+          <td>Auto Scaling</td>
+          <td>- Automatically add/remove VMs to match load (CPU utilization, custom metrics, LB-based).<br>- Scales in to reduce cost, out to handle demand.</td>
+        </tr>
+        <tr>
+          <td>Rolling Updates</td>
+          <td>- Update MIG with minimal downtime (gradual replacement).<br>- Optionally do canary (partial rollout) with controlled pace.</td>
+        </tr>
+        <tr>
+          <td>Regional vs. Zonal MIG</td>
+          <td>- <strong>Regional</strong> MIG: Distribute instances across multiple zones in the same region (higher availability).<br>- <strong>Zonal</strong> MIG: All instances in a single zone.</td>
+        </tr>
+        <tr>
+          <td>Preemptible VMs</td>
+          <td>- MIG can include <strong>preemptible</strong> instances for cost savings.<br>- Auto healing replaces them if capacity is available when preempted.</td>
+        </tr>
+        <tr>
+          <td>Stateful MIG</td>
+          <td>- Keep per-instance state (e.g., persistent disk, instance name).<br>- Useful for partial stateful apps or unique configs, but MIG still handles auto healing.</td>
+        </tr>
+      </table>
+
+      <h4>7.2.3 Unmanaged Instance Groups</h4>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+        </tr>
+        <tr>
+          <td>Unmanaged Instance Group</td>
+          <td>- <strong>Heterogeneous</strong> (mixed machine types, OS, etc.).<br>- No auto scaling, auto healing, or rolling updates.<br>- Use only if you need load balancing across a custom set of distinct instances that you manage manually.</td>
+        </tr>
+        <tr>
+          <td>No Templates</td>
+          <td>- You add existing instances to an unmanaged group. You handle all lifecycle events.</td>
+        </tr>
+      </table>
+    </details>
+
+<h2>8. Kubernetes Engine Containers</h2>
+
+<details><summary><h3>8.1 Introduction to Containers</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Containers</td>
+          <td>Lightweight application bundles containing all dependencies. Share OS kernel while isolating processes in each container.</td>
+          <td>(Docker commands, for reference)<br>`docker build -t [image:tag] .`<br>`docker run -p 80:80 [image:tag]`</td>
+        </tr>
+        <tr>
+          <td>Container Registry</td>
+          <td>A storage system for container images (public or private). GCP provides Artifact Registry or Container Registry.</td>
+          <td>`gcloud artifacts repositories create ...`<br>`gcloud container images list` (for older Container Registry usage)</td>
+        </tr>
+        <tr>
+          <td>Dockerfile Layers</td>
+          <td>Each line in a Dockerfile forms a new read-only layer. Final container = all layers + top read-write layer at runtime.</td>
+          <td>N/A in GCP CLI, but essential for Docker</td>
+        </tr>
+        <tr>
+          <td>Pods</td>
+          <td>In pure Kubernetes, 1+ containers in a single deployable object. GKE always runs containers inside pods.</td>
+          <td>`kubectl run myapp --image=...` (auto-creates a single-pod Deployment in newer K8s versions)</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>8.2 GKE and Kubernetes Concepts</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Kubernetes</td>
+          <td>An open-source container orchestration platform. Automates scheduling, scaling, networking for containerized apps.</td>
+          <td>`kubectl` commands to interact with any Kubernetes cluster.</td>
+        </tr>
+        <tr>
+          <td>GKE (Google Kubernetes)</td>
+          <td>Managed environment on GCP for Kubernetes clusters. GCP manages the control plane (master) while you control node configs.</td>
+          <td>`gcloud container clusters create [CLUSTER_NAME] --zone ...`<br>`gcloud container clusters list`<br>`kubectl` for cluster interactions.</td>
+        </tr>
+        <tr>
+          <td>Control Plane</td>
+          <td>Composed of API Server (kube-apiserver), Scheduler (kube-scheduler), Controller Manager (kube-controller-manager), etcd. Coordinates cluster state. GKE manages these for you.</td>
+          <td>GKE auto-manages control plane, no direct `gcloud` to manage it.</td>
+        </tr>
+        <tr>
+          <td>Nodes</td>
+          <td>Worker machines (Compute Engine VMs in GKE). Run container runtime (Docker/Containerd) + kubelet (agent).</td>
+          <td>Created automatically by `gcloud container clusters create`.</td>
+        </tr>
+        <tr>
+          <td>Node Pools</td>
+          <td>Group of nodes sharing configuration (machine type, size, disk, etc.). You can have multiple node pools in a cluster for different workloads.</td>
+          <td>`gcloud container node-pools create [POOL_NAME] --cluster [CLUSTER_NAME]`<br>`gcloud container node-pools list --cluster [CLUSTER_NAME]`</td>
+        </tr>
+        <tr>
+          <td>Namespaces</td>
+          <td>Virtual clusters within a physical cluster. Isolate apps or teams. Pre-defined namespaces: default, kube-system, kube-public, kube-node-lease.</td>
+          <td>`kubectl get namespaces`<br>`kubectl create namespace [NAME]`<br>`kubectl apply -f myapp.yaml --namespace [NAME]`</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>8.3 Cluster and Node Management</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Cluster Types</td>
+          <td>- Zonal (single-zone or multi-zonal)<br>- Regional (multi-zone control plane replicas)<br>Multi-zonal & regional = better availability, typically higher cost.</td>
+          <td>`gcloud container clusters create [CLUSTER_NAME] --region/us-east1 --enable-autorepair`<br>`gcloud container clusters create ... --num-nodes=...`</td>
+        </tr>
+        <tr>
+          <td>Private Clusters</td>
+          <td>Nodes do not have public IPs, only internal addresses. Control-plane can optionally disable public endpoint. More secure, more steps for connectivity (VPC peering, NAT if needed).</td>
+          <td>`gcloud container clusters create [CLUSTER_NAME] --enable-private-nodes --master-ipv4-cidr ...`<br>`gcloud container clusters update ... --enable-master-authorized-networks ...`</td>
+        </tr>
+        <tr>
+          <td>Release Channels</td>
+          <td>Automatic cluster version upgrades, stability tiers. Rapid, Regular, Stable.</td>
+          <td>`gcloud container clusters create [CLUSTER_NAME] --release-channel=regular`<br>`gcloud container clusters update [CLUSTER_NAME] --release-channel=stable`</td>
+        </tr>
+        <tr>
+          <td>Auto-Upgrades</td>
+          <td>GKE can automatically upgrade control plane & nodes to newer patch versions. Minimizes manual overhead.</td>
+          <td>`gcloud container clusters create [CLUSTER_NAME] --enable-autoupgrade`<br>`gcloud container node-pools update [POOL_NAME] --enable-autoupgrade --cluster=[CLUSTER_NAME]`</td>
+        </tr>
+        <tr>
+          <td>Manual Upgrades</td>
+          <td>You can pin cluster version & manually do `gcloud container clusters upgrade ...`. Only recommended if you have custom reasons to test each version.</td>
+          <td>`gcloud container clusters upgrade [CLUSTER_NAME] --cluster-version=...`<br>`gcloud container node-pools upgrade [POOL_NAME] --cluster [CLUSTER_NAME]`</td>
+        </tr>
+        <tr>
+          <td>Surge Upgrades</td>
+          <td>Controls how many nodes GKE upgrades in parallel (max-surge-upgrade) and how many can be temporarily unavailable (max-unavailable-upgrade). Reduces downtime at cost of extra nodes.</td>
+          <td>`gcloud container node-pools update [POOL_NAME] --cluster=[CLUSTER_NAME] --max-surge-upgrade=2 --max-unavailable-upgrade=1`</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>8.4 Pods and Object Management</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Pods</td>
+          <td>Smallest K8s object. Runs 1 or more containers. Ephemeral & disposable. Typically created/managed by higher-level objects like Deployment.</td>
+          <td>`kubectl get pods`<br>`kubectl describe pod [NAME]`<br>`kubectl logs [POD_NAME]`</td>
+        </tr>
+        <tr>
+          <td>Pod Spec & Status</td>
+          <td>The .spec in the manifest states container specs (image, ports, volumes, etc.). The .status is updated by the K8s system.</td>
+          <td>`kubectl apply -f pod.yaml`</td>
+        </tr>
+        <tr>
+          <td>Deployments</td>
+          <td>Higher-level object that manages sets of replicated Pods (ReplicaSets). Handles rolling updates, rollback, scale. Great for stateless apps.</td>
+          <td>`kubectl create deployment [NAME] --image=...`<br>`kubectl scale deployment [NAME] --replicas=...`<br>`kubectl rollout undo deployment [NAME]`</td>
+        </tr>
+        <tr>
+          <td>ReplicaSets</td>
+          <td>Ensures a specified number of pod replicas are running. Usually handled by Deployment.</td>
+          <td>Typically not managed directly; used behind the scenes by Deployments.</td>
+        </tr>
+        <tr>
+          <td>StatefulSet</td>
+          <td>For stateful apps requiring persistent identity (like DBs). Retains pod identity across rescheduling.</td>
+          <td>`kubectl apply -f statefulset.yaml`</td>
+        </tr>
+        <tr>
+          <td>DaemonSet</td>
+          <td>Ensures a pod runs on every node (logging/monitoring agents).</td>
+          <td>`kubectl apply -f daemonset.yaml`</td>
+        </tr>
+        <tr>
+          <td>Jobs & CronJobs</td>
+          <td>- Job runs a finite task to completion (batch work).<br>- CronJob is a scheduled repeating job.</td>
+          <td>`kubectl create job [NAME] --image=... -- [args]`<br>`kubectl create cronjob [NAME] --schedule="0 * * * *" --image=... -- [args]`</td>
+        </tr>
+        <tr>
+          <td>ConfigMaps & Secrets</td>
+          <td>Externalize config data or secret data. Mounted as env vars or volumes. Secrets are base64-encoded.</td>
+          <td>`kubectl create configmap [NAME] --from-literal=KEY=VALUE`<br>`kubectl create secret generic [NAME] --from-literal=KEY=VALUE`</td>
+        </tr>
+        <tr>
+          <td>Config Connector</td>
+          <td>A Kubernetes-based tool that manages Google Cloud resources using Kubernetes configuration files.</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>8.5 Kubernetes Services</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Service</td>
+          <td>Stable, persistent endpoint to access a set of pods. Each service gets a stable IP + DNS name (internal or external). Pods behind the service are dynamically updated using selectors (labels).</td>
+          <td>- kubectl get services<br>- kubectl describe service [NAME]<br>- kubectl expose deployment [DEPLOYMENT_NAME] --type=... --port=...</td>
+        </tr>
+        <tr>
+          <td>Selector & Labels</td>
+          <td>Services route traffic to pods matching a label. Example: app: inventory. A label must match the service selector to register the pod behind that service.</td>
+          <td>- kubectl apply -f service.yaml (the spec.selector must match pods’ metadata.labels)</td>
+        </tr>
+        <tr>
+          <td>ClusterIP (default)</td>
+          <td>Internal-only (virtual IP) accessible within the cluster. No external exposure.</td>
+          <td>- kubectl expose deployment [NAME] --type=ClusterIP --port=...</td>
+        </tr>
+        <tr>
+          <td>NodePort</td>
+          <td>Exposes the service on a static port on each node (30000–32767). Access from outside by <NodeIP>:<NodePort>.</td>
+          <td>- kubectl expose deployment [NAME] --type=NodePort --port=80 --node-port=30080</td>
+        </tr>
+        <tr>
+          <td>LoadBalancer</td>
+          <td>Provisions a cloud LB (e.g., GCP external load balancer). Traffic from LB -> NodePort -> Pods. Simplest way to get external IP if you want each service behind a separate LB.</td>
+          <td>- kubectl expose deployment [NAME] --type=LoadBalancer --port=80</td>
+        </tr>
+        <tr>
+          <td>Multi-Port Services</td>
+          <td>Service can map multiple ports (or port + targetPort pairs). Each port must have a unique name in the service spec.</td>
+          <td>- kubectl apply -f multiport-service.yaml</td>
+        </tr>
+        <tr>
+          <td>ExternalName</td>
+          <td>Maps service DNS to an external DNS name. No cluster IP or pods. Simple CNAME-like alias.</td>
+          <td>- kubectl apply -f externalname.yaml</td>
+        </tr>
+        <tr>
+          <td>Headless Service</td>
+          <td>spec.clusterIP: None. No clusterIP assigned. Allows direct pod endpoints discovery, often with StatefulSets.</td>
+          <td>- kubectl apply -f headless-service.yaml</td>
+        </tr>
+      </table>
+    </details>
+      
+      <details><summary><h3>8.6 Ingress for GKE</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Ingress</td>
+          <td>High-level object that defines HTTP(S) routing rules for multiple Services. GKE implements Ingress via GCP’s HTTP/HTTPS Load Balancer. One IP can serve multiple paths/hosts.</td>
+          <td>- kubectl apply -f ingress.yaml<br>- kubectl get ingress</td>
+        </tr>
+        <tr>
+          <td>Ingress Controller</td>
+          <td>In GKE, the built-in controller maps Ingress resources to a Google Cloud HTTP(S) LB.</td>
+          <td>- kubectl describe ingress [NAME]</td>
+        </tr>
+        <tr>
+          <td>Ingress Rules</td>
+          <td>Map host/path -> backend service in cluster. Example: /discontinued routes to Service discontinued-service.</td>
+          <td>- In ingress.yaml, under .spec.rules[].http.paths[].backend.serviceName or backend.service.</td>
+        </tr>
+        <tr>
+          <td>NEG (Network Endpoint Group)</td>
+          <td>Container-native LB: each pod is an endpoint. LB routes traffic directly to pod IP. More fine-grained than standard Service NodePort.</td>
+          <td>- kubectl expose deployment [NAME] --port=80 --type=ClusterIP -o yaml --dry-run=client and annotate for NEGs.</td>
+        </tr>
+        <tr>
+          <td>GCP SSL Certificates</td>
+          <td>Ingress can reference either Google-managed or self-managed SSL certificates. One LB can hold multiple certs for SNI-based routing.</td>
+          <td>- gcloud compute ssl-certificates create [CERT_NAME] --certificate [CERT_FILE] --private-key [KEY_FILE]<br>- Then kubectl annotate ingress [NAME] ...</td>
+        </tr>
+      </table>
+    </details>
+   
+      <details><summary><h3>8.7 GKE Storage Options</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Ephemeral vs. Durable Storage</td>
+          <td>- Ephemeral: Tied to pod lifecycle (e.g., <code>emptyDir</code>).<br>- Durable: Outlives pods, typically Persistent Disks or volumes from a storage provider.</td>
+          <td>- Pods reference ephemeral volumes (like <code>emptyDir</code>) in their manifest under <code>.spec.volumes[].emptyDir</code>.<br>- Durable volumes are typically mounted via Persistent Volume Claims.</td>
+        </tr>
+        <tr>
+          <td>Kubernetes Volume</td>
+          <td>Basic storage unit in a pod. Volumes outlive containers but die with the pod (unless using persistent volumes). Examples: <code>emptyDir</code>, <code>configMap</code>, <code>secret</code>, <code>downwardAPI</code>.</td>
+          <td>- <code>kubectl describe pod [NAME]</code> shows volumes defined in <code>.spec.volumes</code>.<br>- <code>kubectl get pvc</code> etc.</td>
+        </tr>
+        <tr>
+          <td>Persistent Volume (PV)</td>
+          <td>A cluster-wide resource representing a piece of <strong>durable storage</strong> in the cluster. The actual backing can be GCE persistent disks, Filestore, etc. Lifecycle managed by K8s.</td>
+          <td>- <code>kubectl get pv</code><br>- Usually created dynamically via Persistent Volume Claims + <strong>StorageClass</strong>.</td>
+        </tr>
+        <tr>
+          <td>Persistent Volume Claim (PVC)</td>
+          <td>A request for storage by a user. Binds to a suitable PV that meets the spec (e.g., size, access modes). GKE can dynamically create a persistent disk upon PVC creation if using the default or a custom <strong>StorageClass</strong>.</td>
+          <td>- <code>kubectl get pvc</code><br>- <code>kubectl apply -f pvc.yaml</code><br><strong>Example snippet</strong> in <code>pvc.yaml</code>:<br><code>yaml<br/>apiVersion: v1<br/>kind: PersistentVolumeClaim<br/>metadata:<br/>  name: my-pvc<br/>spec:<br/>  accessModes: [ "ReadWriteOnce" ]<br/>  resources:<br/>    requests:<br/>      storage: 10Gi<br/></code></td>
+        </tr>
+        <tr>
+          <td>StorageClass</td>
+          <td>Defines <strong>classes of storage</strong> offered in a cluster. GKE typically has a default <code>standard</code> class (and possibly <code>balanced</code> / <code>ssd</code>). Allows dynamic provisioning of persistent disks.</td>
+          <td>- <code>kubectl get storageclass</code><br>- <code>kubectl describe storageclass [CLASSNAME]</code><br>- <code>kubectl apply -f custom-storageclass.yaml</code></td>
+        </tr>
+        <tr>
+          <td>Access Modes</td>
+          <td>Describes how volumes can be mounted: <strong>ReadWriteOnce</strong> (RWO), <strong>ReadOnlyMany</strong> (ROX), <strong>ReadWriteMany</strong> (RWX).</td>
+          <td>- Specified in <code>pvc.yaml</code> under <code>.spec.accessModes</code>.</td>
+        </tr>
+        <tr>
+          <td>Regional vs. Zonal Persistent</td>
+          <td>- <strong>Zonal PD</strong>: Resides in a single zone.<br>- <strong>Regional PD</strong>: Replicated across two zones in the same region, for higher availability (failover if zone fails).</td>
+          <td>- Create a PVC with annotation referencing <code>volume-type: pd-standard</code> or custom SC referencing replication.</td>
+        </tr>
+        <tr>
+          <td>Container-Native Storage</td>
+          <td>You can use GCE persistent disks, Filestore (NFS), or Cloud Storage FUSE with GKE. Cloud SQL can also be used externally. Simplest approach is <strong>persistent disks</strong> via PVC/StorageClass.</td>
+          <td>- GCE PD is automatically used if you choose <code>storageClassName: standard</code> in your PVC.<br>- Filestore requires an NFS-based approach or Filestore CSI driver.</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>8.8 Creating a GKE Cluster & Managing Box of Bowties</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Definition / Explanation</th>
+          <th>Key CLI Commands</th>
+        </tr>
+        <tr>
+          <td>Creating a GKE Cluster</td>
+          <td>GKE managed environment for Kubernetes. You can create via the <strong>Console</strong> or via <code>gcloud container clusters create</code>. You define cluster type (zonal or regional), node machine types, release channels, etc.</td>
+          <td>- <strong>Console</strong>: "Kubernetes Engine" → "Create Cluster" → Fill details.<br>- <strong>CLI</strong>: <code>gcloud container clusters create [CLUSTER_NAME] --num-nodes=3 --zone=[ZONE] --release-channel=regular ...</code></td>
+        </tr>
+        <tr>
+          <td>Node Pools</td>
+          <td>Clusters have node pools. Each pool is a group of node VMs sharing the same configuration. You can add, remove, or update node pools without affecting the entire cluster.</td>
+          <td>- <code>gcloud container node-pools create [POOL_NAME] --cluster [CLUSTER_NAME] ... --num-nodes=2</code><br>- <code>gcloud container node-pools delete [POOL_NAME] --cluster [CLUSTER_NAME]</code></td>
+        </tr>
+        <tr>
+          <td>Setting <code>kubectl</code></td>
+          <td>Must retrieve the cluster’s credentials so <code>kubectl</code> can communicate with the new cluster’s control plane.</td>
+          <td>- <code>gcloud container clusters get-credentials [CLUSTER_NAME] --zone [ZONE]</code><br>- Check: <code>kubectl get nodes</code>, <code>kubectl get all</code></td>
+        </tr>
+        <tr>
+          <td>Deploying a Container</td>
+          <td>- Option 1: Use <code>kubectl create deployment ... --image=...</code><br>- Option 2: Use GKE console "Deploy".<br>Then "Expose" to create Service (Load Balancer, etc.).</td>
+          <td>- <code>kubectl create deployment box-of-bowties --image=gcr.io/[PROJECT]/box-of-bowties:v1.0.0</code><br>- <code>kubectl expose deployment box-of-bowties --type=LoadBalancer --port=80</code></td>
+        </tr>
+        <tr>
+          <td>Scaling a Deployment</td>
+          <td>Increase/Decrease the number of pods (replicas). For zero downtime, K8s performs rolling expansion/contraction.</td>
+          <td>- <strong>Console</strong>: Workloads → "Scale".<br>- <strong>CLI</strong>: <code>kubectl scale deployment box-of-bowties --replicas=3</code><br>- <code>kubectl get pods</code> (verify)</td>
+        </tr>
+        <tr>
+          <td>Rolling Updates</td>
+          <td>Seamless updates. Replaces old pods with new pods, one by one. Minimizes downtime.</td>
+          <td>- <strong>Console</strong>: "Workloads" → "Rolling Update" → Provide new container image digest.<br>- <strong>CLI</strong>: <code>kubectl set image deployment/box-of-bowties box-of-bowties-container=gcr.io/[PROJECT]/box-of-bowties:v1.0.1 --record</code></td>
+        </tr>
+        <tr>
+          <td>Cloud Build & Container Reg.</td>
+          <td>- <strong>Cloud Build</strong>: CI/CD service. Build Docker images from source inside GCP, push to registry.<br>- <strong>Container Registry</strong>: Stores Docker images. GCR is integrated with GCP auth + scanning.</td>
+          <td>- <code>gcloud builds submit --tag gcr.io/[PROJECT]/box-of-bowties:v1.0.0 .</code><br>- <code>gcloud container images list-tags gcr.io/[PROJECT]/box-of-bowties</code><br>- <code>gcloud container images delete gcr.io/[PROJECT]/box-of-bowties:v1.0.0</code> (cleanup)</td>
+        </tr>
+        <tr>
+          <td>Cleanup</td>
+          <td>Delete resources to avoid costs:<br>1. Delete the LB Service<br>2. Delete the Deployment<br>3. Delete the Container Images<br>4. Delete GCS build artifacts<br>5. Delete GKE cluster.</td>
+          <td>- <strong>LB/Service</strong>: <code>kubectl delete service box-of-bowties-service</code><br>- <strong>Deployment</strong>: <code>kubectl delete deployment box-of-bowties</code><br>- <strong>Cluster</strong>: <code>gcloud container clusters delete [CLUSTER_NAME] --zone [ZONE]</code><br>- <strong>Images</strong>: <code>gcloud container images delete ...</code></td>
+        </tr>
+      </table>
+    </details>
+
+<h2>9. Hybrid Connectivity</h2>
+
+<details><summary><h3>9.1 Cloud VPN</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Purpose / Use Cases</td>
+          <td>- Securely connect an on-premises network to a VPC over an IPsec VPN tunnel.<br>
+              - Good if you have moderate traffic, want encryption, and can tolerate latencies of public internet.<br>
+              - Site-to-site only (no client VPN).</td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>- Encryption at L3 (IPsec).<br>
+              - HA VPN offers 99.99% SLA (two interfaces/two external IPs).<br>
+              - Classic VPN offers 99.9% SLA. (Google recommends new deployments to use HA VPN.)</td>
+        </tr>
+        <tr>
+          <td>Routing</td>
+          <td>- Static or dynamic routing supported (dynamic with BGP/Cloud Router).<br>
+              - Each HA VPN gateway interface can support multiple tunnels.<br>
+              - Speeds up to ~3 Gbps per tunnel.</td>
+        </tr>
+        <tr>
+          <td>Connectivity</td>
+          <td>- Traffic traverses public internet—but is IPsec-encrypted.<br>
+              - Combine with Private Google Access for on-prem hosts.</td>
+        </tr>
+        <tr>
+          <td>Classic vs. HA VPN</td>
+          <td>- Classic VPN: Single IP, single interface, up to 3 Gbps, 99.9% SLA.<br>
+              - HA VPN: Two IPs (active/active), 99.99% SLA if both interfaces used with two external IPs, dynamic routing only.</td>
+        </tr>
+      </table>
+    </details>
+      
+      <details><summary><h3>9.2 Cloud Interconnect</h3></summary>
+      <table>
+        <tr>
+          <th>Concept</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Purpose / Use Cases</td>
+          <td>- Dedicated private connection from on-prem data center to Google’s network (no public internet).<br>
+              - High throughput, low latency. Great for large data volumes and production workloads needing stable connectivity.</td>
+        </tr>
+        <tr>
+          <td>Dedicated Interconnect</td>
+          <td>- Physical link (10 Gbps or 100 Gbps) from on-prem to Google’s colocation facility (PoP).<br>
+              - Up to 200 Gbps total per interconnect.<br>
+              - Must be in a Google-supported colocation facility.<br>
+              - Offers private IP routing.</td>
+        </tr>
+        <tr>
+          <td>Partner Interconnect</td>
+          <td>- Connect via a service provider instead of direct facility for “last-mile” connectivity.<br>
+              - Supports smaller increments: 50 Mbps up to 50 Gbps attachments.<br>
+              - Still private IP traffic, leveraging partner’s physical link.</td>
+        </tr>
+        <tr>
+          <td>Cloud Router + BGP</td>
+          <td>- For dynamic routing, a Cloud Router is used with (HA) VPN or Interconnect.<br>
+              - BGP sessions exchange routes between on-premises network and GCP VPC.</td>
+        </tr>
+        <tr>
+          <td>Direct vs. Partner</td>
+          <td>- Dedicated if you already have presence in colocation facility, need 10–100 Gbps per link.<br>
+              - Partner if you can’t reach a colocation PoP or only need smaller capacity.</td>
+        </tr>
+      </table>
+    </details>
+      
+<h2>10. Serverless Services</h2>
+
+<details><summary><h3>10.1 App Engine Overview</h3></summary>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Fully-managed PaaS for hosting web apps in Google Cloud. Handles provisioning, scaling, patching. Just upload your code and let GCP do the heavy lifting.</td>
+        </tr>
+        <tr>
+          <td>Standard vs. Flexible</td>
+          <td>Standard: Runs in language-specific runtimes (Python, Node.js, Java, Go, etc.). Sandboxed environment, free tier available, ephemeral local disk.<br>
+              Flexible: Runs in Docker containers on GCE VMs, no free tier, uses OS-level access.</td>
+        </tr>
+        <tr>
+          <td>Scaling Types</td>
+          <td>- Automatic: Scale up/down based on load (can go to zero).<br>
+              - Basic: Instances start on request, shut down when idle. Good for intermittent workloads.<br>
+              - Manual: Specify fixed number of instances.</td>
+        </tr>
+        <tr>
+          <td>Services / Versions</td>
+          <td>- An App Engine app can have multiple services (like microservices).<br>
+              - Each service can have multiple versions (for rollbacks, testing, traffic splitting).</td>
+        </tr>
+        <tr>
+          <td>Traffic Management</td>
+          <td>- Traffic Migration: Move traffic from old version to new version immediately or gradually (standard environment only).<br>
+              - Traffic Splitting: Route percentages of traffic to each version (A/B test).</td>
+        </tr>
+        <tr>
+          <td>Deploying</td>
+          <td>- Typically: <code>gcloud app deploy [YOUR_APP_YAML]</code><br>
+              - Distinct <code>app.yaml</code> per service.</td>
+        </tr>
+        <tr>
+          <td>Supported Languages</td>
+          <td>Common runtimes (Node.js, Python, Java, Go, PHP, Ruby, .NET). Custom Docker (flex environment).</td>
+        </tr>
+      </table>
+    </details>
+      
+      <details><summary><h3>10.2 Introduction to Cloud Functions</h3>  </summary>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Serverless “function as a service” for single-purpose, event-driven code. GCP automatically handles provisioning, scaling, patching.</td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>- Supports Node.js, Python, Go, Java, .NET Core.<br>
+              - Integrations with HTTP triggers, or background triggers (Pub/Sub, Cloud Storage, Firestore, etc.).<br>
+              - Priced by execution time and invocations.</td>
+        </tr>
+        <tr>
+          <td>Execution Model</td>
+          <td>- Stateless: each invocation is handled by an instance of your function.<br>
+              - Single concurrency per instance, no parallel requests on same instance.</td>
+        </tr>
+        <tr>
+          <td>Triggers</td>
+          <td>HTTP (direct calls), Pub/Sub (event), Cloud Storage (file uploads/deletes), Firestore (document changes).</td>
+        </tr>
+        <tr>
+          <td>Deployment</td>
+          <td>- <code>gcloud functions deploy [FUNCTION_NAME] --runtime [LANGUAGE] --trigger-http / --trigger-bucket / --trigger-topic...</code><br>
+              - Source code can be inline in the console or uploaded from local/Cloud Source Repos.</td>
+        </tr>
+        <tr>
+          <td>Networking</td>
+          <td>- By default: outgoing to internet is allowed, internal VPC not allowed unless you configure a VPC connector.<br>
+              - Ingress control can restrict function access to internal only or LB only.</td>
+        </tr>
+        <tr>
+          <td>Use Cases</td>
+          <td>- Quick data transformations, e.g. image thumbnail creation on file upload.<br>
+              - Asynchronous event handlers, e.g. after a Pub/Sub message.<br>
+              - Serverless APIs, e.g. for webhooks or form submissions.</td>
+        </tr>
+      </table>
+    </details>
+      
+<h2>11. Storage Services</h2>
+
+<details><summary><h3>11.1 Cloud Storage</h3></summary>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Global, large-capacity object storage for unstructured data. Store files/objects in buckets with globally unique names.</td>
+        </tr>
+        <tr>
+          <td>Use Cases</td>
+          <td>- Storing large data sets (e.g., images, videos, archives).<br>- Content distribution / direct public hosting.<br>- Backup or big data analytics source.<br>- Serving static website content.</td>
+        </tr>
+        <tr>
+          <td>Buckets</td>
+          <td>- Top-level container for objects (no nesting buckets).<br>- Name must be globally unique.<br>- Choose location (region, dual-region, multi-region).<br>- Choose default storage class (Standard, Nearline, Coldline, Archive).</td>
+        </tr>
+        <tr>
+          <td>Objects</td>
+          <td>- Stored files in buckets, up to TBs in size.<br>- Immutable: replaces old version, cannot edit in place.<br>- Metadata includes object’s name, generation, etc.<br>- No limit on number of objects.</td>
+        </tr>
+        <tr>
+          <td>Storage Classes</td>
+          <td>- Standard: Frequent access, ~0.02 USD/GB/mo.<br>- Nearline (30-day min storage): Infrequent (~1x/mo) usage, ~0.01 USD/GB/mo.<br>- Coldline (90-day min): Rarely accessed (~1x/quarter).<br>- Archive (365-day min): ~1x/year or long-term.</td>
+        </tr>
+        <tr>
+          <td>Geo-Options</td>
+          <td>- Region (lowest-latency to your region).<br>- Dual-Region (2 separate regions for HA).<br>- Multi-Region (spreads data across a continent).</td>
+        </tr>
+        <tr>
+          <td>Access Control</td>
+          <td>- IAM (recommended) to manage bucket- or project-level permissions.<br>- ACLs (fine-grained object-level control, older approach).<br>- Signed URLs for temporary controlled access.<br>- Signed Policy Docs for controlled uploads.</td>
+        </tr>
+        <tr>
+          <td>Lifecycle Management</td>
+          <td>- Automatically transition storage class (e.g., Standard→Coldline) or delete older objects.<br>- Configured via JSON or console rules (conditions + actions).</td>
+        </tr>
+        <tr>
+          <td>Object Versioning</td>
+          <td>- Store older (noncurrent) versions instead of overwriting.<br>- Increases storage cost, often combined with lifecycle rules (delete older versions after N days).</td>
+        </tr>
+        <tr>
+          <td>Typical Commands</td>
+          <td>- <code>gsutil cp</code>: Copy local→GCS or GCS→GCS.<br>- <code>gsutil mv</code>: Move objects, changing generation number if versioning enabled.<br>- <code>gsutil lifecycle set/get</code>: Manage JSON-based lifecycle rules.</td>
+        </tr>
+      </table>
+    </details>
+   
+      <details><summary><h3>11.2 Cloud SQL</h3></summary>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Fully managed relational DB service. Supports MySQL, PostgreSQL, and SQL Server. Google handles provisioning, maintenance, backups, HA config, etc.</td>
+        </tr>
+        <tr>
+          <td>Storage & Scaling</td>
+          <td>- Up to 30 TB persistent disk per instance.<br>- Choose HDD or SSD.<br>- Automatic storage increase if enabled.<br>- CPU, RAM sized by instance (db-* machine types).</td>
+        </tr>
+        <tr>
+          <td>Connectivity</td>
+          <td>- Public IP (with authorized networks) or Private IP (preferred if on same VPC).<br>- Cloud SQL Proxy recommended (handles SSL/tunnels + IAM-based auth).</td>
+        </tr>
+        <tr>
+          <td>Replication</td>
+          <td>- Read Replicas (for scale-out reads) up to 10 replicas.<br>- Cross-region or in-region replicas; can replicate to external MySQL.<br>- Promote replica → new standalone primary (no auto failover).</td>
+        </tr>
+        <tr>
+          <td>High Availability</td>
+          <td>- Optionally enable HA (known as “regional” instance).<br>- Creates synchronous standby in different zone, automatic failover → 99.95+% (varies by tier).</td>
+        </tr>
+        <tr>
+          <td>Backups & PITR</td>
+          <td>- Automated or on-demand backups.<br>- Point-in-time recovery requires binary logging (must be enabled).<br>- By default 7 days of backup retained (configurable).</td>
+        </tr>
+        <tr>
+          <td>Use Cases</td>
+          <td>- Traditional relational workloads needing strong ACID transactions.<br>- Commonly used with external VM apps, GKE microservices, or serverless (using Cloud SQL Proxy).</td>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td>- Billed for CPU, memory, storage, backups, egress.<br>- Different pricing for MySQL/Postgres vs. SQL Server (license included).</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>11.3 Cloud Spanner</h3></summary>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Google’s horizontal-scaling relational DB. Global, strongly consistent, highly available. 5 nines availability for multi-region.</td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>
+            - Relational model (SQL interface, schemas).<br>
+            - Synchronous replication for strong consistency.<br>
+            - Auto-sharding and high throughput with “TrueTime” for global ordering.<br>
+            - Nodes are the capacity unit (CPU/RAM), can scale on the fly.
+          </td>
+        </tr>
+        <tr>
+          <td>Use Cases</td>
+          <td>
+            - Mission-critical, globally distributed systems needing ACID transactions at scale.<br>
+            - Multi-region or global apps, high throughput (10k QPS+).<br>
+            - e.g. financial trading, global inventory, gaming leaderboards with strong consistency.
+          </td>
+        </tr>
+        <tr>
+          <td>Replication & Regions</td>
+          <td>
+            - Multi-region = 2 or more regions + witness for 5 nines SLA.<br>
+            - Regional instance = 1 region, multiple zones, 4 nines SLA.
+          </td>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td>
+            - ~0.90 USD/node/hr + storage (~0.30 USD/GB/mo).<br>
+            - Nodes provide CPU/RAM, can be scaled linearly.
+          </td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>11.4 NoSQL Databases on Google Cloud</h3></summary>
+
+      <h4>11.4.1 Cloud Bigtable</h4>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Fully managed <strong>wide-column</strong> NoSQL database for very large scale (TB–PB) with <strong>low latency</strong> and <strong>high throughput</strong>.</td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>
+            - <strong>Horizontally scalable</strong> (add more nodes for higher throughput).<br>
+            - Millisecond-level read/write latencies at large scale.<br>
+            - Integrated with Big Data / ML tools (Dataflow, Dataproc, HBase API).<br>
+            - Regional service; can enable multi-cluster for DR.
+          </td>
+        </tr>
+        <tr>
+          <td>Common Use Cases</td>
+          <td>
+            - Time-series data (IoT, logs, sensor readings).<br>
+            - Ad tech or financial data ingest at massive scale.<br>
+            - Recommendation engines, personalization, real-time analytics.
+          </td>
+        </tr>
+        <tr>
+          <td>Cost</td>
+          <td>
+            - ~0.65 USD/node/hr + storage usage + egress.<br>
+            - Not cheap, but extremely high performance at scale.
+          </td>
+        </tr>
+      </table>
+
+      <h4>11.4.2 Cloud Datastore / Firestore in Datastore Mode</h4>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td><strong>Document-based NoSQL</strong> database with <strong>automatic scaling</strong>, high performance, and <strong>SQL-like</strong> queries (GQL).</td>
+        </tr>
+        <tr>
+          <td>Datastore / Firestore</td>
+          <td>
+            - <strong>Firestore</strong> is the next generation of Datastore. Existing Datastore DBs are automatically migrated.<br>
+            - Firestore in Datastore Mode = Datastore’s system with Firestore’s improved backend.
+          </td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>
+            - ACID transactions (document-level).<br>
+            - Automatic scaling, strongly consistent queries by key.<br>
+            - GQL for queries.<br>
+            - <strong>Emulator</strong> available for local dev and testing.
+          </td>
+        </tr>
+        <tr>
+          <td>Use Cases</td>
+          <td>
+            - Web/mobile user profiles, product catalogs, real-time data that needs simpler query patterns than relational.
+          </td>
+        </tr>
+      </table>
+
+      <h4>11.4.3 Firestore (Cloud Firestore / Firebase)</h4>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Serverless <strong>document DB</strong> for mobile/web app dev, real-time sync, offline support.</td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>
+            - Data in <strong>collections</strong> → <strong>documents</strong> → subcollections.<br>
+            - Real-time updates & offline mode for client apps.<br>
+            - Integrates with <strong>Firebase</strong> for mobile dev.<br>
+            - Automatic multi-region replication, 5 nines availability.
+          </td>
+        </tr>
+        <tr>
+          <td>Common Use Cases</td>
+          <td>
+            - Mobile/web backends with real-time sync (chat, presence, user preferences).<br>
+            - Offline mode, frequently changing data.
+          </td>
+        </tr>
+      </table>
+
+      <h4>11.4.4 MemoryStore for Redis / Memcached</h4>
+      <table>
+        <tr>
+          <th>Aspect</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Definition</td>
+          <td>Fully managed in-memory data store (Redis or Memcached). Use as an <strong>application cache</strong> for high throughput & low latency data retrieval.</td>
+        </tr>
+        <tr>
+          <td>Key Features</td>
+          <td>
+            - Zero server ops (scalable, self-healing).<br>
+            - Deployed in VPC, private IP only by default.<br>
+            - High availability & failover for Redis “Standard Tier.”<br>
+            - Great for session caching, caching frequently accessed queries, ephemeral data, etc.
+          </td>
+        </tr>
+        <tr>
+          <td>Common Use Cases</td>
+          <td>
+            - Session caching for web apps.<br>
+            - Leaderboards, real-time counters.<br>
+            - Low-latency read access to data typically stored in slower or remote DB.
+          </td>
+        </tr>
+      </table>
+    </details>
+
+    <details><summary><h3>11.5 Data transfer services</h3></summary>
+      <table>
+        <tr>
+          <th>Service</th>
+          <th>Description</th>
+          <th>Transfer Mode</th>
+          <th>Target GCP Service</th>
+        </tr>
+        <tr>
+          <td>Storage Transfer Service</td>
+          <td>A fully managed online service that automates the transfer of data from external cloud storage providers or on-premises sources into Google Cloud Storage.</td>
+          <td>Online</td>
+          <td>Cloud Storage</td>
+        </tr>
+        <tr>
+          <td>Transfer Appliance</td>
+          <td>A secure, physical hardware device designed for moving very large volumes of data to Google Cloud Storage. It is shipped to the customer, loaded with data, then returned for ingestion.</td>
+          <td>Offline</td>
+          <td>Cloud Storage</td>
+        </tr>
+        <tr>
+          <td>BigQuery Data Transfer Service</td>
+          <td>A service that automates the movement of data from various external sources directly into BigQuery, helping to keep analytics data up to date.</td>
+          <td>Online</td>
+          <td>BigQuery</td>
+        </tr>
+      </table>
+    </details>
+
+<h2>12. Big Data & Machine Learning</h2>
+
+<details><summary><h3>12.1 Big Data Services</h3></summary>
+      <table>
+        <tr>
+          <th>Service</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Use Cases</th>
+        </tr>
+        <tr>
+          <td><strong>BigQuery</strong></td>
+          <td>Data Warehouse</td>
+          <td>Fully managed, serverless <strong>data warehouse</strong> for real-time analytics using SQL. Supports batch and streaming data ingestion.</td>
+          <td>Business analytics, BI reporting, ML integration</td>
+        </tr>
+        <tr>
+          <td><strong>Pub/Sub</strong></td>
+          <td>Messaging Service</td>
+          <td>Global, scalable messaging middleware for <strong>real-time event streaming</strong>. Publishers send messages to topics, and subscribers pull/push messages.</td>
+          <td>IoT data streams, event-driven systems, log ingestion</td>
+        </tr>
+        <tr>
+          <td><strong>Composer</strong></td>
+          <td>Workflow Orchestration</td>
+          <td>Managed <strong>Apache Airflow</strong> service for ETL and data pipelines. Uses <strong>DAGs</strong> (Directed Acyclic Graphs) to define workflows.</td>
+          <td>Data pipelines, workflow automation</td>
+        </tr>
+        <tr>
+          <td><strong>Dataflow</strong></td>
+          <td>Data Processing</td>
+          <td>Serverless, fully managed <strong>streaming and batch</strong> data processing using <strong>Apache Beam</strong>.</td>
+          <td>ETL, real-time data analytics, event stream processing</td>
+        </tr>
+        <tr>
+          <td><strong>Dataproc</strong></td>
+          <td>Hadoop/Spark Clusters</td>
+          <td>Managed <strong>Hadoop, Spark, Hive, and Pig</strong> clusters. Easy to spin up/down clusters for temporary workloads.</td>
+          <td>Data lakes, Spark/MapReduce jobs, big data batch processing</td>
+        </tr>
+        <tr>
+          <td><strong>Cloud Datalab</strong></td>
+          <td>Data Science IDE</td>
+          <td>Interactive <strong>Jupyter notebook</strong>-based environment for data exploration, analysis, and ML model development.</td>
+          <td>Data exploration, visualization, ML prototyping</td>
+        </tr>
+        <tr>
+          <td><strong>Dataprep</strong></td>
+          <td>Data Cleaning</td>
+          <td>Serverless, visual tool for <strong>exploring, cleaning, and preparing</strong> data for analysis or ML. Auto-detects anomalies and outliers.</td>
+          <td>Data wrangling before feeding into BigQuery or ML models</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>12.2 Machine Learning Services</h3></summary>
+      <table>
+        <tr>
+          <th>Service</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Use Cases</th>
+        </tr>
+        <tr>
+          <td><strong>AI Platform (Vertex AI)</strong></td>
+          <td>ML Lifecycle Platform</td>
+          <td>Unified ML platform to train, deploy, and manage models. Supports TensorFlow, Scikit-learn, XGBoost, and more.</td>
+          <td>End-to-end ML model lifecycle</td>
+        </tr>
+        <tr>
+          <td><strong>BigQuery ML</strong></td>
+          <td>ML in BigQuery</td>
+          <td>Run ML models directly inside BigQuery using <strong>SQL</strong> syntax. No need to move data.</td>
+          <td>Predictive analytics, forecasting</td>
+        </tr>
+        <tr>
+          <td><strong>AutoML</strong></td>
+          <td>No-Code ML</td>
+          <td>Build custom ML models (vision, NLP, translation, tables) without needing deep ML knowledge.</td>
+          <td>Domain-specific custom models</td>
+        </tr>
+      </table>
+    </details>
+      
+      <details><summary><h3>12.3 Pre-trained APIs (for Common AI Tasks)</h3></summary>
+      <table>
+        <tr>
+          <th>API</th>
+          <th>Category</th>
+          <th>Capabilities</th>
+          <th>Use Cases</th>
+        </tr>
+        <tr>
+          <td><strong>Vision API</strong></td>
+          <td>Image Analysis</td>
+          <td>Detect objects, faces, landmarks, and labels in images. OCR capabilities included.</td>
+          <td>Image moderation, product search</td>
+        </tr>
+        <tr>
+          <td><strong>Video Intelligence API</strong></td>
+          <td>Video Analysis</td>
+          <td>Detect objects, activities, and speech in videos. Supports <strong>video annotation</strong> and scene change detection.</td>
+          <td>Video content tagging, surveillance</td>
+        </tr>
+        <tr>
+          <td><strong>Natural Language API</strong></td>
+          <td>Text Analysis</td>
+          <td>Entity recognition, sentiment analysis, syntax analysis, and content classification.</td>
+          <td>Chatbots, document analysis</td>
+        </tr>
+        <tr>
+          <td><strong>Translation API</strong></td>
+          <td>Language Translation</td>
+          <td>Translate text between <strong>100+ languages</strong>. Supports glossary for domain-specific terminology.</td>
+          <td>Multilingual apps, e-commerce</td>
+        </tr>
+        <tr>
+          <td><strong>Speech-to-Text API</strong></td>
+          <td>Speech Recognition</td>
+          <td>Converts spoken language into text in real-time. Supports multiple languages and noise robustness.</td>
+          <td>Voice commands, call center analytics</td>
+        </tr>
+        <tr>
+          <td><strong>Text-to-Speech API</strong></td>
+          <td>Speech Synthesis</td>
+          <td>Converts text into natural-sounding speech. Supports 100+ voices in 20+ languages.</td>
+          <td>IVR systems, virtual assistants</td>
+        </tr>
+        <tr>
+          <td><strong>Dialogflow</strong></td>
+          <td>Conversational AI</td>
+          <td>Build chatbots and voice bots with natural language understanding. Supports voice/text integration with Google Assistant.</td>
+          <td>Customer support bots, virtual agents</td>
+        </tr>
+      </table>
+    </details>
+
+<h2>13. Operations Suite (Stackdriver)</h2>
+
+<details><summary><h3>13.1 Operations Suite Components</h3></summary>
+      <table>
+        <tr>
+          <th>Tool</th>
+          <th>Category</th>
+          <th>Purpose</th>
+          <th>Key Features</th>
+        </tr>
+        <tr>
+          <td><strong>Cloud Monitoring</strong></td>
+          <td>Metrics & Dashboards</td>
+          <td>Visualize resource health, create <strong>dashboards</strong>, set <strong>alerting policies</strong>, and monitor metrics across cloud services and VMs.</td>
+          <td>Uptime checks, multi-project monitoring, custom alerts</td>
+        </tr>
+        <tr>
+          <td><strong>Cloud Logging</strong></td>
+          <td>Log Aggregation</td>
+          <td>Collects logs from GCP services, VMs, and on-prem systems. Allows <strong>log-based metrics</strong> and integrates with <strong>Monitoring. Logs are stored in a log bucket. Can be routed using a log sink to BQ/Pub-sub/Cloud Storage.</strong>.</td>
+          <td>Log querying, export to BigQuery or Storage. Use Ops Agent to get logs from VMs.</td>
+        </tr>
+        <tr>
+          <td><strong>Error Reporting</strong></td>
+          <td>Error Aggregation</td>
+          <td>Real-time error detection and aggregation. Automatically groups similar errors and tracks frequency and impact.</td>
+          <td>Language support (Go, Java, Python, Node.js, etc.)</td>
+        </tr>
+        <tr>
+          <td><strong>Debugger</strong></td>
+          <td>Live Debugging</td>
+          <td>Debug production apps without stopping them. Set <strong>breakpoints</strong> and <strong>log points</strong> to inspect variables and stack traces.</td>
+          <td>Zero-downtime debugging, GitHub/GitLab integration</td>
+        </tr>
+        <tr>
+          <td><strong>Trace</strong></td>
+          <td>Performance Tracing</td>
+          <td>Analyze app latency and request traces. Helps identify bottlenecks in microservices or API requests.</td>
+          <td>Distributed tracing, end-to-end latency insights</td>
+        </tr>
+        <tr>
+          <td><strong>Profiler</strong></td>
+          <td>CPU & Memory Profiler</td>
+          <td>Continuously analyzes resource usage (CPU, memory) to optimize app performance.</td>
+          <td>Detect performance bottlenecks, low overhead profiling</td>
+        </tr>
+      </table>
+    </details>
+
+      <details><summary><h3>13.2 Common Monitoring Use Cases</h3></summary>  
+      <table>
+        <tr>
+          <th>Use Case</th>
+          <th>Solution</th>
+        </tr>
+        <tr>
+          <td>Track CPU/memory usage of VMs</td>
+          <td><strong>Cloud Monitoring + Ops Agent</strong></td>
+        </tr>
+        <tr>
+          <td>Create alert on GKE pod crashes</td>
+          <td><strong>Cloud Monitoring Alerts</strong></td>
+        </tr>
+        <tr>
+          <td>Detect high error rates in app</td>
+          <td><strong>Error Reporting + Cloud Logging</strong></td>
+        </tr>
+        <tr>
+          <td>Identify slow API requests</td>
+          <td><strong>Cloud Trace</strong></td>
+        </tr>
+        <tr>
+          <td>Optimize app performance</td>
+          <td><strong>Cloud Profiler</strong></td>
+        </tr>
+        <tr>
+          <td>Aggregate logs across services</td>
+          <td><strong>Cloud Logging with Log-Based Metrics</strong></td>
+        </tr>
+        <tr>
+          <td>Trigger alerts based on logs</td>
+          <td><strong>Log-based Metrics + Cloud Monitoring</strong></td>
+        </tr>
+      </table>
+    </details>
+</div>  
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+</html>

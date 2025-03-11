@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevOps - CI/CD Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+      h3 {
+  margin-top: 50px;          /* Adds space above each h3 */
+      }
+      </style>
+</head>
+
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('../../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
+
+<!-- Header -->
+<div class="header">
+  <img src="../../images/cicd.png" style="width: 20rem; max-width: 100%; height: auto; margin-top: 3.75rem; margin-bottom: 0;">
+  <h1>DevOps - CI/CD Cheatsheet</h1>
+</div>
+
+<!-- Tables -->
+<div><h3>General DevOps CI/CD Concepts</h3>
+  <table>
+    <tr>
+      <th>Concept</th>
+      <th>Explanation</th>
+      <th>Notes / Command Example</th>
+    </tr>
+    <tr>
+      <td>Continuous Integration (CI)</td>
+      <td>Practice of merging all developers’ working copies to a shared main branch multiple times a day. Automated builds and tests are triggered to detect issues early.</td>
+      <td>Focus on automated tests &amp; immediate feedback. Helps avoid “integration hell.”</td>
+    </tr>
+    <tr>
+      <td>Continuous Delivery (CD)</td>
+      <td>Ensures code is always in a deployable state by automating release processes. Builds on CI by adding automated deployment pipelines.</td>
+      <td>Aim to push code changes to production-like environments frequently, with minimal manual intervention.</td>
+    </tr>
+    <tr>
+      <td>Continuous Deployment</td>
+      <td>Every change that passes all stages of the production pipeline is automatically released to users. Fully automates the release process.</td>
+      <td>Requires high confidence in tests and rollback mechanisms.</td>
+    </tr>
+    <tr>
+      <td>Build Pipeline</td>
+      <td>A series of automated steps (build, test, deploy) triggered by code changes. Also called a CI/CD pipeline.</td>
+      <td>Can include code quality checks, security scans, integration tests, etc.</td>
+    </tr>
+    <tr>
+      <td>Branching Strategy</td>
+      <td>Describes how teams manage code changes in different branches (e.g., GitFlow, trunk-based development).</td>
+      <td>Choose a strategy that aligns with release cycles and team size.</td>
+    </tr>
+    <tr>
+      <td>Artifact Repository</td>
+      <td>Stores build artifacts (e.g., .jar files, Docker images) so they can be consistently accessed by later stages in the pipeline.</td>
+      <td>Examples include Nexus, Artifactory, or built-in container registries in GitHub, GitLab, etc.</td>
+    </tr>
+    <tr>
+      <td>Infrastructure as Code (IaC)</td>
+      <td>Managing infrastructure (servers, networks) with code and automation. Tools like Terraform, CloudFormation, etc.</td>
+      <td>Version your infrastructure definition and keep it consistent across environments.</td>
+    </tr>
+    <tr>
+      <td>Release Management</td>
+      <td>Planning, scheduling, and controlling the build and deployment of releases to test and live environments.</td>
+      <td>Often includes versioning, staging, approvals, and documentation.</td>
+    </tr>
+  </table>
+  
+  <h3>Git</h3>
+  <table>
+    <tr>
+      <th>Concept / Command</th>
+      <th>Explanation</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td>git init</td>
+      <td>Initialize a new Git repository in a local folder.</td>
+      <td><code>git init</code></td>
+    </tr>
+    <tr>
+      <td>git clone</td>
+      <td>Copy an existing repository (remote or local) into a new local directory.</td>
+      <td><code>git clone &lt;repo-url&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git add</td>
+      <td>Stage changes for the next commit.</td>
+      <td><code>git add .</code> or <code>git add &lt;file&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git commit</td>
+      <td>Record changes in the local repository with a message describing the changes.</td>
+      <td><code>git commit -m "Commit message"</code></td>
+    </tr>
+    <tr>
+      <td>git push</td>
+      <td>Upload local commits to a remote repository.</td>
+      <td><code>git push origin &lt;branch&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git pull</td>
+      <td>Fetch changes from the remote and merge into the local branch.</td>
+      <td><code>git pull origin &lt;branch&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git branch</td>
+      <td>List, create, or delete branches.</td>
+      <td>
+        List: <code>git branch</code><br>
+        Create: <code>git branch &lt;new-branch&gt;</code><br>
+        Delete: <code>git branch -d &lt;branch&gt;</code>
+      </td>
+    </tr>
+    <tr>
+      <td>git checkout</td>
+      <td>Switch between branches or restore files.</td>
+      <td><code>git checkout &lt;branch&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git merge</td>
+      <td>Merge changes from one branch into another.</td>
+      <td><code>git merge &lt;branch&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git rebase</td>
+      <td>Rewrite commits from one branch onto another to maintain a linear history.</td>
+      <td><code>git rebase &lt;branch&gt;</code></td>
+    </tr>
+    <tr>
+      <td>git stash</td>
+      <td>Temporarily store changes in a “stash” so you can switch branches without committing.</td>
+      <td><code>git stash</code>, <code>git stash pop</code></td>
+    </tr>
+    <tr>
+      <td>git tag</td>
+      <td>Create a tag for a commit, often used for versioning.</td>
+      <td><code>git tag v1.0.0</code></td>
+    </tr>
+    <tr>
+      <td>git log / git diff</td>
+      <td>View commit history or changes between commits.</td>
+      <td><code>git log</code>, <code>git diff HEAD~1 HEAD</code></td>
+    </tr>
+  </table>
+  
+  <h3>GitHub</h3>
+  <table>
+    <tr>
+      <th>Feature / Concept</th>
+      <th>Explanation</th>
+      <th>Note / Example</th>
+    </tr>
+    <tr>
+      <td>Repository</td>
+      <td>Hosted Git repository on GitHub.</td>
+      <td>Use <strong>GitHub Issues</strong> to track tasks and bugs.</td>
+    </tr>
+    <tr>
+      <td>Pull Request (PR)</td>
+      <td>Proposed changes from one branch (or fork) to another. Allows code review before merging.</td>
+      <td>Often triggers CI checks in GitHub Actions.</td>
+    </tr>
+    <tr>
+      <td>GitHub Issues</td>
+      <td>Built-in issue tracking system. Used for bugs, enhancements, tasks.</td>
+      <td>Can link issues to pull requests for auto-closing on merge.</td>
+    </tr>
+    <tr>
+      <td>GitHub Projects</td>
+      <td>Kanban-style project boards for issue and PR organization.</td>
+      <td>Helps visualize workflows (To Do, In Progress, Done).</td>
+    </tr>
+    <tr>
+      <td>GitHub Pages</td>
+      <td>Simple way to host static websites directly from a repo.</td>
+      <td>Used for documentation or demos. Enable in repo settings.</td>
+    </tr>
+    <tr>
+      <td>Branch Protection Rules</td>
+      <td>Rules that govern how branches (often main) can be merged, including required reviews, statuses, etc.</td>
+      <td>Ensures code quality by enforcing PR checks.</td>
+    </tr>
+  </table>
+  
+  <h3>GitHub Actions</h3>
+  <table>
+    <tr>
+      <th>Feature / Concept</th>
+      <th>Explanation</th>
+      <th>Example (workflow snippet)</th>
+    </tr>
+    <tr>
+      <td>Workflow</td>
+      <td>A custom automated process made of one or more jobs. Defined in <code>.github/workflows</code>.</td>
+      <td>
+        <pre>
+  name: CI
+  on: [push]
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Build
+          run: make build
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Jobs</td>
+      <td>Set of steps that execute on the same runner. Runs in parallel by default if multiple jobs exist.</td>
+      <td>Define multiple jobs under <code>jobs:</code> with different steps or runners.</td>
+    </tr>
+    <tr>
+      <td>Steps</td>
+      <td>Individual tasks within a job. Each step is either a shell command or an action.</td>
+      <td>Examples: <code>run: npm test</code> or <code>- uses: actions/checkout@v2</code></td>
+    </tr>
+    <tr>
+      <td>Triggers (on:)</td>
+      <td>Events that cause the workflow to run (push, pull_request, schedule, etc.).</td>
+      <td><code>on: pull_request</code></td>
+    </tr>
+    <tr>
+      <td>Actions</td>
+      <td>Reusable units of code that perform a specific task (e.g., setup a language environment).</td>
+      <td><code>- uses: actions/setup-node@v2</code></td>
+    </tr>
+    <tr>
+      <td>Runner</td>
+      <td>Host machine where your jobs execute. Can be GitHub-hosted or self-hosted.</td>
+      <td>Default <code>runs-on: ubuntu-latest</code> uses GitHub-hosted Linux runner.</td>
+    </tr>
+    <tr>
+      <td>Secrets</td>
+      <td>Encrypted environment variables stored in the repository or organization settings.</td>
+      <td>Access in workflows with <code>${{ secrets.MY_SECRET }}</code>.</td>
+    </tr>
+  </table>
+  
+  <h3>GitLab</h3>
+  <table>
+    <tr>
+      <th>Feature / Concept</th>
+      <th>Explanation</th>
+      <th>Example / Notes</th>
+    </tr>
+    <tr>
+      <td>GitLab CI/CD</td>
+      <td>Built-in CI/CD system that runs pipeline jobs from your repo.</td>
+      <td>Defined in a <code>.gitlab-ci.yml</code> file.</td>
+    </tr>
+    <tr>
+      <td>.gitlab-ci.yml</td>
+      <td>Configuration file for GitLab CI/CD pipelines. Defines stages, jobs, and scripts.</td>
+      <td>
+        <pre>
+  stages:
+    - build
+    - test
+  
+  build_job:
+    stage: build
+    script:
+      - make build
+  
+  test_job:
+    stage: test
+    script:
+      - make test
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Stages</td>
+      <td>Define the sequence in which jobs run (e.g., build, test, deploy). Jobs in the same stage run in parallel.</td>
+      <td>All jobs in stage <strong>build</strong> run first, then <strong>test</strong>, etc.</td>
+    </tr>
+    <tr>
+      <td>Jobs</td>
+      <td>Steps within a stage, containing scripts to run, environment settings, etc.</td>
+      <td>You can set <code>only</code> or <code>except</code> to control which branches/triggers run the job.</td>
+    </tr>
+    <tr>
+      <td>Runners</td>
+      <td>Agents that run your jobs. Can be shared or specific to a project.</td>
+      <td>Self-managed or GitLab-managed (shared) runners are possible.</td>
+    </tr>
+    <tr>
+      <td>Environments</td>
+      <td>Define environment scopes like dev, staging, production. Useful for environment-specific deployments.</td>
+      <td>Allows you to review deployments in a dedicated environment URL.</td>
+    </tr>
+    <tr>
+      <td>Artifacts</td>
+      <td>Files and directories created by a job and passed to subsequent jobs.</td>
+      <td>Example: <code>artifacts:</code> <code>paths: [dist/]</code></td>
+    </tr>
+  </table>
+  
+  <h3>Jenkins</h3>
+  <table>
+    <tr>
+      <th>Feature / Concept</th>
+      <th>Explanation</th>
+      <th>Example / Notes</th>
+    </tr>
+    <tr>
+      <td>Jenkins Pipeline</td>
+      <td>Groovy-based DSL that defines your build pipeline as code in a <code>Jenkinsfile</code>.</td>
+      <td>
+        <pre>
+  pipeline {
+    agent any
+    stages {
+      stage('Build') {
+        steps {
+          sh 'make build'
+        }
+      }
+      stage('Test') {
+        steps {
+          sh 'make test'
+        }
+      }
+    }
+  }
+        </pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Freestyle Project</td>
+      <td>Older style of Jenkins project configuration done through the GUI. Less flexible than Pipelines as Code.</td>
+      <td>Still widely used, but migrating to Pipelines is recommended for modern CI/CD.</td>
+    </tr>
+    <tr>
+      <td>Declarative Pipeline</td>
+      <td>A simpler, more opinionated syntax for Jenkins pipelines. Uses <code>pipeline { ... }</code> syntax.</td>
+      <td>Encourages a standard structure (stages, steps, post actions).</td>
+    </tr>
+    <tr>
+      <td>Scripted Pipeline</td>
+      <td>More expressive pipeline definition using Groovy script. Offers more flexibility than declarative pipelines.</td>
+      <td>Powerful but can become complex quickly.</td>
+    </tr>
+    <tr>
+      <td>Plugins</td>
+      <td>Jenkins can be extended with a wide variety of plugins (e.g., Git plugin, Docker plugin).</td>
+      <td>Be mindful of plugin version compatibility and security.</td>
+    </tr>
+    <tr>
+      <td>Agents (Nodes)</td>
+      <td>Machines (or containers) that Jenkins uses to run tasks. Can be on-prem or in the cloud.</td>
+      <td>Use <code>agent any</code> or specify label constraints in the pipeline.</td>
+    </tr>
+    <tr>
+      <td>Credentials Management</td>
+      <td>Store secrets (API keys, passwords) in Jenkins. Access them securely in pipelines.</td>
+      <td>Use the <code>withCredentials</code> or environment variables in your pipeline steps.</td>
+    </tr>
+    <tr>
+      <td>Blue Ocean</td>
+      <td>Alternative modern UI for Jenkins to visualize pipelines.</td>
+      <td>Optional plugin offering a more user-friendly pipeline view.</td>
+    </tr>
+  </table>
+  
+  <h3>Other Notable Tools / Concepts</h3>
+  <table>
+    <tr>
+      <th>Tool / Concept</th>
+      <th>Explanation</th>
+      <th>Usage / Notes</th>
+    </tr>
+    <tr>
+      <td>Terraform (IaC)</td>
+      <td>Allows provisioning of infrastructure across multiple cloud providers using a unified language (HCL).</td>
+      <td><code>terraform init</code>, <code>terraform plan</code>, <code>terraform apply</code></td>
+    </tr>
+    <tr>
+      <td>Docker</td>
+      <td>Containerization platform for packaging and running applications in isolated environments.</td>
+      <td><code>docker build -t myapp .</code>, <code>docker run myapp</code></td>
+    </tr>
+    <tr>
+      <td>Kubernetes (K8s)</td>
+      <td>Container orchestration system that automates deployment, scaling, and management of containerized apps.</td>
+      <td><code>kubectl apply -f deployment.yaml</code></td>
+    </tr>
+    <tr>
+      <td>Helm</td>
+      <td>Package manager for Kubernetes, simplifies deployment of complex applications using “charts.”</td>
+      <td><code>helm install myrelease ./mychart</code></td>
+    </tr>
+    <tr>
+      <td>Argo CD</td>
+      <td>GitOps continuous delivery tool for Kubernetes.</td>
+      <td>Syncs deployments to a cluster from a Git repository automatically.</td>
+    </tr>
+    <tr>
+      <td>Jenkins X</td>
+      <td>Jenkins for Kubernetes, incorporating best practices for CI/CD in containerized cloud environments.</td>
+      <td>Focuses on GitOps and automation of pipelines in K8s.</td>
+    </tr>
+    <tr>
+      <td>Versioning &amp; Semantic Versioning</td>
+      <td>Scheme to label releases with meaningful version numbers (MAJOR.MINOR.PATCH).</td>
+      <td>Breaking changes increment major, backward-compatible features increment minor, patches increment patch.</td>
+    </tr>
+  </table></div>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+</html>
