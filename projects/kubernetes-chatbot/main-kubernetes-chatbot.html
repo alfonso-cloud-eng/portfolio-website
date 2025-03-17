@@ -4,37 +4,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cheatsheets</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Link to your main CSS -->
-    <link rel="stylesheet" type="text/css" href="../../styles-main.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" type="text/css" href="../../styles-main.css">
+  <style>
+    /* Prevent horizontal overflow */
+    html, body {
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    /* Ensure the cheatsheet grid shows two cards per row on desktop
+       and stacks them on mobile, and add margins on mobile so the cards stay within the frame */
+    @media (max-width: 1000px) {
+      .cheatsheet-grid {
+        grid-template-columns: 1fr !important;
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+      /* Image becomes full width on mobile */
+      img[src="../../images/architecture-diagram.png"] {
+         width: 100% !important;
+      }
+    }
+    /* Styles for the content container (replacing the extra body tag) */
+    .content-container {
+      padding-left: 40%;
+      padding-right: 10%;
+    }
+    @media (max-width: 1000px) {
+      .content-container {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    /* Adjust content container padding on desktop to reduce excessive left padding */
+    @media (min-width: 1001px) {
+      .content-container {
+        padding-left: 10%;
+        padding-right: 10%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- HEADER / NAVIGATION -->
-    <div id="header-placeholder"></div>
-    <script>
-      fetch('../../header.html')
-        .then(response => response.text())
-        .then(data => {
-          document.getElementById('header-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading header:', error));
-    </script>
+  <!-- HEADER / NAVIGATION -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('../../header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
 
   <h1 style="margin-top: 5rem; margin-bottom: 4rem">CI/CD Pipeline to GKE</h1>
-  <section class="cheatsheet-grid">
-    <!-- 1) GCP -->
+  <!-- Removed the comma between attributes below -->
+  <section class="cheatsheet-grid" style="grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); justify-content: center !important; gap: 30px !important;">
     <div class="cheatsheet-card reveal">
-      <a href="GCP cheatsheet.html">
+      <a href="http://34.76.20.73/">
         <img src="../../images/chatgpt.png" alt="GCP Logo">
         <h3>View the app live</h3>
         <p>Access the chatbot app hosted on my GCP project using Google Kubernetes Engine.</p>
       </a>
     </div>
-
-    <!-- 2) CI/CD - DevOps -->
     <div class="cheatsheet-card reveal">
-      <a href="CICD CheatSheet.html">
+      <a href="https://github.com/alfonso-cloud-eng/kubernetes-chatbot">
         <img src="../../images/github.png" alt="CI/CD DevOps Logo">
         <img src="../../images/github-actions.png" alt="CI/CD DevOps Logo">
         <h3>View project on Github</h3>
@@ -43,16 +79,207 @@
     </div>
   </section>
 
-   <!-- FOOTER -->
- <div id="footer-placeholder"></div>
- <script>
-   fetch('../../footer.html')
-     .then(response => response.text())
-     .then(data => {
-       document.getElementById('footer-placeholder').innerHTML = data;
-     })
-     .catch(error => console.error('Error loading footer:', error));
- </script>
+  <!-- Replace the extra body tag with a div using a class for our content container -->
+  <section>
+    <div class="content-container">
+      <!-- The invalid style block was removed and its rules incorporated in the head -->
+      <blockquote style="margin-top: 5%; font-weight: 555; color: #ccc; font-size: 1.1em; border-left: 4px solid #888; padding-left: 3rem;">
+        <p>The cool thing about this project is not the chatbot itself—you can use it to deploy any type of app. With just one push of a button, you can have your own containerized application up and running on GCP in minutes, fully accessible online and automatically scalable with Kubernetes!</p>
+      </blockquote>
+      <p>This repository is a complete example of how to deploy an application (in this case, a ChatGPT-based chatbot) to Google Cloud Platform (GCP) using:</p>
+      <ul>
+        <li><strong>Node.js &amp; React</strong> to build the application.</li>
+        <li><strong>Docker Hub</strong> to build the container images.</li>
+        <li><strong>GitHub Actions</strong> for CI/CD.</li>
+        <li><strong>Terraform</strong> to provision a GKE Autopilot cluster.</li>
+        <li><strong>Kubernetes manifests</strong> for deploying the containerized app on GKE to ensure scalable infrastructure.</li>
+      </ul>
+      
+      <h2>Deployment</h2>
+      <p>On <strong>every commit</strong> to the <code>main</code> branch, the workflow will:</p>
+      <ol>
+        <li><strong>Check out</strong> the code.</li>
+        <li><strong>Build &amp; push</strong> a Docker image to Docker Hub</li>
+        <li><strong>Provision or update</strong> the GKE Autopilot cluster using Terraform.</li>
+        <li><strong>Deploy</strong> the container image and Kubernetes manifests to that cluster.</li>
+        <li><strong>Wait</strong> for the external IP, then post a comment with the link to access the app.</li>
+      </ol>
+      <ul>
+        <li>This means each time you push changes, the pipeline updates the GCP environment automatically.</li>
+      </ul>
+      <p><img src="../../images/architecture-diagram.png" alt="Architecture Diagram" style="width: 80%;"/></p>
+      
+      <h2>Prerequisites</h2>
+      <ol>
+        <li>
+          <strong>Google Cloud Account</strong><br />
+          <ul>
+            <li><a href="https://cloud.google.com">Create a GCP Account</a> if you don’t have one.</li>
+            <li>Create (or use) a <strong>GCP project</strong>.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Service Account</strong><br />
+          <ul>
+            <li>In your GCP project, go to <strong>IAM &amp; Admin</strong> &gt; <strong>Service Accounts</strong> and create a <strong>service account</strong> with the following roles:
+              <ul>
+                <li><strong>Kubernetes Engine Admin</strong>  (it needs to create/manage/update the cluster)</li>
+                <li><strong>Compute Viewer</strong> (it needs to see the default compute engine service account)</li>
+                <li><strong>Service Account Admin</strong>  (it needs to grant itself access to the default compute engine service account)</li>
+                <li><strong>Service Usage Admin</strong>  (it needs to enable the appropiate APIs)</li>
+                <li>Click <code>DONE</code></li>
+              </ul>
+            </li>
+            <li>Generate a <strong>JSON key</strong> for this service account:
+              <ol>
+                <li>Go to <strong>IAM &amp; Admin</strong> &gt; <strong>Service Accounts</strong> in the GCP Console.</li>
+                <li>Click on the service account.</li>
+                <li>Click <strong>Keys</strong>, then <strong>Add key</strong> &gt; <strong>Create new key</strong>.</li>
+                <li>Choose <strong>JSON</strong> and download the file. Save that JSON file locally; you’ll need its contents soon.</li>
+              </ol>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>(Optional) Docker Hub Account</strong><br />
+          <ul>
+            <li>If you want to build &amp; push your own custom Docker image:
+              <ol>
+                <li><a href="https://hub.docker.com/">Create a Docker Hub account</a> if you don’t have one.</li>
+                <li>Create a <strong>public repository</strong> (e.g., <code>username/kubernetes-chatbot</code>).</li>
+                <li>Generate a <strong>Personal Access Token</strong> (in <strong>Account Settings</strong> &gt; <strong>Security</strong> &gt; <strong>New Access Token</strong>) with <strong>read, write, delete</strong> permissions.</li>
+                <li>Copy and save the access token key; you’ll need it later.</li>
+              </ol>
+            </li>
+            <li>If you prefer not to push your own images, you can skip this. The workflow will use a default image from this repo’s Docker Hub (but that means you won’t see your changes if you modify the code).</li>
+          </ul>
+        </li>
+      </ol>
+      
+      <h2>Fork &amp; Configure the Repository</h2>
+      <ol>
+        <li>
+          <strong>Fork this repo</strong> into your own GitHub account.
+        </li>
+        <li>
+          <strong>Access the Secrets page</strong>:<br />
+          In your forked repo, go to <strong>Settings</strong> &gt; <strong>Secrets and variables</strong> &gt; <strong>Actions</strong>.<br />
+          Click <strong>New repository secret</strong> for each of the following variables, named <strong>exactly</strong> as shown.
+        </li>
+      </ol>
+      
+      <h3>Required Secrets</h3>
+      <ul>
+        <li>
+          <strong><code>DEPLOYER_SERVICE_ACCOUNT_EMAIL</code></strong><br />
+          The email of the service account you created (e.g., <code>my-service-account@my-project.iam.gserviceaccount.com</code>).
+        </li>
+        <li>
+          <strong><code>GCP_CREDENTIALS</code></strong><br />
+          Paste the <strong>entire JSON file</strong> contents of your service account key into this secret.
+        </li>
+        <li>
+          <strong><code>GCP_PROJECT_ID</code></strong><br />
+          Your <strong>GCP project ID</strong> (e.g., <code>my-awesome-project</code>).
+        </li>
+        <li>
+          <strong><code>GCP_REGION</code></strong><br />
+          Choose a GCP region, e.g. <code>europe-west1</code>.
+        </li>
+        <li>
+          <strong><code>OPENAI_API_KEY</code></strong><br />
+          Your <strong>OpenAI API key</strong> (retrieve from <a href="https://platform.openai.com/account/api-keys">OpenAI’s API page</a>) so the chatbot can communicate with ChatGPT.
+        </li>
+      </ul>
+      
+      <h3>Optional Secrets</h3>
+      <ul>
+        <li>
+          <strong><code>DOCKERHUB_USERNAME</code></strong><br />
+          Your Docker Hub username. (e.g., <code>username</code>).
+        </li>
+        <li>
+          <strong><code>DOCKERHUB_ACCESS_TOKEN</code></strong><br />
+          Your Personal Access Token password. (e.g., <code>dckr_pat_xxxx...</code>).
+        </li>
+      </ul>
+      <p>These are only needed if you want to <strong>build and push</strong> your own Docker image. If you skip them, the workflow will just deploy the default image.</p>
+      
+      <h2>Deploying the Architecture</h2>
+      <ol>
+        <li>
+          <strong>Enable GitHub Actions</strong><br />
+          After setting all secrets, go to the Actions tab in your forked repo and enable workflows if prompted.
+        </li>
+        <li>
+          <strong>Commit to <code>main</code> branch</strong><br />
+          Any commit or push to the <code>main</code> branch triggers the workflow. You can edit the <code>README.md</code> file and push the change (do a false commit).
+        </li>
+        <li>
+          <strong>Watch GitHub Actions</strong><br />
+          Go to <strong>Actions</strong> tab in your repo.<br />
+          Click the latest workflow to see how the architecture is being built in real-time.<br />
+          Click <strong><code>build_and_deploy</code></strong><br />
+          The first run may take up to 15 minutes (Terraform is creating the cluster).
+        </li>
+        <li>
+          <strong>Access the App</strong><br />
+          After completion, look for the step labeled <strong><code>***Show External IP***</code></strong> near the end of the workflow.<br />
+          Click the link, and you’ll see the <strong>live chatbot</strong> (or your own custom app) hosted on GKE!<br />
+          If the page doesn’t load immediately, wait a couple of minutes — it may take some time for the changes to fully propagate.
+        </li>
+        <li>
+          <strong>(Optional) Explore Your GKE Cluster</strong><br />
+          Visit the Google Cloud Console and navigate to <strong>Kubernetes Engine</strong> &gt; <strong>Clusters</strong>.<br />
+          There, you can inspect your deployed Autopilot GKE cluster.
+        </li>
+      </ol>
+      
+      <h2>Developing your own Custom App</h2>
+      <ul>
+        <li>
+          <strong>Modify the Chatbot or Build a Different App</strong><br />
+          <ol>
+            <li>If you want a custom Docker image with your code changes, provide the <strong>Docker Hub</strong> secrets.</li>
+            <li>Commit your code changes to <code>main</code>.</li>
+            <li>The workflow rebuilds/pushes your Docker image to your Docker Hub repo and redeploys it to GKE within a few minutes.</li>
+          </ol>
+        </li>
+        <li>
+          <strong>No Docker Hub?</strong><br />
+          You can keep using the default image from this repo’s Docker Hub if you only want to deploy the existing code.
+        </li>
+        <li>
+          <strong>Modify the infrastructure</strong><br />
+          You can edit the Terraform and Kubernetes manifests to fit your needs, but doing so may require changes to the workflow.
+        </li>
+      </ul>
+      
+      <h2>Conclusion</h2>
+      <p>That’s it! You now have a <strong>CI/CD pipeline</strong> that:</p>
+      <ul>
+        <li>Creates or updates a GKE cluster in your own GCP project.</li>
+        <li>Deploys a Docker container (this chatbot by default, or your own).</li>
+        <li>Exposes it to the internet behind a LoadBalancer.</li>
+      </ul>
+      <p><strong>Enjoy your scalable, auto-deployed app</strong> powered by Google Kubernetes Engine! If you have questions or run into any issues, feel free to open a discussion or look at the logs in the <strong>Actions</strong> tab for troubleshooting.</p>
+      <blockquote>
+        <p><strong>Happy Deploying!</strong><br />
+        — Alfonso Monserrat</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
 
   <!-- Minimal JavaScript for fade-in reveal and scale on hover -->
   <script>
@@ -71,6 +298,5 @@
 
     revealCards.forEach(card => revealOnScroll.observe(card));
   </script>
-
 </body>
 </html>
