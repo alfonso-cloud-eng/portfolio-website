@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cheatsheets</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Link to your main CSS -->
+    <link rel="stylesheet" type="text/css" href="../../styles-main.css">
+</head>
+<body>
+    <!-- HEADER / NAVIGATION -->
+    <div id="header-placeholder"></div>
+    <script>
+      fetch('../../header.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+    </script>
+
+  <h1 style="margin-top: 5rem; margin-bottom: 4rem">CI/CD Pipeline to GKE</h1>
+  <section class="cheatsheet-grid">
+    <!-- 1) GCP -->
+    <div class="cheatsheet-card reveal">
+      <a href="GCP cheatsheet.html">
+        <img src="../../images/chatgpt.png" alt="GCP Logo">
+        <h3>View the app live</h3>
+        <p>Access the chatbot app hosted on my GCP project using Google Kubernetes Engine.</p>
+      </a>
+    </div>
+
+    <!-- 2) CI/CD - DevOps -->
+    <div class="cheatsheet-card reveal">
+      <a href="CICD CheatSheet.html">
+        <img src="../../images/github.png" alt="CI/CD DevOps Logo">
+        <img src="../../images/github-actions.png" alt="CI/CD DevOps Logo">
+        <h3>View project on Github</h3>
+        <p>Copy the repo and host your own app on your own GCP project. Automatically! 🎉</p>
+      </a>
+    </div>
+  </section>
+
+   <!-- FOOTER -->
+ <div id="footer-placeholder"></div>
+ <script>
+   fetch('../../footer.html')
+     .then(response => response.text())
+     .then(data => {
+       document.getElementById('footer-placeholder').innerHTML = data;
+     })
+     .catch(error => console.error('Error loading footer:', error));
+ </script>
+
+  <!-- Minimal JavaScript for fade-in reveal and scale on hover -->
+  <script>
+    // IntersectionObserver for reveal effect
+    const revealCards = document.querySelectorAll('.reveal');
+    const observerOptions = { threshold: 0.1 };
+
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealCards.forEach(card => revealOnScroll.observe(card));
+  </script>
+
+</body>
+</html>
