@@ -20,8 +20,8 @@ body {
 h1 {
     text-align: center;
     color: #ffffff;
-    font-family: georgia;
-    font-size: 3rem; /* ~48px, slightly adjusted for responsiveness */
+    font-size: 3rem; 
+    font-weight: 1;/* ~48px, slightly adjusted for responsiveness */
 }
 
 h2 {
