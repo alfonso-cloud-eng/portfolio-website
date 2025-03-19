@@ -597,7 +597,7 @@ header nav a:focus {
 }
 
 /* Responsive Design Adjustments */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   .skill-logo {
     width: auto;  /* Maintain aspect ratio */
     height: 2em;  /* Smaller height for mobile screens */
