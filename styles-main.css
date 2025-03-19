@@ -53,13 +53,15 @@
       margin-left: 1rem;
     }
     h4 {
-      font-size: 1.25rem; 
+      font-size: 1.1rem; 
       margin-left: 2.5rem; 
       margin-top: 2rem;
     }
     body {
       /* Narrow screens: reduce left/right padding if you want more space. */
       padding: 0 5% 3rem;
+      font-size: 1.2rem;         /* 16px */
+
     }
   }
   
