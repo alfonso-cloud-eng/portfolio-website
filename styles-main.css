@@ -79,6 +79,25 @@
      4. Header / Nav
      -------------------------------------------------- */
 
+     .newheader {
+      background-color: #1e1e1e; /* Matches the page background */
+      color: #ffffff;            /* White text */
+      text-align: center;        /* Center the text horizontally */
+      padding: 1rem 2rem;        /* Top/bottom and side padding for spacing */
+      font-size: 1.6rem;           /* Font size for desktop */
+      font-weight: 600;          /* Slightly bold text */
+      box-sizing: border-box;    /* Include padding in overall width */
+    }
+    
+    /* Responsive adjustments for mobile */
+    @media (max-width: 1000px) {
+      .newheader {
+        font-size: 1.75rem;
+        padding: 0.75rem 1rem;
+      }
+    }
+    
+
      header {
       text-align: center;
       position: sticky;
@@ -117,9 +136,9 @@
       color: #f4f4f4 !important;
     }
     header nav a:active,
-header nav a:focus {
-  color: #f4f4f4 !important;
-  text-decoration: none !important;
+    header nav a:focus {
+      color: #f4f4f4 !important;
+      text-decoration: none !important;
 }
 
     
@@ -179,6 +198,12 @@ header nav a:focus {
   }
   .hero .cta-btn:hover {
     background: #2b2b2b;
+  }
+  @media (max-width: 1000px) {
+    .hero {
+      padding-top: 0%;
+      padding-bottom: 0%;
+    }
   }
   
   /* --------------------------------------------------
