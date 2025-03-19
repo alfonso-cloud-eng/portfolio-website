@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>My Portfolio - Main Page</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,50 +14,38 @@
 <body>
 
   <!-- HEADER / NAVIGATION -->
-<div id="header-placeholder"></div>
-<script>
-  fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('header-placeholder').innerHTML = data;
-      // Attach the hamburger toggle event listener after loading the header
-      const hamburger = document.querySelector('.hamburger');
-      const nav = document.querySelector('nav');
-      if (hamburger && nav) {
-        hamburger.addEventListener('click', function () {
-          nav.classList.toggle('active');
-        });
-      }
-    })
-    .catch(error => console.error('Error loading header:', error));
-</script>
-
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading header:', error));
+  </script>
   
   <!-- HERO SECTION -->
-  <section class="hero">
-    <div>
-      <img 
-        src="images/logo.png"
-        alt="Profile Photo"
-        class="reveal-left"
-      />
-      <p class="tagline" style="text-align: center !important;">
-        The future is built by AI and hosted in the Cloud
-      </p>
-      <button class="cta-btn" onclick="scrollToSection('about')">Learn More</button>
-    </div>
+<section class="hero" style="background-image: url('images/setup.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <img 
+    src="images/logo.png" 
+    alt="Profile Photo" 
+    class="reveal-left"
+    style="width: 12rem"
+  />
+    <p class="tagline">The future is built by AI and hosted in the Cloud</p>
+    <button class="cta-btn" onclick="scrollToSection('about')">Learn More</button>
   </section>
 
   <!-- ABOUT SECTION -->
-  <section class="section" id="about" style="margin-bottom: 0;">
+  <section class="section" id="about">
     <h2>About Me</h2>
     <div class="about-container">
       <img 
-      src="images/badge.png" 
-      alt="Profile Photo" 
-      class="reveal-left badge-img"
-    />
-    <img 
+        src="images/badge.png" 
+        alt="Profile Photo" 
+        class="reveal-left badge-img"
+      />
+      <img 
       src="images/badge.png" 
       alt="Profile Photo" 
       class="reveal-left badge-img"
@@ -78,7 +66,9 @@
     #skills h3 {
       margin-left: 0px !important;
     }
+
   </style>
+  
   <h2>Skills & Expertise</h2>
   <p class="ai-learning-note" style="text-align: center !important; font-size: 1.2rem; margin-bottom: 3rem;">I use AI to assist my coding, accelerate learning,<br>and adapt quickly to <strong>any</strong> new challenges or technologies.</p>
   <div class="skills-grid">
@@ -86,7 +76,7 @@
     <style>
       .skills-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)) !important; /* Adjusts dynamically */
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)) !important; /* Adjusts dynamically */
     justify-content: center !important;
     gap: 20px !important;}
     p {text-align:left !important;}
@@ -222,23 +212,16 @@
 
 <!-- PROJECTS SECTION -->
 <h2 style="text-align: center; margin-bottom: 3rem;" id="projects">Projects</h2>
-<section class="cheatsheet-grid" style="padding-left: 1%; padding-right: 1%;">
+<section class="cheatsheet-grid">
   <style>
-.cheatsheet-grid {
+    .cheatsheet-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; /* Adjusts dynamically */
   justify-content: center !important;
   gap: 30px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
 }
 
-@media (max-width: 1000px) {
-  .cheatsheet-grid {
-    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr)) !important;
-    gap: 1rem !important;
-  }
-}
+
   </style>
   <div class="cheatsheet-card reveal">
     <a href="projects/cheatsheets/main-cheatsheets.html">
@@ -251,8 +234,11 @@
       <h3>CI/CD Pipeline to GKE</h3>
       <p>How to host any app on Google Kubernetes Engine, and push changes automatically!</p>
     </a>
-  </div> 
+  </div>
+  
+  
 </section>
+
 
   <!-- CONTACT SECTION -->
   <section class="section" id="contact">
@@ -268,7 +254,7 @@
   </section>
 
   <!-- FOOTER -->
-  <div id="footer-placeholder" style="text-align: center !important;"></div>
+  <div id="footer-placeholder"></div>
   <script>
     fetch('footer.html')
       .then(response => response.text())

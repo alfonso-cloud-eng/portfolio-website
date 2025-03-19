@@ -68,12 +68,12 @@
      -------------------------------------------------- */
   /* The negative margin “trick” overrides the body’s left/right padding
      so these elements can span the full browser width. */
-     header, footer {
-      margin-left: -10%;
-      margin-right: -10%;
-      padding-left: 10%;
-      padding-right: 10%;
-    }
+  header, .hero, footer {
+    margin-left: -10%;
+    margin-right: -10%;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
   
   /* --------------------------------------------------
      4. Header / Nav
@@ -87,131 +87,49 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background-color: #2b2b2b; /* Using your main CSS background */
+      background-color: #2b2b2b;
       color: #f4f4f4;
       padding: 1rem 2rem;              /* Inner spacing for nav content */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
       transition: transform 0.6s ease, opacity 0.6s ease;
     }
-    
     header.hide {
       transform: translateY(-100%);
       opacity: 0;
+      transition: transform 0.6s ease, opacity 0.6s ease;
     }
     
-    /* Logo Styles */
-    .logo {
-      color: white;
-      text-decoration: none;
+    header .logo {
       font-size: 1.5rem;
       font-weight: bold;
     }
-    
-    .logo:hover {
-      color: white;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    
-    /* Navigation Styles */
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
-    
     header nav a {
-      /* margin-left is optional here since we are using gap */
+      margin-left: 1rem;
       text-decoration: none;
       color: #f4f4f4;
       font-weight: 500;
-      font-size: 1rem;
       transition: opacity 0.2s ease-in-out;
     }
-    
     header nav a:hover {
       opacity: 0.7;
     }
-    
-    /* Hamburger Menu Styles */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    
-    .hamburger span {
-      height: 3px;
-      width: 25px;
-      background: white;
-      margin-bottom: 4px;
-      border-radius: 5px;
-    }
-
-    header nav a:link,
-    header nav a:visited,
-    header nav a:active,
-    header nav a:focus {
-      color: #f4f4f4;
-      text-decoration: none;
-    }
-    
-    /* Mobile Styles */
-    @media (max-width: 1000px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px; /* Adjust based on header height */
-        right: 0;
-        background-color: #2b2b2b; /* Consistent with header */
-        padding: 1rem;
-        z-index: 100;
-      }
-      nav.active {
-        display: flex;
-      }
-      .hamburger {
-        display: flex;
-      }
-    }
+  
   /* --------------------------------------------------
      5. Hero Section 
      -------------------------------------------------- */
-     .hero {
-      /* Let the hero fill the entire viewport width,
-         unaffected by body’s left/right padding. */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    
-      margin: 0 auto;
-      width: 100%;
-      max-width: 100%; /* Just to be 100% sure. */
-      box-sizing: border-box;
-    
-      /* Tall hero for visual impact */
-      padding-top: 10vh;
-      padding-bottom: 10vh;
-    
-      /* Full-bleed background */
-      background-image: url("images/setup.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    
-      color: #f4f4f4;
-      text-align: center;
-      overflow: hidden; /* If anything inside tries to overflow, hide it */
-    }
-    
-
-  @media (max-width: 1000px) {
-    .hero {
-      padding-top: 30%;
-      padding-bottom: 30%;
-      padding-left: 10%;
-      padding-right: 10%;
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    background: #2b2b2b;
+    color: #f4f4f4;
+    text-align: center;
+    min-height: 70vh;
+    position: relative;
+    overflow: hidden;
   }
   .hero .intro {
     font-size: 2.5rem;
@@ -224,6 +142,7 @@
     font-size: 1.2rem;
     max-width: 600px;
     line-height: 1.4;
+    text-align: center !important;
     margin-bottom: 2rem;
     animation: fadeInUp 1s forwards;
     opacity: 0;
@@ -241,7 +160,7 @@
     border-radius: 4px;
     background: #184878;
     color: #f4f4f4;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     font-weight: bold;
     animation: fadeInUp 2s forwards;
@@ -250,11 +169,6 @@
   }
   .hero .cta-btn:hover {
     background: #2b2b2b;
-  }
-
-  .hero img {
-    width: 12rem;
-    height: auto;
   }
   
   /* --------------------------------------------------
@@ -291,6 +205,16 @@
     gap: 2rem;
     margin-top: 2rem;
   }
+  .badge-img {
+    width: 12rem !important;
+  }
+  @media (max-width: 1000px) {
+.badge-img{
+  width: 8rem !important;
+}
+    }
+    
+  }
   .about-container img {
     max-width: 250px;
     border-radius: 50%;
@@ -318,20 +242,6 @@
     opacity: 1;
     transform: translateX(0);
   }
-
-  .badge-img {
-    width: 10rem;
-  }
-  
-  @media (max-width: 1000px) {
-    .badge-img {
-      width: 40%;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  
   
   /* --------------------------------------------------
      8. Main Section Layout 
@@ -368,6 +278,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
+    margin: 0px;
   }
   .skill-card {
     background: #2b2b2b;
