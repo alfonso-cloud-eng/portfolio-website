@@ -14,27 +14,27 @@
 <body>
 
   <!-- HEADER / NAVIGATION -->
-  <div id="header-placeholder"></div>
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
-  </script>
+<!-- In your index.html, right after the header placeholder -->
+<div id="header-placeholder"></div>
+<script>
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+      // Now attach the event listener for the hamburger menu
+      const hamburger = document.querySelector('.hamburger');
+      const nav = document.querySelector('nav');
+      if (hamburger && nav) {
+        hamburger.addEventListener('click', function () {
+          nav.classList.toggle('active');
+        });
+      }
+    })
+    .catch(error => console.error('Error loading header:', error));
+</script>
+
   
   <!-- HERO SECTION -->
-  <section class="hero" style="background-color: rgba(255, 0, 0, 0.5);">
-    <img 
-    src="images/logo.png" 
-    alt="Profile Photo" 
-    class="reveal-left"
-    style="width: 20rem"
-  />
-    <p class="tagline">The future is built by AI and hosted in the Cloud</p>
-    <button class="cta-btn" onclick="scrollToSection('about')">Learn More</button>
-  </section>
 <section class="hero" style="background-image: url('images/setup.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <img 
     src="images/logo.png" 
