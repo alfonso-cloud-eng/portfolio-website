@@ -146,6 +146,14 @@
       margin-bottom: 4px;
       border-radius: 5px;
     }
+
+    header nav a:link,
+header nav a:visited,
+header nav a:active,
+header nav a:focus {
+  color: #f4f4f4;
+  text-decoration: none;
+}
     
     /* Mobile Styles */
     @media (max-width: 1000px) {
