@@ -12,6 +12,41 @@
       h3 {
   margin-top: 50px;          /* Adds space above each h3 */
       }
+        <style>
+    /* Basic table reset */
+    table {
+      width: 100%;
+      table-layout: fixed; /* Ensures columns share the same fixed layout. */
+      border-collapse: collapse;
+      margin-bottom: 2rem; /* Optional margin for spacing between tables */
+    }
+
+    th, td {
+      border: 1px solid #ccc; /* Example border; tweak as needed */
+      padding: 0.5rem;
+      /* The following ensures words break onto new lines if they exceed column width */
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+    table pre {
+  white-space: pre-wrap;      /* Allows wrapping */
+  word-wrap: break-word;      /* Breaks long words if necessary */
+  overflow-wrap: break-word;  /* Additional support for breaking words */
+}
+
+    /* Optional: for narrower screens, you can further tweak font sizes or alignment */
+    @media (max-width: 600px) {
+      th, td {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* You already have a small style for margin-top on h3 elements */
+    h3 {
+      margin-top: 50px;          
+    }
+  </style>
       </style>
 </head>
 
