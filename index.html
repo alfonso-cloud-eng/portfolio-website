@@ -13,16 +13,6 @@
 </head>
 <body>
 
-  <!-- HEADER / NAVIGATION -->
-  <div id="header-placeholder"></div>
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
-  </script>
   
   <!-- HERO SECTION -->
 <section class="hero" style="background-image: url('images/setup.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
