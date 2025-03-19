@@ -14,17 +14,6 @@
       </style>
 </head>
 
-  <!-- HEADER / NAVIGATION -->
-  <div id="header-placeholder"></div>
-  <script>
-    fetch('../../header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-      })
-      .catch(error => console.error('Error loading header:', error));
-  </script>
-
 <!-- Header -->
 <div class="header">
   <img src="../../images/nosql.png">
