@@ -254,7 +254,9 @@
 .badge-img{
   width: 44% !important;
   align-items: center !important;
-
+}
+.about-container{
+  margin-bottom: -25%;
 }
     }
     
