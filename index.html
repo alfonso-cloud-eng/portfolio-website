@@ -35,33 +35,32 @@
   
   <!-- HERO SECTION -->
   <section class="hero">
-    <img 
-      src="images/logo.png" 
-      alt="Profile Photo" 
-      class="reveal-left"
-      style="width: 12rem;"
-    />
-    <p class="tagline" style="text-align: center !important;">The future is built by AI and hosted in the Cloud</p>
-    <button class="cta-btn" onclick="scrollToSection('about')">Learn More</button>
+    <div>
+      <img 
+        src="images/logo.png"
+        alt="Profile Photo"
+        class="reveal-left"
+      />
+      <p class="tagline" style="text-align: center !important;">
+        The future is built by AI and hosted in the Cloud
+      </p>
+      <button class="cta-btn" onclick="scrollToSection('about')">Learn More</button>
+    </div>
   </section>
-  
 
   <!-- ABOUT SECTION -->
-  <section class="section" id="about">
+  <section class="section" id="about" style="margin-bottom: 0;">
     <h2>About Me</h2>
     <div class="about-container">
       <img 
-        src="images/badge.png" 
-        alt="Profile Photo" 
-        class="reveal-left"
-        style="width: 12rem"
-      />
-      <img 
       src="images/badge.png" 
       alt="Profile Photo" 
-      class="reveal-left"
-      style="width: 12rem"
-
+      class="reveal-left badge-img"
+    />
+    <img 
+      src="images/badge.png" 
+      alt="Profile Photo" 
+      class="reveal-left badge-img"
     />
       <div class="about-text reveal-right">
         <p>Hello! I’m Alfonso, a passionate developer and cloud enthusiast. 
@@ -87,7 +86,7 @@
     <style>
       .skills-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)) !important; /* Adjusts dynamically */
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)) !important; /* Adjusts dynamically */
     justify-content: center !important;
     gap: 20px !important;}
     p {text-align:left !important;}
@@ -254,7 +253,6 @@
     </a>
   </div> 
 </section>
-
 
   <!-- CONTACT SECTION -->
   <section class="section" id="contact">
