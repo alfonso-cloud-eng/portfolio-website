@@ -591,6 +591,21 @@
       font-size: 0.9em;
     }
   }
+  .footer-text {
+    width: 30%;        /* Use 80% of the available width on desktop */
+    margin: 0 auto;    /* Center the container */
+    font-size: 0.85em;
+    text-align: center;
+    word-wrap: break-word;  /* Ensures long words break if needed */
+  }
+  
+  /* On mobile, you might want a slightly wider container */
+  @media (max-width: 1000px) {
+    .footer-text {
+      width: 90%;
+    }
+  }
+  
   
   /* --------------------------------------------------
      16. Extra Animations 
