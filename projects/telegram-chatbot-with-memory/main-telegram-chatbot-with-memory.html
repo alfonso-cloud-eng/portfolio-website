@@ -52,8 +52,8 @@
 <body>
 
 
-  <h1 style="margin-top: 5rem;">Telegram Chatbot with conversation memory</h1>
-  <h2 style="margin-bottom: 4rem;">(Cloud Run + Firestore)</h2>
+  <h1 style="margin-top: 5rem; margin-bottom: 0rem;">Telegram Chatbot with conversation memory</h1>
+  <h2 style="margin-top: 0rem; margin-bottom: 4rem; text-align: center;">(Cloud Run + Firestore)</h2>
   <section class="tools-used" style="margin: 2rem 0; margin-bottom: 5rem !important;">
     <h2 style="font-size: 1.5rem;">Tools used:</h2>
     <div class="tools-icons" style="
@@ -82,7 +82,7 @@
     <div class="cheatsheet-card reveal">
       <a href="http://t.me/AlfonsoCloudbot">
         <img src="../../images/telegram.png" alt="GCP Logo">
-        <h3>Talk to the chatbot</h3>
+        <h3>Chat with the bot</h3>
         <p>Ask it any questions about GCP!</p>
       </a>
     </div>
@@ -98,7 +98,7 @@
 
   <!-- Replace the extra body tag with a div using a class for our content container -->
   <section>
-    <div class="content-container" style="line-height: 2.2rem; margin-top: 10%;"><h1>Telegram Chatbot with Cloud Run & Firestore</h1>
+    <div class="content-container" style="line-height: 2.2rem; margin-top: 10%;">
       <p>This repository contains a <strong>cloud-engineering-focused Telegram chatbot</strong> that listens for messages through a Telegram webhook, uses <strong>OpenAI</strong> for responses, and stores conversation history in <strong>Google Firestore</strong> for context retention between user interactions. You can chat with it on Telegram at <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a>.</p>
     
       <hr />
@@ -124,6 +124,7 @@
       <hr />
     
       <h2>How Does It Work?</h2>
+      <p><img src="../../images/architecture-diagram-2.png" alt="Architecture Diagram" style="width: 80%;"/></p>
       <ol>
         <li><strong>Telegram Setup</strong><br />
           You create a bot using <a href="https://t.me/BotFather">@BotFather</a> in Telegram. BotFather issues a token (e.g. <code>1234567:ABC-xyz_UVW...</code>) to authenticate your bot.
