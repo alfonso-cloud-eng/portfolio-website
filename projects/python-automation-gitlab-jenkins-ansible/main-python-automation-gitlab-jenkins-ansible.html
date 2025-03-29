@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Telegram Chatbot on Cloud Run + Firestore</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" type="text/css" href="../../styles-main.css">
+  <link rel="icon" type="image/png" href="../../images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <style>
+    /* Prevent horizontal overflow */
+    html, body {
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    /* Ensure the cheatsheet grid shows two cards per row on desktop
+       and stacks them on mobile, and add margins on mobile so the cards stay within the frame */
+    @media (max-width: 1000px) {
+      .cheatsheet-grid {
+        grid-template-columns: 1fr !important;
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+      /* Image becomes full width on mobile */
+      img[src="../../images/architecture-diagram.png"] {
+         width: 100% !important;
+      }
+    }
+    /* Styles for the content container (replacing the extra body tag) */
+    .content-container {
+      padding-left: 40%;
+      padding-right: 10%;
+    }
+    @media (max-width: 1000px) {
+      .content-container {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+    /* Adjust content container padding on desktop to reduce excessive left padding */
+    @media (min-width: 1001px) {
+      .content-container {
+        padding-left: 10%;
+        padding-right: 10%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+  <h1 style="margin-top: 5rem; margin-bottom: 0rem;">Telegram Chatbot with conversation memory</h1>
+  <h2 style="margin-top: 0rem; margin-bottom: 4rem; text-align: center;">(Cloud Run + Firestore)</h2>
+  <section class="tools-used" style="margin: 2rem 0; margin-bottom: 5rem !important;">
+    <h2 style="font-size: 1.5rem;">Tools used:</h2>
+    <div class="tools-icons" style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: left;
+      align-items: left;
+    ">
+      <!-- Adjust the max-width or size as you prefer -->
+      <img src="../../images/telegram.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/node.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/chatgpt.png" alt="ChatGPT" style="max-width: auto; height: 3rem;">
+      <img src="../../images/git.png" alt="Git" style="max-width: auto; height: 3rem;">
+      <img src="../../images/github.png" alt="GitHub" style="max-width: auto; height: 3rem;">
+      <img src="../../images/github-actions.png" alt="GitHub Actions" style="max-width: auto; height: 3rem;">
+      <img src="../../images/docker.png" alt="Docker" style="max-width: auto; height: 3rem;">
+      <img src="../../images/gcp.png" alt="GCP" style="max-width: auto; height: 3rem;">
+      <img src="../../images/cloud-run.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/firestore.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+    </div>
+  </section>
+  
+  <!-- Removed the comma between attributes below -->
+  <section class="cheatsheet-grid" style="grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); justify-content: center !important; gap: 30px !important;">
+    <div class="cheatsheet-card reveal">
+      <a href="http://t.me/AlfonsoCloudbot">
+        <img src="../../images/telegram.png" alt="GCP Logo">
+        <h3>Chat with the bot</h3>
+        <p>Ask it any questions about GCP!</p>
+      </a>
+    </div>
+    <div class="cheatsheet-card reveal">
+      <a href="https://github.com/alfonso-cloud-eng/telegram-chatbot-with-memory">
+        <img src="../../images/github.png" alt="CI/CD DevOps Logo">
+        <img src="../../images/github-actions.png" alt="CI/CD DevOps Logo">
+        <h3>View project on Github</h3>
+        <p>Dive into the source code, CI/CD pipeline, and detailed documentation to learn how to deploy and configure your own Telegram chatbot.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Replace the extra body tag with a div using a class for our content container -->
+  <section>
+    <div class="content-container" style="line-height: 2.2rem; margin-top: 10%;">
+      <p>This repository contains a <strong>cloud-engineering-focused Telegram chatbot</strong> that listens for messages through a Telegram webhook, uses <strong>OpenAI</strong> for responses, and stores conversation history in <strong>Google Firestore</strong> for context retention between user interactions. You can chat with it on Telegram at <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a>.</p>
+    
+      <hr />
+    
+      <h2>Using the Bot</h2>
+      <ol>
+        <li><strong>Go to <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a></strong> in Telegram.<br /></li>
+        <li>Click <code>/start</code>.<br /></li>
+        <li>Ask your GCP-related question. The bot will respond, referencing any previous context in Firestore to maintain continuity.</li>
+      </ol>
+    
+      <hr />
+    
+      <h2>What Is This Bot?</h2>
+      <p>This bot is a <strong>Node.js</strong> application that:</p>
+      <ol>
+        <li>Receives messages via a Telegram webhook.</li>
+        <li>Uses <strong>Firestore</strong> to store each user’s ongoing conversation so it can “remember” past dialogue.</li>
+        <li>Calls an <strong>OpenAI</strong> model (currently <strong>gpt-4o-mini</strong>) to generate answers about <strong>Google Cloud Platform</strong> (GCP).</li>
+      </ol>
+      <p>By default, it behaves like a <strong>“professional cloud engineering assistant”</strong> for GCP-related questions. However, the foundation can be <strong>reused for any domain</strong> by adjusting the system prompt (<code>system_prompt.txt</code>)and possibly integrating with additional knowledge sources.</p>
+    
+      <hr />
+    
+      <h2>How Does It Work?</h2>
+      <p><img src="../../images/architecture-diagram-2.png" alt="Architecture Diagram" style="width: 80%;"/></p>
+      <ol>
+        <li><strong>Telegram Setup</strong><br />
+          You create a bot using <a href="https://t.me/BotFather">@BotFather</a> in Telegram. BotFather issues a token (e.g. <code>1234567:ABC-xyz_UVW...</code>) to authenticate your bot.
+        </li>
+        <li><strong>Node.js Server</strong><br />
+          The server (in <code>index.js</code>) sets up an Express app that waits on <code>POST /telegram/webhook</code>. When a Telegram message arrives, it does the following:
+          <ul>
+            <li>Identifies the user (via <code>chatId</code>).</li>
+            <li>Fetches or creates a conversation record in Firestore for that user.</li>
+            <li>Appends the user’s message to the conversation.</li>
+            <li>Calls OpenAI with the conversation context.</li>
+            <li>Returns the AI-generated reply to the user and saves it back into Firestore.</li>
+          </ul>
+        </li>
+        <li><strong>Firestore</strong><br />
+          Each user’s conversation history is stored in a Firestore document keyed by their chat ID (or a custom ID that includes their username, if available). This means the bot can recall context from previous messages whenever the user interacts again.
+        </li>
+        <li><strong>System Prompt</strong><br />
+          A text file named <code>system_prompt.txt</code> holds the “persona” or “context” for the AI. In this project, it’s set to be a <strong>Google Cloud Platform</strong> helper. If you change this file, you can effectively alter the bot’s role or specialty.
+        </li>
+        <li><strong>OpenAI GPT</strong><br />
+          The bot uses <strong>gpt-4o-mini</strong>, though it could also be adapted for GPT-4 or other models. If you need specialized knowledge, consider:
+          <ul>
+            <li><strong>Retrieval-Augmented Generation (RAG)</strong>: Provide relevant docs to the model at query time.</li>
+            <li><strong>Fine-Tuning</strong>: Train a custom model using your domain data.</li>
+          </ul>
+        </li>
+      </ol>
+    
+      <hr />
+    
+      <h2>CI/CD with GitHub Actions &amp; Cloud Run</h2>
+      <p>This repository includes a GitHub Actions workflow that automates <strong>continuous deployment</strong> to Cloud Run:</p>
+      <ol>
+        <li><strong>Docker Build &amp; Push</strong><br />
+          Each commit to <code>main</code> triggers a workflow that builds a Docker image for the Node.js app, then pushes it to Docker Hub.
+        </li>
+        <li><strong>Deploy to Cloud Run</strong><br />
+          The workflow then deploys (or updates) a <strong>Cloud Run</strong> service, using the freshly built Docker image.
+        </li>
+        <li><strong>Auto Webhook Update</strong><br />
+          Once Cloud Run is deployed, the workflow sets your Telegram webhook to the new public URL. That way, messages route to the correct Cloud Run instance.
+        </li>
+        <li><strong>CI/CD</strong><br />
+          Once Cloud Run is deployed, any changes to the code will automatically propagate to the <strong>Cloud Run</strong> service.
+        </li>
+      </ol>
+      <p>With Cloud Run, you pay only for what you use, and the service can scale to zero when idle.</p>
+    
+      <hr />
+    
+      <h2>Repository Contents</h2>
+      <ol>
+        <li><strong><code>index.js</code></strong> – The main Node.js server code.</li>
+        <li><strong><code>system_prompt.txt</code></strong> – Holds the default persona for the bot.</li>
+        <li><strong><code>welcome_message.txt</code></strong> – Contains the message shown upon <code>/start</code>.</li>
+        <li><strong><code>.github/workflows</code></strong> – A workflow file that automates building, pushing, deploying, and hooking the bot up to Telegram.</li>
+        <li><strong><code>Dockerfile</code></strong> – Describes how to containerize the Node.js app.</li>
+      </ol>
+    
+      <hr />
+    
+      <h2>Setting Up Your Own Bot</h2>
+      <ol>
+        <li><strong>Service Account and Permissions</strong><br />
+          - In GCP, create or select a service account that can deploy to Cloud Run and read/write Firestore.<br />
+          - Assign:<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Cloud Run Admin</strong> (manage Cloud Run services)<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Cloud Datastore User</strong> (read/write Firestore)<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Service Account User</strong> (bind the service account to itself)<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Service Usage Admin</strong> (enable APIs if needed)
+        </li>
+        <li><strong>Create a Telegram Bot</strong><br />
+          - Chat with <a href="https://t.me/BotFather">@BotFather</a>.<br />
+          - Send <code>/newbot</code> and follow the prompts.<br />
+          - Copy the token it gives you.
+        </li>
+        <li><strong>Fork or Clone This Repo</strong><br />
+          - Place your Telegram bot token in GitHub Secrets, as described below.
+        </li>
+        <li><strong>Configure GitHub Secrets</strong><br />
+          Go to your repository’s <strong>Settings → Secrets and variables → Actions</strong> and create the following secrets:<br />
+          - <strong><code>CLOUD_RUN_DEPLOY_SA_KEY</code></strong>: Service account JSON for deploying to Cloud Run.<br />
+          - <strong><code>DOCKERHUB_ACCESS_TOKEN</code></strong> and <strong><code>DOCKERHUB_USERNAME</code></strong>: Docker Hub login details.<br />
+          - <strong><code>GCP_PROJECT_ID</code></strong>: Your GCP project ID.<br />
+          - <strong><code>GCP_REGION</code></strong>: The region you want (e.g. <code>us-central1</code>).<br />
+          - <strong><code>OPENAI_API_KEY</code></strong>: For GPT queries.<br />
+          - <strong><code>TELEGRAM_BOT_TOKEN</code></strong>: Bot token from BotFather.
+        </li>
+        <li><strong>Commit to <code>main</code></strong><br />
+          - The GitHub Actions workflow will build your Docker image, push to Docker Hub, deploy your Cloud Run service, and update the Telegram webhook automatically.
+        </li>
+      </ol>
+    
+      <hr />
+    
+      <h2>Potential Chatbot Improvements</h2>
+      <ul>
+        <li><strong>RAG (Retrieval-Augmented Generation)</strong>: In this approach, you store relevant documents (e.g., GCP docs) in a specialized "vector database." Whenever a user asks a question, the system searches for the most related documents and attaches them to the prompt. This way, the chatbot has additional context and can provide more accurate, detailed answers—especially for domain-specific or frequently asked questions.</li>
+        <li><strong>Fine-Tuning</strong>: If you have a large collection of question-and-answer pairs or any domain-specific text, you can train (fine-tune) a specialized model. This allows the chatbot to gain deeper knowledge and tailor its responses to your exact needs, beyond what a general model can offer.</li>
+        <li><strong>Adapting for Other Domains</strong>: You can easily transform this chatbot into, for example, a "customer support" bot, a "coding assistant," or a "legal advisor" simply by changing the contents of <code>system_prompt.txt</code> (which sets the bot’s role and style) and providing any additional domain knowledge. The underlying architecture remains the same.</li>
+      </ul>
+    
+      <hr />
+    
+      <p><strong>Enjoy exploring and customizing this chatbot for your own needs!</strong> If you have questions or want to see it live, visit <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a>.</p></div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+  <!-- Minimal JavaScript for fade-in reveal and scale on hover -->
+  <script>
+    // IntersectionObserver for reveal effect
+    const revealCards = document.querySelectorAll('.reveal');
+    const observerOptions = { threshold: 0.1 };
+
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealCards.forEach(card => revealOnScroll.observe(card));
+  </script>
+</body>
+</html>
