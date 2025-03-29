@@ -25,7 +25,7 @@
         margin-right: 1rem;
       }
       /* Image becomes full width on mobile */
-      img[src="../../images/architecture-diagram.png"] {
+      img[src="../../images/diagrama-gitlab-ansible-jenkins-python.png"] {
          width: 100% !important;
       }
     }
@@ -38,6 +38,10 @@
       .content-container {
         padding-left: 0;
         padding-right: 0;
+      }
+      .project-title {
+        margin-left: 0% !important;
+        margin-right: 0% !important;
       }
     }
     /* Adjust content container padding on desktop to reduce excessive left padding */
@@ -52,8 +56,8 @@
 <body>
 
 
-  <h1 style="margin-top: 5rem; margin-bottom: 0rem;">Telegram Chatbot with conversation memory</h1>
-  <h2 style="margin-top: 0rem; margin-bottom: 4rem; text-align: center;">(Cloud Run + Firestore)</h2>
+  <h1 class="project-title" style="margin-top: 5rem; margin-bottom: 0rem; margin-left: 20%; margin-right: 20%;">Automated Stock Price Notifications in Slack</h1>
+  <h2 style="margin-top: 0rem; margin-bottom: 4rem; text-align: center;">(using a cool CI/CD Pipeline)</h2>
   <section class="tools-used" style="margin: 2rem 0; margin-bottom: 5rem !important;">
     <h2 style="font-size: 1.5rem;">Tools used:</h2>
     <div class="tools-icons" style="
@@ -64,34 +68,26 @@
       align-items: left;
     ">
       <!-- Adjust the max-width or size as you prefer -->
-      <img src="../../images/telegram.png" alt="Node.js" style="max-width: auto; height: 3rem;">
-      <img src="../../images/node.png" alt="Node.js" style="max-width: auto; height: 3rem;">
-      <img src="../../images/chatgpt.png" alt="ChatGPT" style="max-width: auto; height: 3rem;">
       <img src="../../images/git.png" alt="Git" style="max-width: auto; height: 3rem;">
       <img src="../../images/github.png" alt="GitHub" style="max-width: auto; height: 3rem;">
-      <img src="../../images/github-actions.png" alt="GitHub Actions" style="max-width: auto; height: 3rem;">
-      <img src="../../images/docker.png" alt="Docker" style="max-width: auto; height: 3rem;">
+      <img src="../../images/gitlab.png" alt="GitHub Actions" style="max-width: auto; height: 3rem;">
+      <img src="../../images/terraform.png" alt="Docker" style="max-width: auto; height: 3rem;">
       <img src="../../images/gcp.png" alt="GCP" style="max-width: auto; height: 3rem;">
-      <img src="../../images/cloud-run.png" alt="Node.js" style="max-width: auto; height: 3rem;">
-      <img src="../../images/firestore.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/compute-engine.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/ansible.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/jenkins.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/python.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/slack.png" alt="Node.js" style="max-width: auto; height: 3rem;">
     </div>
   </section>
   
   <!-- Removed the comma between attributes below -->
   <section class="cheatsheet-grid" style="grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); justify-content: center !important; gap: 30px !important;">
     <div class="cheatsheet-card reveal">
-      <a href="http://t.me/AlfonsoCloudbot">
-        <img src="../../images/telegram.png" alt="GCP Logo">
-        <h3>Chat with the bot</h3>
-        <p>Ask it any questions about GCP!</p>
-      </a>
-    </div>
-    <div class="cheatsheet-card reveal">
-      <a href="https://github.com/alfonso-cloud-eng/telegram-chatbot-with-memory">
+      <a href="https://github.com/alfonso-cloud-eng/python-automation-gitlab-jenkins-ansible">
         <img src="../../images/github.png" alt="CI/CD DevOps Logo">
-        <img src="../../images/github-actions.png" alt="CI/CD DevOps Logo">
         <h3>View project on Github</h3>
-        <p>Dive into the source code, CI/CD pipeline, and detailed documentation to learn how to deploy and configure your own Telegram chatbot.</p>
+        <p>Dive into the source code, CI/CD pipeline, and detailed documentation to learn how to deploy and configure your own app.</p>
       </a>
     </div>
   </section>
@@ -99,139 +95,152 @@
   <!-- Replace the extra body tag with a div using a class for our content container -->
   <section>
     <div class="content-container" style="line-height: 2.2rem; margin-top: 10%;">
-      <p>This repository contains a <strong>cloud-engineering-focused Telegram chatbot</strong> that listens for messages through a Telegram webhook, uses <strong>OpenAI</strong> for responses, and stores conversation history in <strong>Google Firestore</strong> for context retention between user interactions. You can chat with it on Telegram at <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a>.</p>
-    
-      <hr />
-    
-      <h2>Using the Bot</h2>
-      <ol>
-        <li><strong>Go to <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a></strong> in Telegram.<br /></li>
-        <li>Click <code>/start</code>.<br /></li>
-        <li>Ask your GCP-related question. The bot will respond, referencing any previous context in Firestore to maintain continuity.</li>
-      </ol>
-    
-      <hr />
-    
-      <h2>What Is This Bot?</h2>
-      <p>This bot is a <strong>Node.js</strong> application that:</p>
-      <ol>
-        <li>Receives messages via a Telegram webhook.</li>
-        <li>Uses <strong>Firestore</strong> to store each user’s ongoing conversation so it can “remember” past dialogue.</li>
-        <li>Calls an <strong>OpenAI</strong> model (currently <strong>gpt-4o-mini</strong>) to generate answers about <strong>Google Cloud Platform</strong> (GCP).</li>
-      </ol>
-      <p>By default, it behaves like a <strong>“professional cloud engineering assistant”</strong> for GCP-related questions. However, the foundation can be <strong>reused for any domain</strong> by adjusting the system prompt (<code>system_prompt.txt</code>)and possibly integrating with additional knowledge sources.</p>
-    
-      <hr />
-    
-      <h2>How Does It Work?</h2>
-      <p><img src="../../images/architecture-diagram-2.png" alt="Architecture Diagram" style="width: 80%;"/></p>
-      <ol>
-        <li><strong>Telegram Setup</strong><br />
-          You create a bot using <a href="https://t.me/BotFather">@BotFather</a> in Telegram. BotFather issues a token (e.g. <code>1234567:ABC-xyz_UVW...</code>) to authenticate your bot.
-        </li>
-        <li><strong>Node.js Server</strong><br />
-          The server (in <code>index.js</code>) sets up an Express app that waits on <code>POST /telegram/webhook</code>. When a Telegram message arrives, it does the following:
-          <ul>
-            <li>Identifies the user (via <code>chatId</code>).</li>
-            <li>Fetches or creates a conversation record in Firestore for that user.</li>
-            <li>Appends the user’s message to the conversation.</li>
-            <li>Calls OpenAI with the conversation context.</li>
-            <li>Returns the AI-generated reply to the user and saves it back into Firestore.</li>
-          </ul>
-        </li>
-        <li><strong>Firestore</strong><br />
-          Each user’s conversation history is stored in a Firestore document keyed by their chat ID (or a custom ID that includes their username, if available). This means the bot can recall context from previous messages whenever the user interacts again.
-        </li>
-        <li><strong>System Prompt</strong><br />
-          A text file named <code>system_prompt.txt</code> holds the “persona” or “context” for the AI. In this project, it’s set to be a <strong>Google Cloud Platform</strong> helper. If you change this file, you can effectively alter the bot’s role or specialty.
-        </li>
-        <li><strong>OpenAI GPT</strong><br />
-          The bot uses <strong>gpt-4o-mini</strong>, though it could also be adapted for GPT-4 or other models. If you need specialized knowledge, consider:
-          <ul>
-            <li><strong>Retrieval-Augmented Generation (RAG)</strong>: Provide relevant docs to the model at query time.</li>
-            <li><strong>Fine-Tuning</strong>: Train a custom model using your domain data.</li>
-          </ul>
-        </li>
-      </ol>
-    
-      <hr />
-    
-      <h2>CI/CD with GitHub Actions &amp; Cloud Run</h2>
-      <p>This repository includes a GitHub Actions workflow that automates <strong>continuous deployment</strong> to Cloud Run:</p>
-      <ol>
-        <li><strong>Docker Build &amp; Push</strong><br />
-          Each commit to <code>main</code> triggers a workflow that builds a Docker image for the Node.js app, then pushes it to Docker Hub.
-        </li>
-        <li><strong>Deploy to Cloud Run</strong><br />
-          The workflow then deploys (or updates) a <strong>Cloud Run</strong> service, using the freshly built Docker image.
-        </li>
-        <li><strong>Auto Webhook Update</strong><br />
-          Once Cloud Run is deployed, the workflow sets your Telegram webhook to the new public URL. That way, messages route to the correct Cloud Run instance.
-        </li>
-        <li><strong>CI/CD</strong><br />
-          Once Cloud Run is deployed, any changes to the code will automatically propagate to the <strong>Cloud Run</strong> service.
-        </li>
-      </ol>
-      <p>With Cloud Run, you pay only for what you use, and the service can scale to zero when idle.</p>
-    
-      <hr />
-    
-      <h2>Repository Contents</h2>
-      <ol>
-        <li><strong><code>index.js</code></strong> – The main Node.js server code.</li>
-        <li><strong><code>system_prompt.txt</code></strong> – Holds the default persona for the bot.</li>
-        <li><strong><code>welcome_message.txt</code></strong> – Contains the message shown upon <code>/start</code>.</li>
-        <li><strong><code>.github/workflows</code></strong> – A workflow file that automates building, pushing, deploying, and hooking the bot up to Telegram.</li>
-        <li><strong><code>Dockerfile</code></strong> – Describes how to containerize the Node.js app.</li>
-      </ol>
-    
-      <hr />
-    
-      <h2>Setting Up Your Own Bot</h2>
-      <ol>
-        <li><strong>Service Account and Permissions</strong><br />
-          - In GCP, create or select a service account that can deploy to Cloud Run and read/write Firestore.<br />
-          - Assign:<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Cloud Run Admin</strong> (manage Cloud Run services)<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Cloud Datastore User</strong> (read/write Firestore)<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Service Account User</strong> (bind the service account to itself)<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;<strong>Service Usage Admin</strong> (enable APIs if needed)
-        </li>
-        <li><strong>Create a Telegram Bot</strong><br />
-          - Chat with <a href="https://t.me/BotFather">@BotFather</a>.<br />
-          - Send <code>/newbot</code> and follow the prompts.<br />
-          - Copy the token it gives you.
-        </li>
-        <li><strong>Fork or Clone This Repo</strong><br />
-          - Place your Telegram bot token in GitHub Secrets, as described below.
-        </li>
-        <li><strong>Configure GitHub Secrets</strong><br />
-          Go to your repository’s <strong>Settings → Secrets and variables → Actions</strong> and create the following secrets:<br />
-          - <strong><code>CLOUD_RUN_DEPLOY_SA_KEY</code></strong>: Service account JSON for deploying to Cloud Run.<br />
-          - <strong><code>DOCKERHUB_ACCESS_TOKEN</code></strong> and <strong><code>DOCKERHUB_USERNAME</code></strong>: Docker Hub login details.<br />
-          - <strong><code>GCP_PROJECT_ID</code></strong>: Your GCP project ID.<br />
-          - <strong><code>GCP_REGION</code></strong>: The region you want (e.g. <code>us-central1</code>).<br />
-          - <strong><code>OPENAI_API_KEY</code></strong>: For GPT queries.<br />
-          - <strong><code>TELEGRAM_BOT_TOKEN</code></strong>: Bot token from BotFather.
-        </li>
-        <li><strong>Commit to <code>main</code></strong><br />
-          - The GitHub Actions workflow will build your Docker image, push to Docker Hub, deploy your Cloud Run service, and update the Telegram webhook automatically.
-        </li>
-      </ol>
-    
-      <hr />
-    
-      <h2>Potential Chatbot Improvements</h2>
+      <p>This project demonstrates how to automate the creation of a Jenkins server on a Google Cloud Platform (GCP) virtual machine (VM) using GitLab, Terraform, and Ansible. Once the Jenkins server is up and running, you can use it to execute a Python application that posts automated stock price messages into a Slack channel.</p>
+      <p>Below is an architectural diagram illustrating the process:</p>
+      <p><img src="images/diagrama-gitlab-ansible-jenkins-python.png" alt="Alternative Text" title="Optional Title" /></p>
+      <h2>How it Works</h2>
+      <p>GitLab runs a CI/CD pipeline that:</p>
       <ul>
-        <li><strong>RAG (Retrieval-Augmented Generation)</strong>: In this approach, you store relevant documents (e.g., GCP docs) in a specialized "vector database." Whenever a user asks a question, the system searches for the most related documents and attaches them to the prompt. This way, the chatbot has additional context and can provide more accurate, detailed answers—especially for domain-specific or frequently asked questions.</li>
-        <li><strong>Fine-Tuning</strong>: If you have a large collection of question-and-answer pairs or any domain-specific text, you can train (fine-tune) a specialized model. This allows the chatbot to gain deeper knowledge and tailor its responses to your exact needs, beyond what a general model can offer.</li>
-        <li><strong>Adapting for Other Domains</strong>: You can easily transform this chatbot into, for example, a "customer support" bot, a "coding assistant," or a "legal advisor" simply by changing the contents of <code>system_prompt.txt</code> (which sets the bot’s role and style) and providing any additional domain knowledge. The underlying architecture remains the same.</li>
+        <li>Uses Terraform to create:
+          <ul>
+            <li>A new VM instance in GCP with a preconfigured Jenkins image (from the GCP Marketplace).</li>
+            <li>A firewall rule allowing external access to Jenkins on port 8080.</li>
+          </ul>
+        </li>
+        <li>Uses Ansible to grant jenkins user privileges within the VM for running tasks with sudo.</li>
+        <li>Jenkins is then accessible via <code>http://EXTERNAL_IP_OF_THE_VM:8080</code></li>
+        <li>You log into Jenkins with the provided credentials and create a Pipeline Job using the Jenkinsfile from this repository. This job:
+          <ul>
+            <li>Clones a Python application (stocks-slack-py) from GitHub.</li>
+            <li>Executes the Python app, which sends stock price messages to a specified Slack channel via a Slack webhook.</li>
+          </ul>
+        </li>
       </ul>
-    
-      <hr />
-    
-      <p><strong>Enjoy exploring and customizing this chatbot for your own needs!</strong> If you have questions or want to see it live, visit <a href="https://t.me/AlfonsoCloudbot">t.me/AlfonsoCloudbot</a>.</p></div>
-  </section>
+      <h2>Replication Steps</h2>
+      <ol>
+        <li>
+          <p><strong>Create a Slack Webhook</strong></p>
+          <ul>
+            <li>Create a Slack channel for your stock messages.</li>
+            <li>Go to Slack API and create a new Slack App.</li>
+            <li>In your new Slack App, enable “Incoming Webhooks”.</li>
+            <li>Add a New Webhook to your workspace and specify the channel you created.</li>
+            <li>Copy the webhook URL, which typically looks like: <code>https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXX</code></li>
+            <li>Keep this URL safe. You will paste it later into your Jenkinsfile or pipeline configuration.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Create a Service Account on GCP</strong></p>
+          <ul>
+            <li>Go to the GCP Console → IAM &amp; Admin → Service Accounts.</li>
+            <li>Create a new service account, giving it a descriptive name (e.g., gitlab-jenkins-sa).</li>
+            <li>Assign it the following roles:
+              <ul>
+                <li>Cloud OS Config Service Agent</li>
+                <li>Compute Admin</li>
+                <li>Compute OS Admin Login</li>
+                <li>Service Account User</li>
+                <li>Service Usage Admin</li>
+              </ul>
+            </li>
+            <li>Create a JSON key for this service account (in the GCP Console, under “Keys” → “Add Key” → “Create new key” → Select JSON).</li>
+            <li>Download the JSON key file.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Encode the JSON Key</strong></p>
+          <ul>
+            <li>In your GCP Cloud Shell or any environment with base64 available, run:</li>
+          </ul>
+          <pre><code>echo -n "PASTE JSON FILE CONTENTS HERE WITHOUT CHANGING ANYTHING" | base64
+      </code></pre>
+          <ul>
+            <li>Copy the base64-encoded output. This is what you will store in GitLab as a variable.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Set Up GitLab CI/CD Variables</strong></p>
+          <ul>
+            <li>In GitLab, open your project and go to Settings → CI/CD.</li>
+            <li>Expand Variables.</li>
+            <li>Click Add Variable and create the following variables:
+              <ul>
+                <li><code>GCLOUD_SERVICE_ACCOUNT_KEY_B64</code> → Paste the base64-encoded JSON key here.</li>
+                <li><code>GCP_PROJECT_ID</code> → Use your GCP project ID (e.g., my-gcloud-project).</li>
+                <li><code>GCP_ZONE</code> → Use your GCP zone (e.g., us-central1-a).</li>
+              </ul>
+            </li>
+            <li>Save these variables.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Trigger the GitLab CI/CD Pipeline</strong></p>
+          <ul>
+            <li>Go to your repository in GitLab that contains the .gitlab-ci.yml file.</li>
+            <li>Open the CI/CD page and manually run the pipeline (or push a commit).</li>
+            <li>The pipeline will start, and GitLab will:
+              <ul>
+                <li>Use Terraform to create the VM.</li>
+                <li>Use Ansible to provision the Jenkins server within that VM.</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Get Jenkins Access Information</strong></p>
+          <ul>
+            <li>Open the pipeline job logs in GitLab by clicking on the job under the CI/CD → Jobs page.</li>
+            <li>In the logs output, you should see:
+              <ul>
+                <li>The external IP of the VM.</li>
+                <li>The username and password to log into Jenkins.</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Log Into Jenkins</strong></p>
+          <ul>
+            <li>Open a browser and navigate to: <code>http://EXTERNAL_IP_OF_THE_VM:8080</code></li>
+            <li>Use the username and password from the GitLab job output to access Jenkins.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Install the “Pipeline” Plugin in Jenkins</strong></p>
+          <ul>
+            <li>In Jenkins, click “Manage Jenkins” (sometimes labeled “Admin Jenkins”) from the left menu.</li>
+            <li>Go to “Manage Plugins”.</li>
+            <li>Select “Available Plugins” and look for “Pipeline”.</li>
+            <li>Install the plugin (check the box, then install).</li>
+            <li>Wait until the installation completes, then return to the Jenkins homepage by clicking the Jenkins logo in the top-left corner.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Create a Pipeline Job</strong></p>
+          <ul>
+            <li>From the Jenkins homepage, click “New Item” (or “Create a Job”).</li>
+            <li>Enter a job name (e.g., stocks-slack-pipeline) and select “Pipeline”.</li>
+            <li>Scroll down to the Pipeline section.</li>
+            <li>In Definition, choose “Pipeline script”.</li>
+            <li>Paste the contents of the Jenkinsfile from this GitHub repository into the editor.</li>
+            <li>Replace the placeholder <code>INSERT WEBHOOK URL HERE</code> with your actual Slack webhook URL.</li>
+            <li>Click Save.</li>
+          </ul>
+        </li>
+        <li>
+          <p><strong>Build the Pipeline</strong></p>
+          <ul>
+            <li>On the left menu of your new pipeline job, click “Build Now”.</li>
+            <li>Watch the build progress. The Python app will run inside your Jenkins VM and send stock prices to the specified Slack channel.</li>
+            <li>After a couple of minutes, check your Slack channel to see the stock price messages.</li>
+          </ul>
+        </li>
+      </ol>
+      <p>Congratulations! You have replicated the workflow: <code>GitLab</code> → <code>Terraform</code> + <code>Ansible</code> → <code>Jenkins</code> → <code>Python</code> → <code>Slack</code>.</p>
+      <p><strong>Cleanup:</strong> If you no longer need the VM, delete it to avoid unnecessary charges. To do this, navigate to <strong>Compute Engine → VM Instances</strong> in your GCP Console, locate the Jenkins VM, and click <strong>Delete</strong>.</p>
+      <p><strong>Customization:</strong> You can extend this pipeline for other use cases, such as deploying containerized applications, running tests, or more complex automation tasks.</p>
+      <p>Happy Automating!</p>
+</section>
 
   <!-- FOOTER -->
   <div id="footer-placeholder"></div>
