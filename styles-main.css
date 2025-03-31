@@ -82,13 +82,27 @@
      -------------------------------------------------- */
 
      .newheader {
-      background-color: #1e1e1e; /* Matches the page background */
+      background-color: #000; /* Matches the page background */
       color: #ffffff;            /* White text */
       text-align: center;        /* Center the text horizontally */
       padding: 1rem 2rem;        /* Top/bottom and side padding for spacing */
       font-size: 1.6rem;           /* Font size for desktop */
       font-weight: 600;          /* Slightly bold text */
       box-sizing: border-box;    /* Include padding in overall width */
+      
+    }
+
+    .newheader a {
+      color: #fff;          /* always white text */
+      text-decoration: none; /* no underline */
+    }
+    .newheader a:visited {
+      color: #fff;          /* visited links remain white */
+    }
+    
+    .newheader a:hover {
+      color: #fff;          /* white on hover */
+      text-decoration: none; /* no underline on hover */
     }
     
     /* Responsive adjustments for mobile */
