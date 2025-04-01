@@ -82,14 +82,16 @@
      -------------------------------------------------- */
 
      .newheader {
+      width: calc(100% + 20%);  /* 16% extra to account for 8% on each side */
+      margin-left: -10%;
+      margin-right: -10%;
       background-color: #000; /* Matches the page background */
       color: #ffffff;            /* White text */
       text-align: center;        /* Center the text horizontally */
       padding: 1rem 2rem;        /* Top/bottom and side padding for spacing */
       font-size: 1.6rem;           /* Font size for desktop */
       font-weight: 600;          /* Slightly bold text */
-      box-sizing: border-box;    /* Include padding in overall width */
-      
+      box-sizing: border-box;    /* Include padding in overall width */      
     }
 
     .newheader a {
@@ -358,6 +360,17 @@
   }
   .skill-card p {
     color: #cccccc; 
+  }
+
+  .ai-learning-note  {
+    padding-left: 20%; 
+    padding-right: 20%;
+  }
+  @media (max-width: 1000px) {
+    .ai-learning-note {
+      padding-left: 0%; 
+      padding-right: 0%;
+    }
   }
   
 /* =========================================

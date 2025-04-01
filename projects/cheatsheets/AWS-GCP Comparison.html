@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS-GCP Comparison</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+</head>
+
+<!-- Header -->
+<div class="header">
+  <img src="../../images/gcp-aws.png">
+  <h1>AWS-GCP Comparison</h1>
+</div>
+
+<!-- Tables -->
+<table>
+  <thead>
+    <tr>
+      <th>**GCP Service**</th>
+      <th>**AWS Equivalent**</th>
+      <th>**Differences / Notes**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Projects**</td>
+      <td>**AWS Accounts** or Resource Groupings</td>
+      <td>GCP organizes resources under Projects (which belong to an Organization). AWS typically uses separate AWS Accounts or Resource Groups.</td>
+    </tr>
+    <tr>
+      <td>**Organizations**</td>
+      <td>**AWS Organizations**</td>
+      <td>Both allow you to manage multiple accounts (or projects) under a single umbrella for consolidated billing and governance.</td>
+    </tr>
+    <tr>
+      <td>**Folders**</td>
+      <td>No direct 1:1 (Closest: AWS Organizations’ Organizational Units)</td>
+      <td>GCP Folders offer deeper hierarchical grouping. AWS OU (Organizational Units) can group accounts, but doesn’t match the nested folder structure exactly inside a single account.</td>
+    </tr>
+    <tr>
+      <td>**Service Accounts**</td>
+      <td>**IAM Roles / IAM Users**</td>
+      <td>GCP recommends Service Accounts for apps/services. In AWS, roles or specialized IAM users can serve a similar purpose.</td>
+    </tr>
+    <tr>
+      <td>**Identity and Access Management (IAM)**</td>
+      <td>**AWS Identity and Access Management (AWS IAM)**</td>
+      <td>Both define roles, permissions, policies, etc. Terminology and exact features differ, but the purpose is the same.</td>
+    </tr>
+    <tr>
+      <td>**VPC (Virtual Private Cloud)**</td>
+      <td>**Amazon VPC**</td>
+      <td>Both define isolated networks, subnets, routing, and firewalls/security groups.</td>
+    </tr>
+    <tr>
+      <td>**VPC Peering**</td>
+      <td>**VPC Peering**</td>
+      <td>Fairly similar in both platforms—lets you connect separate VPCs using private IP addresses.</td>
+    </tr>
+    <tr>
+      <td>**Cloud VPN**</td>
+      <td>**AWS Site-to-Site VPN**</td>
+      <td>Managed VPN service to connect on-premises or other clouds to your AWS or GCP environment.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Interconnect**</td>
+      <td>**AWS Direct Connect**</td>
+      <td>Both provide dedicated, private network connections between on-prem data centers and the cloud.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Load Balancing**</td>
+      <td>**Elastic Load Balancing (ELB)**</td>
+      <td>Both have multiple load balancer types (HTTP(S), TCP, UDP, internal, external). GCP’s global load balancers are “global” by default, whereas AWS typically has regional or external ALBs/NLBs.</td>
+    </tr>
+    <tr>
+      <td>**Cloud CDN**</td>
+      <td>**Amazon CloudFront**</td>
+      <td>Both provide global content caching.</td>
+    </tr>
+    <tr>
+      <td>**Cloud DNS**</td>
+      <td>**Amazon Route 53**</td>
+      <td>Both are scalable DNS services.</td>
+    </tr>
+    <tr>
+      <td>**Compute Engine (VMs)**</td>
+      <td>**Amazon EC2**</td>
+      <td>Both provide virtual machines. Pricing, available machine types, and default local disk configurations differ.</td>
+    </tr>
+    <tr>
+      <td>**Persistent Disk (PD)**</td>
+      <td>**Amazon EBS**</td>
+      <td>Block-level storage for VMs. Similar concepts (provisioned SSD/HDD).</td>
+    </tr>
+    <tr>
+      <td>**Local SSD**</td>
+      <td>**Instance Store**</td>
+      <td>Direct-attached ephemeral storage on the physical host. Data typically not preserved through instance shutdown.</td>
+    </tr>
+    <tr>
+      <td>**App Engine**</td>
+      <td>**AWS Elastic Beanstalk**</td>
+      <td>Both offer PaaS for running web apps. GCP App Engine is more fully managed in terms of scaling and certain language runtimes; Elastic Beanstalk has more customization for underlying infrastructure.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Functions**</td>
+      <td>**AWS Lambda**</td>
+      <td>Serverless functions. Both integrate with many other services and event sources. Pricing and cold start behavior differ slightly.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Run**</td>
+      <td>**AWS Fargate** (with ECS/EKS)</td>
+      <td>Serverless container compute. In AWS, you typically run containers on ECS or EKS with Fargate as the serverless compute engine.</td>
+    </tr>
+    <tr>
+      <td>**Google Kubernetes Engine (GKE)**</td>
+      <td>**Amazon EKS**</td>
+      <td>Managed Kubernetes. Both abstract away control plane management. Some differences in networking and add-on integrations.</td>
+    </tr>
+    <tr>
+      <td>**Anthos**</td>
+      <td>**AWS Outposts / EKS Anywhere**</td>
+      <td>Anthos extends GKE and GCP services to on-prem or multi-cloud (including AWS). AWS Outposts extends AWS services to on-prem; EKS Anywhere can run Kubernetes clusters outside AWS.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Build**</td>
+      <td>**AWS CodeBuild**</td>
+      <td>Both are fully managed CI build services. Cloud Build integrates with GCR/Artifact Registry; CodeBuild integrates with ECR/CodeCommit.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Deploy**</td>
+      <td>**AWS CodeDeploy**</td>
+      <td>Automated application deployment. AWS CodeDeploy can deploy to EC2, Fargate, Lambda, or on-prem. Cloud Deploy focuses on GKE and Cloud Run deployments.</td>
+    </tr>
+    <tr>
+      <td>**Artifact Registry / Container Registry**</td>
+      <td>**Amazon ECR / AWS CodeArtifact**</td>
+      <td>GCP Container Registry is for container images; Artifact Registry can host multiple artifact types. AWS has ECR for container images and CodeArtifact for generic artifacts.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Storage (GCS)**</td>
+      <td>**Amazon S3**</td>
+      <td>Both are object storage services. APIs and consistency models differ slightly, but overall very similar.</td>
+    </tr>
+    <tr>
+      <td>**Filestore**</td>
+      <td>**Amazon EFS**</td>
+      <td>Managed NFS file systems. Both allow attaching file shares to instances.</td>
+    </tr>
+    <tr>
+      <td>**Cloud SQL**</td>
+      <td>**Amazon RDS**</td>
+      <td>Managed relational databases (MySQL, PostgreSQL, SQL Server). Both differ in configuration, scaling limits, and supported features.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Spanner**</td>
+      <td>No direct 1:1 (closest: **Amazon Aurora** for relational)</td>
+      <td>Cloud Spanner is globally distributed, horizontally scalable relational DB with strong consistency. Aurora is a managed relational DB with some scaling features but not fully the same global, multi-region approach.</td>
+    </tr>
+    <tr>
+      <td>**Bigtable**</td>
+      <td>**Amazon DynamoDB** (NoSQL) or Amazon Keyspaces (for Cassandra)</td>
+      <td>Bigtable is a wide-column NoSQL database (HBase style). DynamoDB is key-value store with global tables. They differ in data model and usage patterns, but both are NoSQL.</td>
+    </tr>
+    <tr>
+      <td>**Firestore / Datastore**</td>
+      <td>**Amazon DynamoDB**</td>
+      <td>Firestore/Datastore is a document store. DynamoDB is key-value with document support. They serve similar roles, but have different query models.</td>
+    </tr>
+    <tr>
+      <td>**BigQuery**</td>
+      <td>**Amazon Redshift** / Amazon Athena</td>
+      <td>BigQuery is a serverless, auto-scaling data warehouse with built-in query engine. Redshift is a cluster-based data warehouse, while Athena is serverless but queries data in S3.</td>
+    </tr>
+    <tr>
+      <td>**Dataproc**</td>
+      <td>**Amazon EMR**</td>
+      <td>Managed Hadoop/Spark clusters. Both let you run big data processing on managed clusters.</td>
+    </tr>
+    <tr>
+      <td>**Dataflow**</td>
+      <td>**AWS Glue (ETL)** / AWS Data Pipeline / Kinesis Data Analytics</td>
+      <td>Dataflow is a fully managed stream/batch data processing service based on Apache Beam. AWS has multiple overlapping tools (Glue, Data Pipeline, etc.) for ETL and real-time data transformations.</td>
+    </tr>
+    <tr>
+      <td>**Pub/Sub**</td>
+      <td>Combination of **Amazon SNS** and **Amazon SQS**</td>
+      <td>Pub/Sub is a unified messaging bus with push/pull. AWS typically splits pub/sub (SNS) from queue-based (SQS).</td>
+    </tr>
+    <tr>
+      <td>**Data Catalog**</td>
+      <td>**AWS Glue Data Catalog**</td>
+      <td>Managed metadata catalog for data in the cloud. Very similar concepts.</td>
+    </tr>
+    <tr>
+      <td>**Dataprep**</td>
+      <td>**AWS Glue DataBrew**</td>
+      <td>Interactive data preparation and cleaning.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Composer**</td>
+      <td>**Amazon MWAA (Managed Workflows for Apache Airflow)**</td>
+      <td>Both are managed Airflow. GCP’s version is Composer; AWS’s version is MWAA.</td>
+    </tr>
+    <tr>
+      <td>**Operations Suite (Stackdriver)**</td>
+      <td>**Amazon CloudWatch + AWS X-Ray**</td>
+      <td>Stackdriver includes logging, monitoring, tracing, error reporting. AWS typically splits these into separate services under the CloudWatch umbrella plus X-Ray for tracing.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Logging**</td>
+      <td>**Amazon CloudWatch Logs**</td>
+      <td>Centralized log storage and management.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Monitoring**</td>
+      <td>**Amazon CloudWatch Metrics**</td>
+      <td>Metrics collection, dashboards, and alerts.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Trace**</td>
+      <td>**AWS X-Ray**</td>
+      <td>Distributed tracing for applications.</td>
+    </tr>
+    <tr>
+      <td>**Error Reporting**</td>
+      <td>**AWS X-Ray (partially)** or CloudWatch Alarms</td>
+      <td>GCP’s Error Reporting is a dedicated interface for error grouping and aggregation. AWS X-Ray can help track exceptions, but the features differ.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Run for Anthos**</td>
+      <td>**Amazon EKS** (with Fargate)</td>
+      <td>Serverless container platform but running on Anthos (Kubernetes) that extends across environments. AWS EKS also runs containers but is not exactly the same approach.</td>
+    </tr>
+    <tr>
+      <td>**Secret Manager**</td>
+      <td>**AWS Secrets Manager**</td>
+      <td>Both securely store API keys, passwords, etc. Pricing and rotation features differ slightly.</td>
+    </tr>
+    <tr>
+      <td>**Cloud KMS**</td>
+      <td>**AWS Key Management Service (AWS KMS)**</td>
+      <td>Both handle encryption keys, integration with storage, rotation, etc.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Armor**</td>
+      <td>**AWS WAF / AWS Shield**</td>
+      <td>Protects apps from DDoS and web attacks. AWS WAF + Shield is a similar combination.</td>
+    </tr>
+    <tr>
+      <td>**Cloud DLP**</td>
+      <td>**Amazon Macie** (for S3) / partial coverage from Comprehend</td>
+      <td>GCP’s DLP scans data for sensitive info in many services. AWS Macie focuses on S3 data.</td>
+    </tr>
+    <tr>
+      <td>**Security Command Center**</td>
+      <td>**AWS Security Hub**</td>
+      <td>Security Command Center is a single pane for GCP security findings. AWS Security Hub aggregates findings from GuardDuty, Inspector, Macie, etc.</td>
+    </tr>
+    <tr>
+      <td>**Cloud IAM Workload Identity Federation**</td>
+      <td>**AWS IAM Federation**</td>
+      <td>Federation from external identity providers. AWS IAM allows SAML and OIDC federation.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Identity**</td>
+      <td>**AWS IAM Identity Center (formerly AWS SSO)**</td>
+      <td>GCP Cloud Identity manages users and groups across Google services. AWS IAM Identity Center provides SSO across multiple AWS accounts.</td>
+    </tr>
+    <tr>
+      <td>**Resource Manager / Cloud Asset Inventory**</td>
+      <td>**AWS Resource Access Manager** + **AWS Config** (partial)</td>
+      <td>GCP Resource Manager controls project/folder/organization structure; Cloud Asset Inventory gives a searchable asset database. AWS has partial equivalents with Resource Access Manager and Config, but not a direct 1:1.</td>
+    </tr>
+    <tr>
+      <td>**Workflows**</td>
+      <td>**AWS Step Functions**</td>
+      <td>Both are orchestration services that let you define workflows with states, tasks, and transitions.</td>
+    </tr>
+    <tr>
+      <td>**Datastream**</td>
+      <td>**AWS Database Migration Service (DMS)**</td>
+      <td>Change data capture (CDC) and replication.</td>
+    </tr>
+    <tr>
+      <td>**API Gateway (GCP)**</td>
+      <td>**Amazon API Gateway**</td>
+      <td>Managed gateway for your APIs. Features (like gRPC support) vary slightly.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Endpoints**</td>
+      <td>**Amazon API Gateway**</td>
+      <td>Another GCP product for API management using ESP/ESPv2.</td>
+    </tr>
+    <tr>
+      <td>**Apigee**</td>
+      <td>**Amazon API Gateway** (partial) or **3rd party**</td>
+      <td>Apigee is a full API management platform with developer portals, analytics, etc. AWS API Gateway is simpler, focusing on API publishing and routing.</td>
+    </tr>
+    <tr>
+      <td>**Service Directory**</td>
+      <td>**AWS Cloud Map**</td>
+      <td>Both store and look up service endpoints.</td>
+    </tr>
+    <tr>
+      <td>**Identity-Aware Proxy (IAP)**</td>
+      <td>No direct single service (combination of **Cognito** + **ALB Auth** + **IAM**)</td>
+      <td>GCP’s IAP controls access to cloud apps, using identity-based restrictions. AWS can approximate this with Cognito for authentication and ALB-based authentication, but it’s not exactly the same.</td>
+    </tr>
+    <tr>
+      <td>**Transfer Appliance**</td>
+      <td>**AWS Snowball / Snowmobile**</td>
+      <td>Physical devices to transfer large volumes of data.</td>
+    </tr>
+    <tr>
+      <td>**Vertex AI**</td>
+      <td>**Amazon SageMaker**</td>
+      <td>Managed machine learning platform. Feature sets and integration points differ, but overall concept is similar.</td>
+    </tr>
+    <tr>
+      <td>**Vision AI**</td>
+      <td>**Amazon Rekognition (Images)**</td>
+      <td>Both offer image analysis (labeling, face detection, etc.).</td>
+    </tr>
+    <tr>
+      <td>**Video Intelligence**</td>
+      <td>**Amazon Rekognition Video**</td>
+      <td>Video annotation services.</td>
+    </tr>
+    <tr>
+      <td>**Speech-to-Text**</td>
+      <td>**Amazon Transcribe**</td>
+      <td>Speech recognition. Language coverage and model tuning can differ.</td>
+    </tr>
+    <tr>
+      <td>**Text-to-Speech**</td>
+      <td>**Amazon Polly**</td>
+      <td>Both convert text to natural-sounding speech.</td>
+    </tr>
+    <tr>
+      <td>**Cloud Natural Language**</td>
+      <td>**Amazon Comprehend**</td>
+      <td>NLP capabilities like sentiment analysis and entity detection.</td>
+    </tr>
+    <tr>
+      <td>**Dialogflow**</td>
+      <td>**Amazon Lex**</td>
+      <td>Both are chatbot-building frameworks using NLP.</td>
+    </tr>
+    <tr>
+      <td>**AutoML Tables**</td>
+      <td>**SageMaker Autopilot**</td>
+      <td>Automated machine learning pipeline.</td>
+    </tr>
+    <tr>
+      <td>**IoT Core**</td>
+      <td>**AWS IoT Core**</td>
+      <td>Both manage IoT device connections, messaging, and telemetry.</td>
+    </tr>
+  </tbody>
+  </table>
+  
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+</html>
