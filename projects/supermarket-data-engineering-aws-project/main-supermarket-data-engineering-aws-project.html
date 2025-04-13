@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AWS Supermarket Data Project</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Link to your main CSS -->
+  <link rel="stylesheet" type="text/css" href="../../styles-main.css">
+  <link rel="icon" type="image/png" href="../../images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <style>
+    /* Prevent horizontal overflow */
+    html, body {
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    /* Ensure the cheatsheet grid shows two cards per row on desktop
+       and stacks them on mobile, and add margins on mobile so the cards stay within the frame */
+    @media (max-width: 1000px) {
+      .cheatsheet-grid {
+        grid-template-columns: 1fr !important;
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+      /* Image becomes full width on mobile */
+      img[src="../../images/diagrama-gitlab-ansible-jenkins-python.png"] {
+         width: 100% !important;
+      }
+    }
+    /* Styles for the content container (replacing the extra body tag) */
+    .content-container {
+      padding-left: 40%;
+      padding-right: 10%;
+    }
+    @media (max-width: 1000px) {
+      .content-container {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .project-title {
+        margin-left: 0% !important;
+        margin-right: 0% !important;
+      }
+    }
+    /* Adjust content container padding on desktop to reduce excessive left padding */
+    @media (min-width: 1001px) {
+      .content-container {
+        padding-left: 10%;
+        padding-right: 10%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="newheader">
+    <a href="https://alfonsocloud.com" target="_blank">alfonsocloud.com</a>
+  </section>
+  
+  <h1 class="project-title" style="margin-top: 5rem; margin-bottom: 0rem; margin-left: 20%; margin-right: 20%;">AWS Supermarket Data Project</h1>
+  <section class="tools-used" style="margin: 2rem 0; margin-bottom: 5rem !important;">
+    <h2 style="font-size: 1.5rem;">Tools used:</h2>
+    <div class="tools-icons" style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: left;
+      align-items: left;
+    ">
+      <!-- Adjust the max-width or size as you prefer -->
+      <img src="../../images/aws.png" alt="Git" style="max-width: auto; height: 3rem;">
+      <img src="../../images/python.png" alt="GitHub" style="max-width: auto; height: 3rem;">
+      <img src="../../images/docker.png" alt="GitHub Actions" style="max-width: auto; height: 3rem;">
+      <img src="../../images/s3.png" alt="Docker" style="max-width: auto; height: 3rem;">
+      <img src="../../images/ecs.png" alt="GCP" style="max-width: auto; height: 3rem;">
+      <img src="../../images/lambda.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/athena.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+      <img src="../../images/quicksight.png" alt="Node.js" style="max-width: auto; height: 3rem;">
+    </div>
+  </section>
+  
+  <!-- Removed the comma between attributes below -->
+  <section class="cheatsheet-grid" style="grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); justify-content: center !important; gap: 30px !important;">
+    <div class="cheatsheet-card reveal">
+      <a href="https://github.com/alfonso-cloud-eng/supermarket-data-engineering-aws-project">
+        <img src="../../images/github.png" alt="CI/CD DevOps Logo">
+        <h3>View project on Github</h3>
+        <p>Explore the AWS-powered architecture behind our project, built to manage real-time transaction data for any type of store.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Replace the extra body tag with a div using a class for our content container -->
+  <section>
+    <h2>1. Introduction & Purpose</h2>
+
+    <p>This project simulates a real-time data engineering setup that could run in a cloud environment (like AWS) to manage transaction logs for multiple stores (for example, a chain of supermarkets). It shows how you can combine <strong>historical (batch) data</strong> with <strong>real-time (streaming) data</strong>, store and query it for cheap, and see it all in near real-time.</p>
+    
+    <p>The main idea is to have a scalable, low-cost pipeline that can handle data from many stores each second, then make that data available for analysis and dashboards within a few seconds (2–3 seconds after a transaction arrives). Even if there’s a lot of data, the cost stays small compared to the total revenue of a typical retail business.</p>
+    
+    <h2>2. High-Level Architecture</h2>
+    
+    <ol>
+        <li>
+            <strong>Historical Data</strong>
+            <ul>
+                <li>Stored as four relational tables (explained later) in Amazon S3.</li>
+                <li>Queried directly in Amazon Athena, which reads these tables from S3.</li>
+                <li>Originally populated by Python scripts (to create data) and an AWS Glue job (to transform JSON logs into a relational format).</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Real-Time Data</strong>
+            <ul>
+                <li>A Python script runs in AWS ECS (Elastic Container Service), acting like a payment processor by writing fresh transaction logs into an S3 bucket.</li>
+                <li>An Amazon S3 event trigger reacts whenever a new transaction file lands in that folder. This trigger calls an AWS Lambda function.</li>
+                <li>The Lambda function reads the raw JSON, changes it to the right format, and appends rows to the <strong>transactions</strong> and <strong>transaction_items</strong> tables (kept in separate folders in S3).</li>
+                <li>After that, these new records can be queried in Amazon Athena and seen in Amazon QuickSight right away. Just refresh QuickSight to view the latest data.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Visualization & Analytics</strong>
+            <ul>
+                <li>Data is viewed in Amazon QuickSight dashboards.</li>
+                <li>When a new transaction shows up, it usually takes just 2–3 seconds for it to be processed and appear on the dashboard.</li>
+                <li>You can also use Athena for deeper queries, joining transaction data with SKUs and store info.</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <img src="../../images/supermarket-diagram.png" alt="dashboard" style="width: 100%;">
+
+    <h2>3. Historical / Static Data (Four Relational Tables)</h2>
+    
+    <p>All past data is stored in an Amazon S3 bucket but organized as <strong>four relational tables</strong>. Athena can query them like standard database tables. Below is a rundown of each:</p>
+    
+    <h3>2.1 <code>supermarkets</code> Table</h3>
+    
+    <ul>
+        <li><strong>Columns</strong>:
+            <ol>
+                <li><code>store_id</code> – A unique ID for each store (e.g., <code>STORE0003</code>).</li>
+                <li><code>store_name</code> – A randomly created store name (e.g., "Main Street Supermarket").</li>
+                <li><code>store_location</code> – A randomly generated location or city for the store.</li>
+            </ol>
+        </li>
+        <li><strong>Explanation</strong>: This table holds basic details about each store in the chain. In this project, five stores are created by a Python script, but it can scale to any number of stores.</li>
+    </ul>
+    
+    <h3>2.2 <code>skus</code> Table</h3>
+    
+    <ul>
+        <li><strong>Columns</strong> (example set):
+            <ol>
+                <li><code>sku_id</code> – A unique ID for each product (e.g., <code>SKU07067</code>).</li>
+                <li><code>product_name</code> – A randomly created product name.</li>
+                <li><code>price</code> – A randomly chosen or assigned price.</li>
+            </ol>
+        </li>
+        <li><strong>Explanation</strong>: Contains info for each Stock Keeping Unit (SKU). We generated about 12,000 SKUs with a Python script, though this can be scaled up or down.</li>
+    </ul>
+    
+    <h3>2.3 <code>transactions</code> Table</h3>
+    
+    <ul>
+        <li><strong>Columns</strong> (example set):
+            <ol>
+                <li><code>transaction_id</code> – A unique ID for each transaction (e.g., <code>TX0000001</code>).</li>
+                <li><code>store_id</code> – Links to the <code>supermarkets.store_id</code> where the sale happened.</li>
+                <li><code>transaction_datetime</code> – The timestamp of the transaction (e.g., <code>2024-04-10 19:22:28</code>).</li>
+            </ol>
+        </li>
+        <li><strong>Explanation</strong>: Each row is one transaction. It was first populated by a Python script that created ~100,000 transactions in JSON, which AWS Glue then turned into relational rows.</li>
+    </ul>
+    
+    <h3>2.4 <code>transaction_items</code> Table</h3>
+    
+    <ul>
+        <li><strong>Columns</strong> (example set):
+            <ol>
+                <li><code>transaction_id</code> – Links to the <code>transactions.transaction_id</code>.</li>
+                <li><code>sku_id</code> – The product bought in that transaction.</li>
+                <li><code>quantity</code> – How many of that SKU were bought.</li>
+            </ol>
+        </li>
+        <li><strong>Explanation</strong>: A transaction can have many SKUs, so this table shows the one-to-many link between a <code>transaction</code> and its item lines. The JSON array of items in each transaction was changed into rows in this table by AWS Glue.</li>
+    </ul>
+    
+    <p>These last 2 tables get new data appended in real-time as transactions come in.</p>
+    
+    <h2>4. Dynamic / Real-Time Data Flow</h2>
+    
+    <ol>
+        <li>
+            <strong>Data Generation</strong>
+            <ul>
+                <li>A Python script runs in an ECS container, constantly creating transaction logs (similar to a real payment processor).</li>
+                <li>These logs are saved in real time to an "incoming" folder in S3.</li>
+                <li>In an actual system, we’d connect to a payment processor or POS API. The setup would still be similar.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>S3 Event Trigger</strong>
+            <ul>
+                <li>When a new JSON file lands in the "incoming" folder, Amazon S3 sends an event to AWS Lambda.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>AWS Lambda Transformation</strong>
+            <ul>
+                <li>The Lambda function reads the raw JSON (which has transaction details plus SKU IDs and quantities).</li>
+                <li>It converts that JSON into two groups of rows:
+                    <ul>
+                        <li>One row for the <code>transactions</code> table (<code>transaction_id</code>, <code>store_id</code>, <code>transaction_datetime</code>)</li>
+                        <li>Several rows for the <code>transaction_items</code> table (one row for each item in the transaction).</li>
+                    </ul>
+                </li>
+                <li>These rows are then added to the relevant folders in S3 that store the main files for each table.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Query & Visualization</strong>
+            <ul>
+                <li>Athena automatically picks up these new data records in S3.</li>
+                <li>A QuickSight dashboard (connected to Athena) can refresh to show these new transactions in just 2–3 seconds.</li>
+                <li>Users only need to refresh their dashboard to see the updated data.</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <p>This process shows how near real-time ingestion is done with minimal fuss or cost.</p>
+    
+    <h2>5. Dashboard Visualization</h2>
+    
+    <p>Below is an <strong>image of the QuickSight dashboard</strong> (check your included image). It shows things like total sales by store, the top SKUs, and more. You can also filter by date in the dashboard.</p>
+    
+    <p>Even if transaction volume is high, this setup scales nicely to manage thousands of transactions per second with nearly instant analytics.</p>
+    
+    <img src="../../images/dashboard.png" alt="dashboard" style="width: 100%;">
+
+    <h2>6. Cost and Scalability</h2>
+    
+    <ol>
+        <li>
+            <strong>Cost Efficiency:</strong>
+            <ul>
+                <li>S3 is very cheap storage, paying only for what you actually store.</li>
+                <li>Athena charges by how much data you scan; partitioning can cut down these costs.</li>
+                <li>AWS Lambda’s pay-per-invocation model, plus ECS’s scalability, helps keep costs low, even if there are lots of transactions.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Scalability:</strong>
+            <ul>
+                <li>AWS services (S3, Lambda, ECS) can automatically handle spikes in data without you doing anything extra.</li>
+                <li>For even more streaming options, you could use something like Kinesis Data Firehose.</li>
+                <li>Overall, this system stays fast and cheap even as transactions increase, with the cost being tiny next to supermarket revenues.</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <h2>7. Rationale for Using Lambda Instead of AWS Glue for Real-Time</h2>
+    
+    <p>In the beginning, AWS Glue jobs processed JSON logs into S3 tables. But they run on schedules and can get expensive if used too often, so they’re not great for real-time updates. S3 triggers with AWS Lambda are triggered right away whenever a new file appears, giving near-instant ingestion with lower costs per request—making the data pipeline both fast and economical.</p>
+    
+    <h2>8. Conclusion</h2>
+    
+    <p>This project is a sample of a real-time transaction data pipeline in the cloud, mixing batch methods for old data with quick updates for new data. It features serverless transforms with AWS Lambda, cheap storage in S3, easy querying in Athena, and a design that shows new transactions in dashboards within a few seconds. It’s great for high-volume retail use, staying both scalable and budget-friendly.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('../../footer.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('footer-placeholder').innerHTML = data;
+      })
+      .catch(error => console.error('Error loading footer:', error));
+  </script>
+
+  <!-- Minimal JavaScript for fade-in reveal and scale on hover -->
+  <script>
+    // IntersectionObserver for reveal effect
+    const revealCards = document.querySelectorAll('.reveal');
+    const observerOptions = { threshold: 0.1 };
+
+    const revealOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealCards.forEach(card => revealOnScroll.observe(card));
+  </script>
+</body>
+</html>
